@@ -211,9 +211,10 @@
       top: -20%;
       left: -15px;
       position: relative;
-      /* text-align: center; */
-      /* vertical-align: middle; */
       background-color: red;
+      text-align: center;
+      color:white;
+      padding-top: 12px;
     }
 
     input[type=search]:not(.browser-default) {
@@ -457,8 +458,6 @@
       instance = M.Modal.init($('#newReportModal')[0], {
         onCloseStart: onModalHide
       });
-
-      // displayProfilePic(document.getElementById('profile-image'));
     });
 
     function searchKeyUp(event) {
@@ -466,7 +465,6 @@
         search();
       }
     }
-
 
     function commentKeyUp(event) {
       if (event.keyCode === 13) {
@@ -717,7 +715,6 @@
     }
 
     function follow(reportId) {
-
       reportId = reportId.substring(0, 20);
 
       for (var i = 0; i < vm.reports.length; i++) {
