@@ -231,8 +231,8 @@
     <div v-if="viewing!=='login'">
       <div id="bottom-bar" class="row" style="z-index:1000">
         <div id="map-icon" data-section="map" onclick="select(this)" class="col s3 grey lighten-4 valign-wrapper">
-            <img class="bottom-icon" v-bind:src="viewing === 'map' ? './assets/icons/map-black.png' : './assets/icons/map.png'">
-          </div>
+          <img class="bottom-icon" v-bind:src="viewing === 'map' ? './assets/icons/map-black.png' : './assets/icons/map.png'">
+        </div>
         <div data-section="search" onclick="select(this)" class="col s3 grey lighten-4 valign-wrapper">
           <img class="bottom-icon" v-bind:src="viewing === 'search' ? './assets/icons/search-black.png' : './assets/icons/search.png'">
         </div>
@@ -345,7 +345,7 @@
 
     <transition name="fade">
       <div style="z-index:4000" id="search-page" v-if="viewing==='search'">
-        <nav id="search-bar" style="background-color: #457245;" >
+        <nav id="search-bar" style="background-color: #457245;">
           <div class="nav-wrapper" style="background-color: #457245;">
             <div class="input-field" style="background-color: #457245;">
               <label class="label-icon" for="search-example">
@@ -360,17 +360,51 @@
     </transition>
 
     <transition style="z-index:600;" name="fade">
-      <div v-if="viewing==='notif'" id="notifs"style="background-color: #bee6c1; z-index:600; position: absolute; width: 100%; height:80%; top: 10%; margin: 0px; left: 0px; padding: 40px; overflow: scroll;">
+      <div v-if="viewing==='notif'" id="notifs" style="background-color: #bee6c1; z-index:600; position: absolute; width: 100%; height:80%; top: 10%; margin: 0px; left: 0px; padding: 40px; overflow: scroll;">
         <div v-for="notif in notifs">
           <div class="card-panel" style="margin-bottom: 30px; border: 5px solid green; border-radius: 25px; background: white;">
             <div class="black-text">
               <div height="100px" style="font-family: 'Roboto'; font-size: 40px; z-index: 600;">
                 <i class="material-icons medium left">warning</i>
-                <span style="font-weight: bold">Notification</span>
-                <br><br>
-                <span style="font-weight: bold">SFPD: </span><span>{{notif}}</span>
-                <div v-if="notif.substring(0, 40)==='You have successfully submitted report #'" onclick="solveCase(this.previousElementSibling.innerHTML.substring(40))" style="margin-top:30px; text-decoration: underline">
+                <div v-if="notif.type==='Status Update'" style="font-weight: bold">
+                  Notification: <span class="green-text">{{notif.type}}</span>
+                </div>
+                <div v-if="notif.type==='My Report'" style="font-weight: bold">
+                  Notification: <span>{{notif.type}}</span>
+                </div>
+                <div v-if="notif.type==='New Comment'" style="font-weight: bold">
+                  Notification: <span class="blue-text">{{notif.type}}</span>
+                </div>
+                <div v-if="notif.type==='New Report Near You'" style="font-weight: bold">
+                  Notification: <span class="red-text">{{notif.type}}</span>
+                </div>
+                <br>
+                <span style="font-weight: bold">
+                  <span v-if="notif.type!=='New Comment'">San Francisco Police: </span>
+                  <span v-if="notif.type==='New Comment'">{{notif.user}}: </span>
+                </span>
+                <span>
+                  {{notif.body}}
+                </span>
+                <div v-if="notif.type==='My Report'" onclick="solveCase(this.previousElementSibling.innerHTML.substring(40,60))"
+                  style="margin-top:30px; text-decoration: underline">
                   Mark case as solved
+                </div>
+                <div v-if="notif.type==='Status Update'">
+                  <br>
+                  Report: {{notif.message}}
+                </div>
+                <div v-if="notif.type==='My Report'">
+                  <br>
+                  Your description: {{notif.report}}
+                </div>
+                <div v-if="notif.type==='New Comment'">
+                  <br>
+                  Report: {{notif.message}}
+                </div>
+                <div v-if="notif.type==='New Report Near You'">
+                  <br>
+                  Description: {{notif.report}}
                 </div>
               </div>
             </div>
@@ -405,10 +439,10 @@
   <script>
     function solveCase(id) {
       axios.post('https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/update', {
-        'reportId' : id,
-        'field' : 'status',
-        'value' : 'solved by public'
-      }).then (function(res) {
+        'reportId': id,
+        'field': 'status',
+        'value': 'solved by public'
+      }).then(function (res) {
         clickMap();
       })
     }
@@ -446,9 +480,9 @@
       vm.viewing = 'map';
       $("#profile-image").attr('src', "./assets/profile-pictures/profile-" + element.id + ".png");
       getTokens();
-      setInterval(getTokens, 10 * 1000);
+      setInterval(getTokens, 5 * 1000);
       getNotifs();
-      setInterval(getNotifs, 10 * 1000);
+      setInterval(getNotifs, 5 * 1000);
     }
 
     var cards = document.getElementsByClassName('card');
@@ -476,14 +510,15 @@
         var newReportId = res.data.post_output.substring(9, 29);
         follow(newReportId);
 
-        sendNotif('new-report', vm.username, vm.username, "You have successfully submitted report #" + newReportId);
+        sendNotif('My Report', vm.username, vm.username, description, "You have successfully submitted report #" +
+          newReportId + ", we will contact you soon.");
 
-        for (var i = 0; i<usernames.length; i++) {
+        for (var i = 0; i < usernames.length; i++) {
           if (vm.username !== usernames[i]) {
-            sendNotif('new-report-near-you', vm.username, usernames[i], "A crime has been reported in your area.\nDescription: " + description);
+            sendNotif('New Report Near You', vm.username, usernames[i], description,
+              "A crime has been reported in your area.");
           }
         }
-
       });
     }
 
@@ -497,10 +532,13 @@
       'randomsue'
     ]
 
-    function sendNotif(type, sender, recipient, message) {
+    function sendNotif(type, sender, recipient, reportDescription, body) {
       axios.post('https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/send', {
         'id': recipient,
-        'body': message
+        'type': type,
+        'report': reportDescription,
+        'user': sender,
+        'body': body
       });
     }
 
@@ -753,7 +791,7 @@
         username: 'johnsmith',
         tokens: 0,
         reports: [],
-        notifs: ['test1', 'test2', 'test3'],
+        notifs: [],
         notifCount: 3
       },
       methods: {
