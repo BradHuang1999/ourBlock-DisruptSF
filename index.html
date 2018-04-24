@@ -297,6 +297,8 @@
                 <a onclick="upvote(this)" style="font-size: 40px;"><i class="material-icons small">thumb_up</i> Like</a>
                 <a onclick="downvote(this)" style="font-size: 40px;"><i class="material-icons small">thumb_down</i>
                   Dislike</a>
+                <a onclick="follow(this.parentNode.parentNode.firstElementChild.firstElementChild.innerHTML.substring(this.parentNode.parentNode.firstElementChild.firstElementChild.innerHTML.indexOf('#')+1))"
+                  style="font-size: 40px;"><i class="material-icons small">rss_feed</i> Follow</a>
               </div>
 
               <div class="card-reveal">
@@ -332,15 +334,18 @@
     </transition>
 
     <transition style="z-index:600;" name="fade">
-      <div v-if="viewing==='notif'" id="notifs" class="light-green lighten-3" style="z-index:600; position: absolute; width: 100%; height:100%; top: 0px; margin: 0px; left: 0px; padding: 40px">
+      <div v-if="viewing==='notif'" id="notifs" class="light-green lighten-3" style="z-index:600; position: absolute; width: 100%; height:100%; top: 0px; margin: 0px; left: 0px; padding: 40px; overflow: scroll;">
         <div v-for="notif in notifs">
-          <div class="card-panel light-green lighten-1" style="margin-bottom: 30px; border: 5px solid green; border-radius: 25px;">
-            <div class="white-text">
+          <div class="card-panel" style="margin-bottom: 30px; border: 5px solid green; border-radius: 25px; background: white;">
+            <div class="black-text">
               <div height="100px" style="font-family: 'Roboto'; font-size: 40px; z-index: 600;">
                 <i class="material-icons medium left">warning</i>
                 <span style="font-weight: bold">New update on a report you follow</span>
                 <br><br>
-                <span style="font-weight: bold">SFPD: </span>{{notif}}
+                <span style="font-weight: bold">SFPD: </span>{{notif}} <br><br>
+                <div v-if="notif.substring(0, 40)==='You have successfully submitted report #'" onclick="solveCase(notif.substring(40))">
+                  Mark case as solved
+                </div>
               </div>
             </div>
           </div>
@@ -352,7 +357,7 @@
       <div v-show="viewing==='profile'">
         <div style="background: white; position:absolute; top:0px; width: 100%; height: 100%; z-index:600;">&nbsp;</div>
         <img id="profile-image" src="./profile-johnsmith.png" style="top:0; width: 100%; position:absolute; top:0px; z-index:600;">
-        <div id="my-tokens" style="font-weight:bold; font-size: 80px; position: absolute; min-width:30px; min-height: 110px; left:79%; top: 43%; z-index: 100000000000;">
+        <div id="my-tokens" style="font-size: 80px; position: absolute; min-width: 30px; min-height: 110px; left: 79%; top: 43%; z-index: 2147483647; color: #b7b7b7; font-weight: bold;">
           {{tokens}}
         </div>
       </div>
@@ -361,9 +366,9 @@
     <transition name="fade">
       <div v-if="viewing==='report'">
         <img src="addreport.png" style="top:0; width: 100%; position:absolute; top:0px; z-index:600">
-        <textarea id="report-description" style="font-size: 70px; font-family: 'Roboto'; position: absolute; max-width: 90%; min-height: 31.5%; left:5%; top: 42.5%; z-index: 100000000000;"></textarea>
-        <div onclick="togglePrivacy()" id="keep-report-private" style="position: absolute; min-width: 44%; min-height: 5.4%; left:3.5%; top: 77%; z-index: 100000000000;">&nbsp</div>
-        <div onclick="submitReport()" id="submit-report" style="position: absolute; min-width: 44%; min-height: 5.4%; left:52.6%; top: 77%; z-index: 100000000000;">&nbsp</div>
+        <textarea id="report-description" style="font-size: 40px; font-family: 'Roboto'; position: absolute; max-width: 90%; min-height: 33%; left:5%; top: 41%; z-index: 100000000000;"></textarea>
+        <div onclick="togglePrivacy()" id="keep-report-private" style="position: absolute; min-width: 44%; min-height: 5.4%; left:3.5%; top: 78.5%; z-index: 100000000000;">&nbsp</div>
+        <div onclick="submitReport()" id="submit-report" style="position: absolute; min-width: 44%; min-height: 5.4%; left:52.6%; top: 78.5%; z-index: 100000000000;">&nbsp</div>
 
         <div v-if="vm.reportPrivacy">
           <img src="./checkmark.png" style="position: absolute; top: 77.5%; left:7%; width: 5%; height:3%; z-index: 100000000000;">
@@ -372,6 +377,10 @@
   </div>
 
   <script>
+    function solveCase(id) {
+
+    }
+
     var onModalHide = function () {
       clickMap();
     };
@@ -429,7 +438,20 @@
         'anonymous': vm.reportPrivacy,
         'message': description
       }).then(function (res) {
+        console.log(res);
         clickMap();
+
+        var newReportId = res.data.newReportId;
+        follow(newReportId);
+
+        sendNotif(vm.username, "You have successfully submitted report#" + newReportId)
+      });
+    }
+
+    function sendNotif(recipient, message) {
+      axios.post('https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/send', {
+        'id': recipient,
+        'body': message
       });
     }
 
@@ -499,6 +521,7 @@
         'currLon': vm.location.lon,
         'role': 'police'
       }).then(function (res) {
+        console.log(res.data);
         vm.reports = res.data;
         vm.viewing = 'map';
         instance.open();
@@ -614,60 +637,66 @@
 
       follow(reportId);
 
-      axios.post('https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/interact', {
-        'userId': vm.username,
-        'reportId': reportId,
-        'action': 'upvote'
-      });
+      for (var i = 0; i < vm.reports.length; i++) {
+        if (vm.reports[i]._id === reportId) {
+
+          if (!vm.reports[i].upvoters.includes(vm.username)) {
+            vm.reports[i].upvoterCount++;
+            vm.reports[i].upvoters.push(vm.username);
+
+            axios.post('https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/interact', {
+              'userId': vm.username,
+              'reportId': reportId,
+              'action': 'upvote'
+            });
+          }
+        }
+      }
+    }
+
+    function follow(reportId) {
+
+      reportId = reportId.substring(0, 20);
 
       for (var i = 0; i < vm.reports.length; i++) {
         if (vm.reports[i]._id === reportId) {
-          vm.reports[i].upvoterCount++;
-        }
-      }
 
-      voted = true;
-    }
-
-    var followed = false;
-
-    function follow(reportId) {
-      if (!followed) {
-        axios.post('https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/interact', {
-          'userId': vm.username,
-          'reportId': reportId,
-          'action': 'follow'
-        });
-
-        for (var i = 0; i < vm.reports.length; i++) {
-          if (vm.reports[i]._id === reportId) {
+          if (!vm.reports[i].followers.includes(vm.username)) {
             vm.reports[i].followerCount++;
-            followed = true;
+            vm.reports[i].followers.push(vm.username);
+
+            axios.post('https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/interact', {
+              'userId': vm.username,
+              'reportId': reportId,
+              'action': 'follow'
+            });
           }
         }
       }
     }
 
     function downvote(element) {
-      if (!voted) {
-        var reportId = element.parentNode.parentNode.firstElementChild.firstElementChild.innerHTML;
-        reportId = reportId.substring(reportId.lastIndexOf('#') + 1);
-        reportId = reportId.substring(0, 20);
+      var reportId = element.parentNode.parentNode.firstElementChild.firstElementChild.innerHTML;
+      reportId = reportId.substring(reportId.lastIndexOf('#') + 1);
+      reportId = reportId.substring(0, 20);
 
-        axios.post('https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/interact', {
-          'userId': vm.username,
-          'reportId': reportId,
-          'action': 'downvote'
-        });
+      follow(reportId);
 
-        for (var i = 0; i < vm.reports.length; i++) {
-          if (vm.reports[i]._id === reportId) {
+      for (var i = 0; i < vm.reports.length; i++) {
+        if (vm.reports[i]._id === reportId) {
+
+          if (!vm.reports[i].downvoters.includes(vm.username)) {
             vm.reports[i].downvoterCount++;
+            vm.reports[i].downvoters.push(vm.username);
+
+            axios.post('https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/interact', {
+              'userId': vm.username,
+              'reportId': reportId,
+              'action': 'downvote'
+            });
           }
         }
       }
-
-      voted = true;
     }
 
     function addComment(reportId, commentMessage) {
