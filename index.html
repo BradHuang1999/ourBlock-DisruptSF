@@ -183,13 +183,15 @@
     }
 
     .bottom-icon {
-      width: 65%;
+      max-width: 70%;
+      max-height: 100%;
       vertical-align: middle;
       margin: auto;
     }
 
     .report-add-icon {
-      width: 100%;
+      max-width: 110%;
+      max-height: 110%;
       top: -50%;
       z-index: 1001;
       position: relative;
@@ -234,7 +236,7 @@
 
     <transition name="fade">
       <div v-if="viewing==='login'" style="z-index: 999999999999999999999999">
-        <img src="login.PNG" style=" position: absolute; width: 100%; height: 91%; top: 0px;">
+        <img src="login.png" style=" position: absolute; width: 100%; height: 91%; top: 0px;">
 
         <div onclick="selectUser(this)" id="johnsmith" style="position: absolute; min-width: 60%; min-height:6%; top:12%; left: 29%;">&nbsp;</div>
         <div onclick="selectUser(this)" id="bradneedsalife" style="position: absolute; min-width: 60%; min-height:6%; top:23.7%; left: 29%;">&nbsp;</div>
@@ -304,7 +306,8 @@
                 <div style="white-space: pre-line; margin-top: 2%; font-size: 40px;" style="font-size: 40px;">
                   {{vm.formatComments(report.comments)}}
                 </div>
-                <input id="comment-input" onkeyup="commentKeyUp(event)" type="text" placeholder="Add a comment" style="font-size: 40px; margin-top: 2%; padding-bottom: 55px; width: 90%;"><i class="material-icons medium right" onclick="comment(this.previousSibling)">send</i>
+                <input id="comment-input" onkeyup="commentKeyUp(event)" type="text" placeholder="Add a comment" style="font-size: 40px; margin-top: 2%; padding-bottom: 55px; width: 90%;"><i
+                  class="material-icons medium right" onclick="comment(this.previousSibling)">send</i>
               </div>
             </div>
           </div>
@@ -325,7 +328,6 @@
             </div>
           </div>
         </nav>
-
       </div>
     </transition>
 
@@ -335,9 +337,11 @@
           <div class="card-panel light-green lighten-1" style="margin-bottom: 30px; border: 5px solid green; border-radius: 25px;">
             <div class="white-text">
               <div height="100px" style="font-family: 'Roboto'; font-size: 40px; z-index: 600;">
-                <i class="material-icons medium left">warning</i><span style="font-weight: bold">New update on a report you follow</span><br><br>
-                  <span style="font-weight: bold">SFPD: </span>{{notif}}
-                </div>
+                <i class="material-icons medium left">warning</i>
+                <span style="font-weight: bold">New update on a report you follow</span>
+                <br><br>
+                <span style="font-weight: bold">SFPD: </span>{{notif}}
+              </div>
             </div>
           </div>
         </div>
