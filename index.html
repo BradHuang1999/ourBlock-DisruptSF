@@ -261,55 +261,64 @@
 
 
     <div id="modal1" class="modal bottom-sheet" style="max-height: 70% !important;">
-        <div class="modal-content">
-          <p style="font-size: 70px;">Search results:</p>
-          <div v-for="report in reports">
-            <div class="my-container">
-              <div class="card sticky-action">
-                <div class="card-content"  style="font-size: 40px;">
-                  <div class="card-title green-text" style="font-size: 55px; margin-top: 4%; text-decoration: underline">Report #{{report._id}}</div><br>
-                  <p style="font-weight: bold"><span style="color: red;">{{report.category}}</span><br><i class="material-icons medium">location_on</i> <span style="color: blue;">{{report.distance + 'm'}}</span><br><i class="material-icons medium">warning</i> <span style="color: yellow;">{{report.severity}}</span></p>
-                  <p><span style="color: green">Description: </span>{{report.message}}<br>
-                    <span style="color: green">Latitude: </span>{{report.lat}}<br>Longitude: {{report.lon}}<br>
-                    <span style="color: green">Time: </span>{{ (new Date(report.time)).toLocaleString("en-US", { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric' }) }}<br>
-                    <span style="color: green">Status: </span>{{report.status}}<br>
-                    <span style="color: green">Likes: </span>{{report.upvoterCount}} | Dislikes: {{report.downvoterCount}}</p>
-                    <p v-if="!report.anonymous">
-                      Submitted by {{report.reportingUser}}
-                    </p>
-                    <p v-else>
-                      Submitted by an anonymous user
-                    </p>
-                  <span class="card-title activator blue-text" style="font-size: 40px; margin-top: 40px;">View comments<i class="material-icons right" style="font-size: 80px;">expand_less</i></span>
-                </div>
+      <div class="modal-content">
+        <p style="font-size: 70px;">Search results:</p>
+        <div v-for="report in reports">
+          <div class="my-container">
+            <div class="card sticky-action">
+              <div class="card-content" style="font-size: 40px;">
+                <div class="card-title green-text" style="font-size: 55px; margin-top: 4%; text-decoration: underline">Report
+                  #{{report._id}}</div><br>
+                <p style="font-weight: bold"><span style="color: red;">{{report.category}}</span><br><i class="material-icons medium">location_on</i>
+                  <span style="color: blue;">{{report.distance + 'm'}}</span><br><i class="material-icons medium">warning</i>
+                  <span style="color: yellow;">{{report.severity}}</span></p>
+                <p><span style="color: green">Description: </span>{{report.message}}<br>
+                  <span style="color: green">Latitude: </span>{{report.lat}}<br>Longitude: {{report.lon}}<br>
+                  <span style="color: green">Time: </span>{{ (new Date(report.time)).toLocaleString("en-US", { year:
+                  'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric' }) }}<br>
+                  <span style="color: green">Status: </span>{{report.status}}<br>
+                  <span style="color: green">Likes: </span>{{report.upvoterCount}} | Dislikes:
+                  {{report.downvoterCount}}</p>
+                <p v-if="!report.anonymous">
+                  Submitted by {{report.reportingUser}}
+                </p>
+                <p v-else>
+                  Submitted by an anonymous user
+                </p>
+                <span class="card-title activator blue-text" style="font-size: 40px; margin-top: 40px;">View comments<i
+                    class="material-icons right" style="font-size: 80px;">expand_less</i></span>
+              </div>
 
-                <div class="card-action">
-                  <a onclick="upvote(this)" style="font-size: 40px;"><i class="material-icons small">thumb_up</i> Like</a>
-                  <a onclick="downvote(this)" style="font-size: 40px;"><i class="material-icons small">thumb_down</i> Dislike</a>
-                </div>
+              <div class="card-action">
+                <a onclick="upvote(this)" style="font-size: 40px;"><i class="material-icons small">thumb_up</i> Like</a>
+                <a onclick="downvote(this)" style="font-size: 40px;"><i class="material-icons small">thumb_down</i>
+                  Dislike</a>
+              </div>
 
-                <div class="card-reveal">
-                  <span class="card-title blue-text" style="font-size: 40px;">Comments<i class="material-icons right" style="font-size: 80px;">expand_more</i></span>
-                  <div style="white-space: pre-line; margin-top: 2%; font-size: 40px;" style="font-size: 40px;">{{vm.formatComments(report.comments)}}</div>
+              <div class="card-reveal">
+                <span class="card-title blue-text" style="font-size: 40px;">Comments<i class="material-icons right"
+                    style="font-size: 80px;">expand_more</i></span>
+                <div style="white-space: pre-line; margin-top: 2%; font-size: 40px;" style="font-size: 40px;">{{vm.formatComments(report.comments)}}</div>
 
-                  <input id="comment-input" onkeyup="commentKeyUp(event)" type="text" placeholder="Add a comment" style="font-size: 40px; margin-top: 2%;;"></input>
-                </div>
+                <input id="comment-input" onkeyup="commentKeyUp(event)" type="text" placeholder="Add a comment" style="font-size: 40px; margin-top: 2%;;"></input>
               </div>
             </div>
           </div>
-          </div>
         </div>
+      </div>
+    </div>
 
     <transition name="fade">
       <div style="z-index:4000" id="search-page" v-if="viewing==='search'">
         <nav id="search-bar">
           <div class="nav-wrapper">
-              <div class="input-field">
-                <label class="label-icon" for="search-example">
-                </label>
-                <input style="font-size:40px;" id="search-input" type="search" required="" placeholder="Enter a few keywords..." onkeyup="searchKeyUp(event)">
-                <i onclick="search()" class="material-icons left large" style="font-size: 80px; margin-top: 6.5%; position:absolute;">search</i>
-              </div>
+            <div class="input-field">
+              <label class="label-icon" for="search-example">
+              </label>
+              <input style="font-size:40px;" id="search-input" type="search" required="" placeholder="Enter a few keywords..."
+                onkeyup="searchKeyUp(event)">
+              <i onclick="search()" class="material-icons left large" style="font-size: 80px; margin-top: 6.5%; position:absolute;">search</i>
+            </div>
           </div>
         </nav>
 
@@ -321,7 +330,8 @@
         <div v-for="notif in notifs">
           <div class="card-panel blue" style="margin-bottom: 20px;">
             <div class="white-text">
-              <div height="100px" style="font-family: 'Roboto'; font-size: 40px; z-index: 600; text-align: center;"><i class="material-icons medium left">warning</i> {{notif}}</div>
+              <div height="100px" style="font-family: 'Roboto'; font-size: 40px; z-index: 600; text-align: center;"><i
+                  class="material-icons medium left">warning</i> {{notif}}</div>
             </div>
           </div>
         </div>
@@ -351,10 +361,9 @@
   </div>
 
   <script>
-
-  var onModalHide = function() {
-    clickMap();
-  };
+    var onModalHide = function () {
+      clickMap();
+    };
 
     var instance;
     $(document).ready(function () {
@@ -366,22 +375,22 @@
       displayProfilePic(document.getElementById('profile-image'));
     });
 
-  function searchKeyUp(event) {
-    if (event.keyCode === 13) {
-      search();
+    function searchKeyUp(event) {
+      if (event.keyCode === 13) {
+        search();
+      }
     }
-  }
 
-  function commentKeyUp(event) {
-    if (event.keyCode === 13) {
-      comment(document.getElementById('comment-input'));
+    function commentKeyUp(event) {
+      if (event.keyCode === 13) {
+        comment(document.getElementById('comment-input'));
+      }
     }
-  }
 
-  function selectUser(element) {
-    vm.username = element.id;
-    vm.viewing = 'map';
-  }
+    function selectUser(element) {
+      vm.username = element.id;
+      vm.viewing = 'map';
+    }
 
     var cards = document.getElementsByClassName('card');
 
@@ -637,10 +646,9 @@
 
       for (var i = 0; i < vm.reports.length; i++) {
         if (vm.reports[i]._id === reportId) {
-          vm.reports[i].upvoterCount ++;
+          vm.reports[i].upvoterCount++;
         }
       }
-
     }
 
     function downvote(element) {
@@ -655,7 +663,7 @@
 
       for (var i = 0; i < vm.reports.length; i++) {
         if (vm.reports[i]._id === reportId) {
-          vm.reports[i].downvoterCount ++;
+          vm.reports[i].downvoterCount++;
         }
       }
     }
@@ -698,8 +706,9 @@
             output += 'user' + comments[i].userId + ' : ' + comments[i].message + '\n';
           }
 
-          if(comments.length !== 0) {
-            output += 'user' + comments[comments.length-1].userId + ' : ' + comments[comments.length-1].message + '\n';
+          if (comments.length !== 0) {
+            output += 'user' + comments[comments.length - 1].userId + ' : ' + comments[comments.length - 1].message +
+              '\n';
           }
           return output;
         },
