@@ -3,11 +3,11 @@
 
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=0.4, maximum-scale=0.4, user-scalable=no, minimal-ui" />
-
   <meta name="apple-touch-fullscreen" content="yes" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-  <title>Ourblock</title>
+  <title>OurBlock</title>
+  <link rel="shortcut icon" href="./assets/favicon.ico">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -17,7 +17,6 @@
   <link href="https://fonts.googleapis.com/css?family=Josefin+Slab|VT323|Lalezar" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
   <style>
-    /* Always set the map height explicitly to define the size of the div element that contains the map. */
     #map {
       zoom: 250%;
       height: 80%;
@@ -28,7 +27,6 @@
       right: 0;
     }
 
-    /* Optional: Makes the sample page fill the window. */
     html,
     body {
       height: 100%;
@@ -223,7 +221,6 @@
           <img class="bottom-icon" src="profile.png" alt="">
         </div>
       </div>
-
     </div>
 
     <nav id="header" style="background-color:white;" v-if="viewing==='map' || viewing ==='reports'">
@@ -247,7 +244,6 @@
         <div onclick="selectUser(this)" id="randombrian" style="position: absolute; min-width: 60%; min-height:6%; top:82.2%; left: 29%;">&nbsp;</div>
       </div>
     </transition>
-
 
     <div id="newReportModal" class="modal bottom-sheet" style="max-height: 70% !important;">
       <div class="modal-content">
@@ -301,11 +297,13 @@
               </div>
 
               <div class="card-reveal">
-                <span class="card-title blue-text" style="font-size: 40px;">Comments<i class="material-icons right"
-                    style="font-size: 80px;">expand_more</i></span>
-                <div style="white-space: pre-line; margin-top: 2%; font-size: 40px;" style="font-size: 40px;">{{vm.formatComments(report.comments)}}</div>
-
-                <input id="comment-input" onkeyup="commentKeyUp(event)" type="text" placeholder="Add a comment" style="font-size: 40px; margin-top: 2%;;"></input>
+                <span class="card-title blue-text" style="font-size: 40px;">Comments
+                  <i class="material-icons right" style="font-size: 80px;">expand_more</i>
+                </span>
+                <div style="white-space: pre-line; margin-top: 2%; font-size: 40px;" style="font-size: 40px;">
+                  {{vm.formatComments(report.comments)}}
+                </div>
+                <input id="comment-input" onkeyup="commentKeyUp(event)" type="text" placeholder="Add a comment" style="font-size: 40px; margin-top: 2%;;">
               </div>
             </div>
           </div>
@@ -349,7 +347,9 @@
       <div v-show="viewing==='profile'">
         <div style="background: white; position:absolute; top:0px; width: 100%; height: 100%; z-index:600;">&nbsp;</div>
         <img id="profile-image" src="./profile-johnsmith.png" style="top:0; width: 100%; position:absolute; top:0px; z-index:600;">
-        <div id="my-tokens" style="font-weight:bold; font-size: 80px; position: absolute; min-width:30px; min-height: 110px; left:79%; top: 43%; z-index: 100000000000;"></div>
+        <div id="my-tokens" style="font-weight:bold; font-size: 80px; position: absolute; min-width:30px; min-height: 110px; left:79%; top: 43%; z-index: 100000000000;">
+          {{tokens}}
+        </div>
       </div>
     </transition>
 
@@ -364,7 +364,6 @@
           <img src="./checkmark.png" style="position: absolute; top: 77.5%; left:7%; width: 5%; height:3%; z-index: 100000000000;">
         </div>
     </transition>
-
   </div>
 
   <script>
@@ -379,7 +378,7 @@
         onCloseStart: onModalHide
       });
 
-      displayProfilePic(document.getElementById('profile-image'));
+      // displayProfilePic(document.getElementById('profile-image'));
     });
 
     function searchKeyUp(event) {
@@ -395,10 +394,15 @@
       }
     }
 
+    /////// this is when user clicks log in
     function selectUser(element) {
       vm.username = element.id;
       vm.viewing = 'map';
       $("#profile-image").attr('src', "./profile-" + element.id + ".png");
+      getTokens();
+      setInterval(getTokens, 10 * 1000);
+      getNotifs();
+      setInterval(getNotifs, 10 * 1000);
     }
 
     var cards = document.getElementsByClassName('card');
@@ -412,15 +416,6 @@
 
     function submitReport() {
       var description = document.getElementById('report-description').value;
-      console.log({
-        'reportingUser': vm.username,
-        'lat': vm.location.lat,
-        'lon': vm.location.lon,
-        'time': Date.now(),
-        'anonymous': vm.reportPrivacy,
-        'message': description
-      });
-
       axios.post('http://lypang.pythonanywhere.com/post', {
         'reportingUser': vm.username,
         'lat': vm.location.lat,
@@ -429,7 +424,6 @@
         'anonymous': vm.reportPrivacy,
         'message': description
       }).then(function (res) {
-        console.log(res);
         clickMap();
       });
     }
@@ -484,10 +478,6 @@
       vm.viewing = element.getAttribute('data-section');
     }
 
-    function displayProfilePic(element) {
-      document.getElementById('my-tokens').innerHTML = vm.tokens;
-    }
-
     function clickMap() {
       select(document.getElementById('map-icon'));
     }
@@ -504,7 +494,6 @@
         'currLon': vm.location.lon,
         'role': 'police'
       }).then(function (res) {
-        console.log(res.data);
         vm.reports = res.data;
         vm.viewing = 'map';
         instance.open();
@@ -518,30 +507,6 @@
   <script>
     var map, infoWindow, markers;
     var points;
-
-    // function toggleHeatmap() {
-    //   heatmap.setMap(heatmap.getMap() ? null : map);
-    // }
-
-    // function changeGradient() {
-    //   var gradient = [
-    //     'rgba(0, 255, 255, 0)',
-    //     'rgba(0, 255, 255, 1)',
-    //     'rgba(0, 191, 255, 1)',
-    //     'rgba(0, 127, 255, 1)',
-    //     'rgba(0, 63, 255, 1)',
-    //     'rgba(0, 0, 255, 1)',
-    //     'rgba(0, 0, 223, 1)',
-    //     'rgba(0, 0, 191, 1)',
-    //     'rgba(0, 0, 159, 1)',
-    //     'rgba(0, 0, 127, 1)',
-    //     'rgba(63, 0, 91, 1)',
-    //     'rgba(127, 0, 63, 1)',
-    //     'rgba(191, 0, 31, 1)',
-    //     'rgba(255, 0, 0, 1)'
-    //   ]
-    //   heatmap.set('gradient', heatmap.get('gradient') ? null : gradient);
-    // }
 
     function initMap() {
       function getMapBounds() {
@@ -564,12 +529,11 @@
           for (var i = 0; i < points.length; i++) {
             points.pop();
           }
-          console.log(res.data);
           for (var i = 0; i < res.data.length; i++) {
             points.push(new google.maps.LatLng(res.data[i].lat, res.data[i].lon));
           }
         }).catch(function (e) {
-          console.log(e);
+          console.error(e);
         });
       }
 
@@ -591,7 +555,6 @@
           location: boundsBody,
           select: 'lon lat'
         }).then(function (res) {
-          // console.log(res.data);
           for (var i = 0; i < res.data.length; i++) {
             points.push(new google.maps.LatLng(res.data[i].lat, res.data[i].lon));
           }
@@ -630,17 +593,14 @@
         }
       });
     }
-    setInterval(getNotifs, 10 * 1000);
 
     function getTokens() {
-      axios.post('https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/tokens', {
+      axios.post('https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/token', {
         'userId': vm.username
       }).then(function (res) {
         vm.tokens = res.data;
-        console.log(res);
       });
     }
-    //setInterval(getTokens, 10 * 1000);
 
     function upvote(element) {
       var reportId = element.parentNode.parentNode.firstElementChild.firstElementChild.innerHTML;
@@ -706,21 +666,13 @@
     }
 
     function addComment(reportId, commentMessage) {
-      // console.log({
-      //   'userId': vm.username,
-      //   'reportId': reportId,
-      //   'message': commentMessage,
-      //   'timestamp': Date.now()
-      // })
-
-      follow(reportId);
-
       axios.post('https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/comment', {
         'userId': vm.username,
         'reportId': reportId,
         'message': commentMessage,
         'timestamp': Date.now()
       });
+      follow(reportId);
     }
   </script>
 
