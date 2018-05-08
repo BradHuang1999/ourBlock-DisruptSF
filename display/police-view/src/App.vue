@@ -45,6 +45,7 @@
         :markers="reportLocs"
         :selectedId="selectedId"
         :screenHeight="screenHeight"
+        :mapCenter="location"
       />
     </md-content>
 
@@ -65,9 +66,9 @@
         class="md-elevation-2"
         style="margin-bottom=0"
       >
-        <!-- <h2> Reports from last 7 days: {{ statsTotal }} </h2> -->
         <h4> Crime Status Breakdown </h4>
         <Piegraph :pie-data="statsPie"/>
+        <!-- <h2> Reports from last 7 days: {{ statsTotal }} </h2> -->
       </md-content>
     </md-content>
   </div>
@@ -84,7 +85,6 @@
   import Donutgraph from './components/Donutgraph.vue'
   import Scattergraph from './components/Scattergraph.vue'
   import Nodes from './components/blockchain-nodes/example/Example.vue'
-  import severity from '../lib/severity'
 
   window.onload = function() {
     this.screenHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
@@ -111,16 +111,22 @@
         lastCenter: {},
         selectedId: '',
         screenHeight: 0,
-        iter: 0
+        iter: 0,
+        location: {
+          lat: 37.786570,
+          lng: -122.402
+        }
       }
     },
 
     mounted(){
+      this.screenHeight = window.innerHeight;
       this.getStats();
+      this.getLocation();
       setInterval(this.getStats, 1000 * 10);
       setInterval(this.updateMap, 1000 * 10);
-      this.screenHeight = window.innerHeight;
       setInterval(this.count, 150);
+      setInterval(this.getLocation, 1000 * 6);
     },
 
     methods: {
@@ -130,10 +136,23 @@
       },
 
       count() {
-          var min = Math.ceil(0);
-          var max = Math.floor(12);
-          var myRandom = Math.floor(Math.random() * (max - min)) + min;
-          this.iter += myRandom;
+        var min = Math.ceil(0);
+        var max = Math.floor(12);
+        var myRandom = Math.floor(Math.random() * (max - min)) + min;
+        this.iter += myRandom;
+      },
+
+      getLocation() {
+        this.location = {
+          lat: 37.786570, 
+          lng: -122.402
+        }
+        // navigator.geolocation.getCurrentPosition(position => {
+        //   this.location = {
+        //     lat: position.coords.latitude,
+        //     lng: position.coords.longitude
+        //   }
+        // });
       },
 
       getStats() {
@@ -164,14 +183,17 @@
             lonMax: this.lastBounds.lonMax
           },
           select: 'lat lon upvoterCount downvoterCount commentCount reportingUser followerCount category message comments time privacy status',
+          limit: 20,
+          severity: true,
+          currentTime: Date.now(),
+          currLat: this.lastCenter.lat,
+          currLon: this.lastCenter.lng,
+          role: "police"
         })
         .then(locations => {
-          this.reports = severity.getTopSeverity('police', Date.now(), this.lastCenter.lat, this.lastCenter.lng, locations.data, 25);
+          this.reports = locations.data;
           this.getSelectedToTop();
           this.reportLocs = this.reports.map(report => ({ position: { lat: report.lat, lng: report.lon }, id: report._id }));
-          // navigator.geolocation.getCurrentPosition(position => {
-          //   this.reports = severity.getTopSeverity('police', Date.now(), position.coords.latitude, position.coords.longitude, locations.data, 5);
-          // });
         })
       },
 

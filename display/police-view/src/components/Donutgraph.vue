@@ -38,6 +38,7 @@ export default {
       options: {
         pieHole: 0.25,
         height: 194,
+        chartArea: {'width': '100%', 'height': '80%'}
       }
     }
   },

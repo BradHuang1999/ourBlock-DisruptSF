@@ -9,7 +9,7 @@
     <gmap-map
       :center="mapCenter"
       :zoom="zoom"
-      :style="'width:100%; height:' + screenHeight / 5 * 3 + 'px; margin=8px'"
+      :style="'zoom:70%; width:100%; height:' + screenHeight * 3 / 5 * 10 / 7 + 'px; margin=8px'"
       @center_changed="center={lat: $event.lat(), lng: $event.lng()}"
       @bounds_changed="changeBounds($event)"
     >
@@ -26,31 +26,21 @@
 </template>
 
 <script>
-// import axios from 'axios';
-
 export default {
   name: "GoogleMap",
 
-  props: ['markers', "selectedId", "screenHeight"],
+  props: ['mapCenter', 'markers', "selectedId", "screenHeight"],
 
   data() {
-    let mapCenter = { lat: 37.786570, lng: -122.402 };
-    // navigator.geolocation.getCurrentPosition(position => {
-    //   center = {
-    //     lat: position.coords.latitude,
-    //     lng: position.coords.longitude
-    //   };
-    // });
     return {
-      mapCenter: mapCenter,
-      center: mapCenter,
+      center: this.mapCenter,
       zoom: 16,
       prevBounds: {},
       currBounds: {
-        lonMin: mapCenter.lng - 0.005,
-        lonMax: mapCenter.lng + 0.005,
-        latMin: mapCenter.lat - 0.005,
-        latMax: mapCenter.lat + 0.005
+        lonMin: this.mapCenter.lng - 0.005,
+        lonMax: this.mapCenter.lng + 0.005,
+        latMin: this.mapCenter.lat - 0.005,
+        latMax: this.mapCenter.lat + 0.005
       },
     };
   },
