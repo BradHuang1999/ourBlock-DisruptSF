@@ -420,6 +420,18 @@
     //   heatmap.set('gradient', heatmap.get('gradient') ? null : gradient);
     // }
 
+    function getLocation() {
+      navigator.geolocation.getCurrentPosition(function (position) {
+        var pos = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        };
+        infoWindow.setPosition(pos);
+        vm.location.lat = pos.lat;
+        vm.location.lon = pos.lng;
+      });
+    }
+
     function initMap() {
       function getMapBounds() {
         var sw = map.getBounds().getSouthWest();
@@ -456,6 +468,9 @@
         });
       }
 
+      getLocation();
+      setInterval(getLocation, 500000);
+
       map = new google.maps.Map(document.getElementById('map'), {
         center: {
           lat: 37.786570,
@@ -491,18 +506,6 @@
       map.addListener('dragend', postSearch);
       map.addListener('zoom_changed', postSearch);
     }
-
-    // setInterval(function () {
-    //   navigator.geolocation.getCurrentPosition(function (position) {
-    //     var pos = {
-    //       lat: position.coords.latitude,
-    //       lng: position.coords.longitude
-    //     };
-    //     infoWindow.setPosition(pos);
-    //     vm.location.lat = pos.lat;
-    //     vm.location.lon = pos.lng;
-    //   });
-    // }, 500000);
   </script>
 
   <script>
@@ -517,10 +520,13 @@
       axios.post('https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/notif', {
         'id': vm.username
       }).then(function (res) {
-        vm.notifs = res.data;
+        if (res.data[0]){
+          vm.notifs.push(res.data[0]);
+          getNotifs();
+        }
       });
     }
-    setInterval(getNotifs, 45000);
+    setInterval(getNotifs, 10 * 1000);
 
     function newReport(description, anonymous) {
       axios.post('https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/post', {
