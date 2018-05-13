@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>New Report Modal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Josefin+Slab|VT323|Lalezar" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
+    <style>
+        /* Always set the map height explicitly to define the size of the div
+         * element that contains the map. */
+        #map {
+            height: 80%;
+            position: absolute;
+            top: 10%;
+            bottom: 10%;
+            left: 0;
+            right: 0;
+        }
+
+        /* Optional: Makes the sample page fill the window. */
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: "Josefin Slab"
+        }
+
+        #add-btn {
+            position: absolute;
+            bottom: 18%;
+            right: 90%;
+        }
+
+        .my-container {
+            width: 100%;
+            margin: auto;
+            position: relative;
+            font-size: 30px;
+        }
+
+        #header {
+            z-index: 900;
+            top: 0px;
+            position: absolute;
+            height: 10%;
+            font-weight: bold;
+            line-height: 11em;
+        }
+
+        #bottom-bar {
+            position: absolute;
+            height: 10%;
+            width: 100%;
+            top: 90%;
+            font-size: 40px;
+            text-align: center;
+        }
+
+        .col {
+            height: 100%;
+            line-height: 2.5em;
+        }
+
+        .slide-fade-enter-active {
+            transition: all .4s ease;
+        }
+
+        .slide-fade-leave-active {
+            transition: all .3s ease;
+        }
+
+        .slide-fade-enter,
+        .slide-fade-leave-to
+
+        /* .slide-fade-leave-active below version 2.1.8 */
+            {
+            transform: translateY(100px);
+            opacity: 0;
+        }
+
+        .fade-enter-active,
+        .fade-leave-active {
+            transition: opacity .5s;
+        }
+
+        .fade-enter,
+        .fade-leave-to
+
+        /* .fade-leave-active below version 2.1.8 */
+            {
+            opacity: 0;
+        }
+
+        #profile-image {
+            position: absolute;
+            width: 40%;
+            left: 30%;
+            top: 5%;
+        }
+
+        #username {
+            text-align: center;
+            font-size: 72px;
+            top: 37%;
+            position: absolute;
+            text-align: center;
+            width: 100%;
+            font-family: 'Lalezar';
+        }
+
+        #tokens {
+            font-family: 'Josefin Slab';
+            text-align: center;
+            width: 100%;
+            position: absolute;
+            top: 49%;
+            text-align: center;
+            padding-top: 15px;
+            padding-bottom: 15px;
+            margin: 0px;
+            font-size: 48px;
+        }
+
+        #user-profile {
+            width: 100%;
+            height: 85%;
+            z-index: 400;
+            position: absolute;
+        }
+
+        #popups {
+            z-index: 200;
+            height: 100%;
+            width: 100%;
+        }
+
+        #reports-bar {
+            width: 83%;
+            height: 80%;
+            top: 20%;
+            left: 8.5%;
+            position: absolute;
+            padding: 30px;
+            overflow-y: auto;
+        }
+
+        #search-page {
+            height: 85%;
+            width: 100%;
+            background: white;
+            z-index: 40000;
+            position: absolute;
+        }
+
+        #search-bar {
+            height: 11.9%;
+            width: 100%;
+            font-size: 80px;
+            z-index: 400;
+            position: absolute;
+        }
+
+        .dropdown-trigger {
+            position: absolute;
+        }
+
+        #card-title {
+            margin: auto;
+            text-align: center;
+        }
+
+        #status-button {}
+
+        #category-button {}
+    </style>
+</head>
+
+<body>
+    <!-- Modal Trigger -->
+    <div onclick="openModal()" class="col s3 grey lighten-4">
+        <img src="report-final.png" alt="">
+    </div>
+
+    <!-- Modal Structure -->
+    <div id="new-report-modal" class="modal modal-fixed-footer">
+        <div class="modal-content" style="background: linear-gradient(#C0E8C3 1%, #FFFFFF 99%);">
+            <div>
+                <h4>Report an Incident</h4>
+                <p>Thank you for making our community safer! </p>
+                <p><strong>If this is an emergency, please call 911 first!</strong></p>
+            </div>
+            <div style="background: linear-gradient(90deg, #C0E8C3 50%, #FFFFFF 50%);">
+                
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class="modal-close waves-effect waves-green btn-flat">Send</a>
+            <a href="#" class="modal-close waves-effect waves-green btn-flat">Cancel</a>
+        </div>
+    </div>
+
+    <script>
+        var instance;
+
+        $(document).ready(function() {
+            $('.modal').modal();
+            instance = M.Modal.getInstance(document.getElementById('new-report-modal'));
+        });
+
+        function openModal() {
+            instance.open();
+        }
+    </script>
+</body>
+
+</html>
