@@ -6,9 +6,9 @@
     >
       <md-card-header>
         <div class="row-icons">
-          <strong> {{ locData.category }} </strong>
-          <md-icon>location_on</md-icon> {{ locData.distance.toFixed(0) }}m
-          <md-icon>warning</md-icon> {{ locData.severity.toFixed(2) }}
+          <strong style="color:red;"> {{ locData.category }} </strong>
+          <md-icon>location_on</md-icon> <span style="color:blue;"> {{ locData.distance.toFixed(0) }} </span>
+          <md-icon>warning</md-icon> <span style="color: orange;"> {{ locData.severity.toFixed(2) }} </span>
         </div>
         <div class="row-icons">
           <md-icon>thumb_up</md-icon> {{ locData.upvoterCount }}
@@ -19,16 +19,16 @@
       </md-card-header>
 
       <md-card-content>
-        <strong>{{ "Reported by: "}}</strong>
+        <strong style="color:green;">{{ "Reported by "}}</strong>
         {{ locData.reportingUser }}
         <br>
-        <strong>{{ "Message: "}}</strong>
+        <strong style="color:green;">{{ "Message "}}</strong>
         {{ locData.message }}
         <br>
-        <strong>{{ "Case ID: "}}</strong>
+        <strong style="color:green;">{{ "Case ID "}}</strong>
         {{ locData._id }}
         <br>
-        <strong>{{ "Time Reported: "}}</strong>
+        <strong style="color:green;">{{ "Time Reported "}}</strong>
         {{ (new Date(locData.time)).toLocaleString("en-US", { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric' }) }}
       </md-card-content>
 

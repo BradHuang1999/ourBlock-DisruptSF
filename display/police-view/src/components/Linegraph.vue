@@ -53,7 +53,7 @@ export default {
 
       options: {
         curveType: 'function',
-        height: 210,
+        height: 180,
         legend: { position: 'none' },
         hAxis: { 
           titleTextStyle: { position: 'none' }, 
@@ -61,19 +61,6 @@ export default {
         }
       }
     }
-  },
-
-  computed: {
-    // chartOptions () {
-    //   if (!this.chartsLib) return null
-    //   return this.chartsLib.charts.Line.convertOptions({
-    //     curveType: 'function',
-    //     height: 210,
-    //     legend: {
-    //       position: 'none'
-    //     }
-    //   })
-    // }
   },
 
   methods: {
@@ -86,6 +73,6 @@ export default {
 
 <style>
   #GLineGraph{
-    height: 210px;
+    height: 180px;
   }
 </style>

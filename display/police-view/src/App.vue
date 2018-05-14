@@ -18,7 +18,7 @@
       </md-content>
       <md-content class="md-elevation-2">
         <h4> Neural Network Training Rate </h4>
-        <div id="trainingStep">Training Step: </div>  
+        <div id="trainingStep">Training Step: {{iter}} </div>  
         <img style="height:250px;" :src="require('./assets/neuralnetgraph.gif')">
       </md-content>
       <md-content class="md-elevation-2">
@@ -110,7 +110,8 @@
         lastBounds: {},
         lastCenter: {},
         selectedId: '',
-        screenHeight: 0
+        screenHeight: 0,
+        iter: 0
       }
     },
 
@@ -118,19 +119,18 @@
       this.getStats();
       setInterval(this.getStats, 1000 * 10);
       setInterval(this.updateMap, 1000 * 10);
-      /*
-      var iter = 0;
-      function counter() {
-        console.log('show at ' + (iter++));
-        setTimeout(counter, 1000);
-      }*/
       this.screenHeight = window.innerHeight;
+      setInterval(this.count, 30);
     },
 
     methods: {
       selectCard(id) {
         this.selectedId = id;
         this.getSelectedToTop();
+      },
+
+      count() {
+        this.iter++;
       },
 
       getStats() {
