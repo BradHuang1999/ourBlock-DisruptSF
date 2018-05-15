@@ -23,6 +23,7 @@ export default {
   }
 }
 </script>
+
 <style lang="stylus" scoped>
 @import '../lib/styl/vars.styl'
 @import 'html.styl'

@@ -54,7 +54,7 @@ export default {
     chartOptions () {
       if (!this.chartsLib) return null
       return this.chartsLib.charts.Bar.convertOptions({
-        bars: 'horizontal',
+        bars: 'vertical',
         height: 140,
         legend: {
           position: 'none',

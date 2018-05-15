@@ -409,6 +409,10 @@ export default {
   .net-svg
     // fill: white // background color to export as image
 
+  svg
+    max-height: 300px
+    max-width: 100%
+
   .node
     stroke alpha($dark, 0.7)
     stroke-width 3px
