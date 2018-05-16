@@ -112,7 +112,7 @@
               ["pending", stats.data["pending"]],
               ["in progress", stats.data["in progress"]],
               ["solved by public", stats.data["solved by public"]],
-              ["solved by police", stats.data["pesolved by police"]]
+              ["solved by police", stats.data["solved by police"]]
             ]
           });
       },
