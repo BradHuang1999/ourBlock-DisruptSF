@@ -26,6 +26,9 @@
         <h4 style="text-align: center;"> Blockchain Ledger Hash Activity </h4>
         <Nodes style="zoom: 60%;"></Nodes>
       </md-content>
+      <md-content class="md-elevation-2">
+        <img :src="require('./assets/neuralnetgraph.gif')">
+      </md-content>
     </md-content>
     <md-content class="md-layout-item md-size-40">
       <center><img src="./assets/frontPageLogoClear.png" width="180" style="padding: 10px"></center>
@@ -58,8 +61,8 @@
   import Piegraph from './components/Piegraph.vue'
   import Donutgraph from './components/Donutgraph.vue'
   import Scattergraph from './components/Scattergraph.vue'
+  import Nodes from './components/nodes/src/example/Example.vue'
   import severity from '../lib/severity'
-  import Nodes from '../nodes/src/example/Example.vue'
 
   window.onload = function() {
     var height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
@@ -71,7 +74,7 @@
     name: 'app',
 
     components: {
-      Card, Map, Bargraph, Linegraph, Piegraph, Donutgraph, Scattergraph , Nodes
+      Card, Map, Bargraph, Linegraph, Piegraph, Donutgraph, Scattergraph, Nodes
     },
 
     data() {
@@ -163,5 +166,4 @@
     margin-bottom: 4px;
     display: block;
   }
-  
 </style>

@@ -1,4 +1,3 @@
-
 import Vue from 'vue'
 import App from './App'
 
@@ -9,7 +8,7 @@ import 'vue-material/dist/vue-material.min.css'
 import 'vue-material/dist/theme/default.css'
 import * as VueGoogleMaps from "vue2-google-maps";
 
-Vue.use(VueMaterial)
+Vue.use(VueMaterial);
 
 Vue.use(VueGoogleMaps, {
   load: {
