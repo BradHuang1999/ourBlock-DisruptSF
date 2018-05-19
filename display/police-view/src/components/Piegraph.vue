@@ -4,6 +4,7 @@
     :settings="{packages: ['corechart']}"    
     :data="pieData"
     :createChart="(el, google) => new google.visualization.PieChart(el)"
+    :options="options"
     @ready="onChartReady"
   />
   </div>
@@ -22,15 +23,11 @@ export default {
 
   data () {
     return {
-      chartsLib: null, 
-      // Array will be automatically processed with visualization.arrayToDataTable function
-      chartData: [
-        ['Status', 'Percentage'],
-        ['Pending', 4],
-        ['In progress', 2],
-        ['Solved by Police', 3],
-        ['Solved by Public', 2]
-      ]
+      chartsLib: null,
+      options: {
+        hAxis: { format: 'decimal' },
+        colors: ['#1b9e77', '#d95f02', '#7570b3']
+      }
     }
   },
   // computed: {
