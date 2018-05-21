@@ -86,17 +86,13 @@ ul.list
   list-style: none
 
 .notification
-  position: absolute
-  bottom: 7em
-  right: 3em
-  z-index: 100
+  position: relative
   width: auto
   padding: 1em 3em 1em 2em
   border-radius: 0.5em
-  box-shadow: $box-sh
   border: $border
   background-color: white
-  box-shadow: $hard-sh
+  text-align: center
 
   .mini-list
     max-height: 10em

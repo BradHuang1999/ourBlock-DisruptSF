@@ -23,13 +23,12 @@ export default {
   }
 }
 </script>
-<style lang="stylus">
+<style lang="stylus" scoped>
 @import '../lib/styl/vars.styl'
 @import 'html.styl'
   body
     font-family: 'Asap', sans-serif
     color: $darkness
-    background-color: $bg !important
   .menu-container
     position:fixed
     bottom: 0
@@ -97,7 +96,7 @@ export default {
     bottom: 0
     color: $dark
 
-  #app
+  #app-nodes
     text-align:center
     user-select: none
 </style>
