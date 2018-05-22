@@ -22,9 +22,9 @@
         <h4 style="text-align: center;"> Crime Status Breakdown </h4>
         <Piegraph :pie-data="statsPie"/>
       </md-content>
-<!--       <md-content class="md-elevation-2">
+      <md-content class="md-elevation-2">
         <Nodes/>
-      </md-content> -->
+      </md-content>
     </md-content>
     <md-content class="md-layout-item md-size-40">
       <center><img src="./assets/frontPageLogoClear.png" width="180" style="padding: 10px"></center>
@@ -69,7 +69,7 @@
     name: 'app',
 
     components: {
-      Card, Map, Bargraph, Linegraph, Piegraph, Donutgraph, Scattergraph, Nodes
+      Card, Map, Bargraph, Linegraph, Piegraph, Donutgraph, Scattergraph , Nodes
     },
 
     data() {
@@ -149,7 +149,11 @@
   }
 </script>
 
-<style scoped>
+<style>
+  body {
+    background-color: white !important
+  }
+
   .md-elevation-2 {
     padding: 3px;
     margin: 3px;
