@@ -32,6 +32,7 @@
         :markers="reportLocs"
         :selectedId="selectedId"
       />
+      <Nodes></Nodes>
     </md-content>
     <md-content class="md-layout-item md-size-30 md-scrollbar" style="position: relative; overflow: auto;" id="screenHeightCustom">
         <Card
@@ -54,6 +55,7 @@
   import Donutgraph from './components/Donutgraph.vue'
   import Scattergraph from './components/Scattergraph.vue'
   import severity from '../lib/severity'
+  import Nodes from '../nodes/src/example/Example.vue'
 
   window.onload = function() {
     var height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
@@ -65,7 +67,7 @@
     name: 'app',
 
     components: {
-      Card, Map, Bargraph, Linegraph, Piegraph, Donutgraph, Scattergraph
+      Card, Map, Bargraph, Linegraph, Piegraph, Donutgraph, Scattergraph, Nodes
     },
 
     data() {

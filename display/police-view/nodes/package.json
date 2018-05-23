@@ -1,0 +1,48 @@
+{
+  "name": "vue-d3-network",
+  "version": "0.1.26",
+  "description": "Vue component to graph networks using d3-force",
+  "main": "dist/vue-d3-network.umd.js",
+  "scripts": {
+    "example": "vue-cli-service build --dest example",
+    "dev": "vue-cli-service serve",
+    "build": "npm run build-component && npm run clean-dist",
+    "build-component": "vue-cli-service build --target lib --name vue-d3-network src/vue-d3-network.vue",
+    "lint": "vue-cli-service lint",
+    "clean-dist": "rm dist/demo.html"
+  },
+  "author": "emi",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/emiliorizzo/vue-d3-network"
+  },
+  "bugs": {
+    "url": "https://github.com/emiliorizzo/vue-d3-network/issues"
+  },
+  "keywords": [
+    "vue",
+    "vuejs",
+    "d3",
+    "network",
+    "d3-force",
+    "graph",
+    "component"
+  ],
+  "dependencies": {
+    "d3-force": "^1.0.6"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^3.0.0-rc.5",
+    "@vue/cli-plugin-eslint": "^3.0.0-rc.5",
+    "@vue/cli-service": "^3.0.0-rc.5",
+    "@vue/eslint-config-standard": "^3.0.0-rc.5",
+    "pug": "^2.0.3",
+    "pug-plain-loader": "^1.0.0",
+    "raw-loader": "^0.5.1",
+    "stylus": "^0.54.5",
+    "stylus-loader": "^3.0.2",
+    "vue": "^2.5.16",
+    "vue-template-compiler": "^2.5.16"
+  }
+}
