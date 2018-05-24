@@ -146,12 +146,6 @@
 </script>
 
 <style scoped>
-  body, html, .max-100 {
-    max-height: 100%;
-    max-width: 100%;
-    overflow-x: visible;
-  }
-
   .md-elevation-2 {
     padding: 10px;
     margin: 10px;
