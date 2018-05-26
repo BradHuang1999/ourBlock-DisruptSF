@@ -64,8 +64,12 @@
 
         <md-card-expand-content>
           <md-card-content>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio itaque ea, nostrum odio. Dolores, sed
-            accusantium quasi non, voluptas eius illo quas, saepe voluptate pariatur in deleniti minus sint. Excepturi.
+            <comment
+              :key="index"
+              v-for="(comment, index) in locData.comments"
+              :comment="comment"
+            >
+            </comment>
           </md-card-content>
         </md-card-expand-content>
       </md-card-expand>
@@ -75,9 +79,14 @@
 
 <script>
   import axios from 'axios';
+  import Comment from './Comment';
 
   export default {
     name: 'CardExpansion',
+
+    components: {
+      Comment
+    },
     
     props: {
       locData: {
@@ -111,6 +120,7 @@
           field: field,
           value: value
         })
+        this.$emit('statusUpdate', id);
       }
     },
 

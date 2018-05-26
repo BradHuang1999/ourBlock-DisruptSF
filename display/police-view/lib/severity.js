@@ -1,6 +1,6 @@
 const weights = {
     police: {
-        distance: -1 / 1000,
+        distance: -0.1 / 1000,
         category: 1,
         time: -10 / (1000 * 1000 * 60 * 60 * 24),
         upovtes: 0.1,
@@ -45,7 +45,6 @@ function getDistance(currLat, currLon, docLat, docLon) {
 		Math.sin(dLon/2) * Math.sin(dLon/2);
 	var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
     var d = R * c;
-    // console.log("GETDISTANCE", currLat, currLon, docLat, docLon, a, c, d);
 	return d;
 }
 
@@ -53,10 +52,7 @@ function getSeverity (role, currentTime, currLat, currLon, doc) {
     doc.categoryCoef = categoryWeights[doc.category];
     doc.statusCoef = statusWeights[doc.status];
     doc.distance = getDistance(currLat, currLon, doc.lat, doc.lon);
-    // console.log("currLat, currLon ", currLat, currLon );
-    // console.log("distance", weights[role].distance);
-    // console.log("distance in m", doc.distance);
-    
+
     // console.log("distance", weights[role].distance * doc.distance);
     // console.log("category", weights[role].category * doc.categoryCoef);
     // console.log("time", weights[role].time * (currentTime - doc.time));
@@ -82,16 +78,7 @@ function sortBySeverity (role, currentTime, currLat, currLon, docs) {
     return docs.sort((doc1, doc2) => doc2.severity - doc1.severity);
 }
 
-function getTopSeverity (role, currentTime, currLat, currLon , docs, topNum) {
-    // docs.forEach(doc => {
-    //     doc.severity = getSeverity(role, currentTime, currLat, currLon, doc);
-    // });
-    // var top = [];
-    // for (var i = ; i < k - 1; ++i)
-    //   top.push(series[i]);
-    // for (; i < series.length && series[k-1][1] == series[i][1]; ++i)
-    //   top.push(series[i]);
-    // return top;
+function getTopSeverity (role, currentTime, currLat, currLon, docs, topNum) {
     return sortBySeverity(role, currentTime, currLat, currLon , docs).slice(0, topNum);
 }
 

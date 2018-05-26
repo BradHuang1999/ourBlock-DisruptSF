@@ -11,7 +11,7 @@
     </md-content>
     <md-content class="md-layout-item md-size-40 max-100">
       <Map
-        @searchBounds="searchBounds($event)"
+        @searchBounds="updateMap($event)"
         :markers="reportLocs"
       />
     </md-content>
@@ -19,7 +19,8 @@
         <Card
           v-for="report in reports"
           :key="report._id"
-          :loc-data="report">
+        :loc-data="report"
+        >
         </Card>
     </md-content>
   </div>
@@ -46,13 +47,16 @@
         reports: [],
         reportLocs: [],
         statsTotal: 0,
-        statsPie: []
+        statsPie: [],
+        lastBounds: {},
+        lastCenter: {}
       }
     },
 
     mounted(){
       this.getStats();
       setInterval(this.getStats, 1000 * 60);
+      setInterval(this.updateMap, 1000 * 10);
     },
 
     methods: {
@@ -61,9 +65,6 @@
           .then(stats => {
             this.statsTotal = stats.data.total;
             delete stats.data.total;
-            // console.log(stats.data);
-            // console.log(stats.data.keys);
-            // this.statsPie = Object.keys(stats.data).map(key => [key, stats.data[key]]);
             this.statsPie = [
               ['Status', 'Count'],
               ["pending", stats.data["pending"]],
@@ -74,18 +75,22 @@
           });
       },
 
-      searchBounds(events) {
+      updateMap(events) {
+        if (events){
+          this.lastBounds = events.bounds;
+          this.lastCenter = events.center;
+        }
         axios.post('https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/search', {
           location: {
-            latMin: events.bounds.latMin,
-            latMax: events.bounds.latMax,
-            lonMin: events.bounds.lonMin,
-            lonMax: events.bounds.lonMax
+            latMin: this.lastBounds.latMin,
+            latMax: this.lastBounds.latMax,
+            lonMin: this.lastBounds.lonMin,
+            lonMax: this.lastBounds.lonMax
           }
           // ,select: 'lat lon upvoterCount downvoterCount followerCount category time privacy status',
         })
         .then(locations => {
-          this.reports = severity.getTopSeverity('police', Date.now(), events.center.lat, events.center.lng, locations.data, 25);
+          this.reports = severity.getTopSeverity('police', Date.now(), this.lastCenter.lat, this.lastCenter.lng, locations.data, 25);
           this.reportLocs = this.reports.map(report => ({ position: { lat: report.lat, lng: report.lon } }));
           // navigator.geolocation.getCurrentPosition(position => {
           //   this.reports = severity.getTopSeverity('police', Date.now(), position.coords.latitude, position.coords.longitude, locations.data, 5);
