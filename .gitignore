@@ -20,3 +20,4 @@ yarn-error.log*
 ._.DS_Store
 
 *.zip
+*.csv
