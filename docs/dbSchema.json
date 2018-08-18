@@ -7,6 +7,7 @@
         "status": "oneof ['pending', 'solved', 'archived']",
         "reportingUser": "user",
         "message": "string",
+        "category": "string, oneof the catogories",
         "showDetail": "boolean",
         "upvoters": "listof user",
         "downvoters": "listof user",
