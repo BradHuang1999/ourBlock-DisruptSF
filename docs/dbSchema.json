@@ -1,8 +1,9 @@
 {
     "report": {
-        "lat": "double",
-        "lon": "double",
+        "lat": "double [-90, 90]",
+        "lon": "double [-90, 90]",
         "time": "timestamp",
+        "severity": "double [0, 1]",
         "reportingUser": "user",
         "message": "string",
         "showDetail": "boolean",
