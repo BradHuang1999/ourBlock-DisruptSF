@@ -1,0 +1,43 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link href="https://fonts.googleapis.com/css?family=Josefin+Slab|Roboto" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+
+<body>
+    <!-- Modal Trigger -->
+    <div onclick="openModal()" class="col s3 grey lighten-4">
+        <img src="report.png" alt="">
+    </div>
+
+    <!-- Modal Structure -->
+    <div id="new-report-modal" class="modal modal-fixed-footer">
+        <div class="modal-content" style="background: linear-gradient(#C0E8C3 1%, #FFFFFF 99%); padding: 40px;">
+            <div style="font-size: 50px">
+                <h2>Report an Incident</h2>
+                <p>Thank you for making our community safer. </p>
+                <p>If this is an emergency, please call 911 first!</p>
+            </div>
+            <div style="background: linear-gradient(90deg, #C0E8C3 50%, #FFFFFF 50%);">
+
+            </div>
+        </div>
+        <div style="height: 10%;" class="modal-footer">
+            <a  style="font-size: 60px; height: 100%;" href="#!" class="modal-close waves-effect waves-green btn-flat">Send</a>
+            <a style="font-size: 60px; height: 100%" href="#" class="modal-close waves-effect waves-green btn-flat">Cancel</a>
+        </div>
+    </div>
+
+    <script>
+        var instance;
+
+        $(document).ready(function() {
+            $('.modal').modal();
+            instance = M.Modal.getInstance(document.getElementById('new-report-modal'));
+        });
+
+        function openModal() {
+            instance.open();
+        }
+    </script>
+</body>

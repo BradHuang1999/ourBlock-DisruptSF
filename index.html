@@ -77,10 +77,7 @@
     }
 
     .slide-fade-enter,
-    .slide-fade-leave-to
-
-    /* .slide-fade-leave-active below version 2.1.8 */
-      {
+    .slide-fade-leave-to {
       transform: translateY(100px);
       opacity: 0;
     }
@@ -325,7 +322,7 @@
               <label class="label-icon" for="search-example">
               </label>
               <input style="font-size:40px;" id="search-input" type="search" required="" placeholder="Enter a few keywords..."
-                onkeyup="searchKeyUp(event)">
+                onkeyup="searchKeyUp(event)" autocomplete="off">
               <i onclick="search()" class="material-icons left large" style="font-size: 80px; margin-top: 6.5%; position:absolute;">search</i>
             </div>
           </div>
@@ -390,6 +387,7 @@
       }
     }
 
+
     function commentKeyUp(event) {
       if (event.keyCode === 13) {
         comment(document.getElementById('comment-input'));
@@ -438,13 +436,18 @@
     function comment(element) {
       var reportID = element.parentNode.parentNode.firstElementChild.firstElementChild.innerHTML;
       reportID = reportID.substring(reportID.lastIndexOf('#') + 1);
+      reportID = reportID.substring(0, 20);
       var message = element.value;
 
       addComment(reportID, message);
 
       for (var i = 0; i < vm.reports.length; i++) {
         if (vm.reports[i]._id === reportID) {
-          vm.reports[i].comments.push(message);
+          vm.reports[i].comments.push({
+            message: message,
+            userId: vm.username,
+            timestamp: Date.now()
+          });
         }
       }
 
@@ -611,6 +614,8 @@
       var elems = document.querySelectorAll('.fixed-action-btn');
       var instances = M.FloatingActionButton.init(elems, {});
     });
+
+    var voted = false;
   </script>
 
   <script>
@@ -629,6 +634,9 @@
     function upvote(element) {
       var reportId = element.parentNode.parentNode.firstElementChild.firstElementChild.innerHTML;
       reportId = reportId.substring(reportId.lastIndexOf('#') + 1);
+      reportId = reportId.substring(0, 20);
+
+      follow(reportId);
 
       axios.post('https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/interact', {
         'userId': vm.username,
@@ -641,26 +649,61 @@
           vm.reports[i].upvoterCount++;
         }
       }
+
+      voted = true;
     }
 
-    function downvote(element) {
-      var reportId = element.parentNode.parentNode.firstElementChild.firstElementChild.innerHTML;
-      reportId = reportId.substring(reportId.lastIndexOf('#') + 1);
+    var followed = false;
 
-      axios.post('https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/interact', {
-        'userId': vm.username,
-        'reportId': reportId,
-        'action': 'downvote'
-      });
+    function follow(reportId) {
+      if (!followed) {
+        axios.post('https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/interact', {
+          'userId': vm.username,
+          'reportId': reportId,
+          'action': 'follow'
+        });
 
-      for (var i = 0; i < vm.reports.length; i++) {
-        if (vm.reports[i]._id === reportId) {
-          vm.reports[i].downvoterCount++;
+        for (var i = 0; i < vm.reports.length; i++) {
+          if (vm.reports[i]._id === reportId) {
+            vm.reports[i].followerCount++;
+            followed = true;
+          }
         }
       }
     }
 
+    function downvote(element) {
+      if (!voted) {
+        var reportId = element.parentNode.parentNode.firstElementChild.firstElementChild.innerHTML;
+        reportId = reportId.substring(reportId.lastIndexOf('#') + 1);
+        reportId = reportId.substring(0, 20);
+
+        axios.post('https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/interact', {
+          'userId': vm.username,
+          'reportId': reportId,
+          'action': 'downvote'
+        });
+
+        for (var i = 0; i < vm.reports.length; i++) {
+          if (vm.reports[i]._id === reportId) {
+            vm.reports[i].downvoterCount++;
+          }
+        }
+      }
+
+      voted = true;
+    }
+
     function addComment(reportId, commentMessage) {
+      // console.log({
+      //   'userId': vm.username,
+      //   'reportId': reportId,
+      //   'message': commentMessage,
+      //   'timestamp': Date.now()
+      // })
+
+      follow(reportId);
+
       axios.post('https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/comment', {
         'userId': vm.username,
         'reportId': reportId,
@@ -695,11 +738,11 @@
         formatComments: function (comments) {
           var output = '';
           for (var i = 0; i < comments.length - 1; i++) {
-            output += 'user' + comments[i].userId + ' : ' + comments[i].message + '\n';
+            output += comments[i].userId + ' : ' + comments[i].message + '\n';
           }
 
           if (comments.length !== 0) {
-            output += 'user' + comments[comments.length - 1].userId + ' : ' + comments[comments.length - 1].message +
+            output += comments[comments.length - 1].userId + ' : ' + comments[comments.length - 1].message +
               '\n';
           }
           return output;
