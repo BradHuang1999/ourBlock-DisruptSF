@@ -1,0 +1,25 @@
+{
+    "report": {
+        "lat": "double",
+        "lon": "double",
+        "time": "timestamp",
+        "reportingUser": "user",
+        "message": "string",
+        "showDetail": "boolean",
+        "upvoters": "listof user",
+        "downvoters": "listof user",
+        "followers": "listof user",
+        "comments": "listof comment"
+    },
+
+    "user (data will only be hardcoded)": {
+        "name": "string",
+        "handle": "unique string"
+    },
+
+    "comment": {
+        "user": "user",
+        "anonymous": "boolean",
+        "message": "string"
+    }
+}
