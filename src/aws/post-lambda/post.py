@@ -26,35 +26,47 @@ def post(event,context):
     query_dict = {
       'query': {
         'bool': {
-          'must': {
+          'must': [
+            {
             'term': {
               'Year':event['body']['Year']
+            }
             },
+            {
             'term': {
               'Month':event['body']['Month']
+            }
             },
+            {
             'range': {
               'Day': {
                 'gte':event['body']['day']-3,
                 'lte':event['body']['day']
               }
+            }
             },
+            {
             'range': {
               'Latitude': {
                 'gte':event['body']['Latitude']-0.0005,
                 'lte':event['body']['Latitude']+0.0005
               }
+            }
             },
+            {
             'range': {
               'Longitude': {
                 'gte':event['body']['Longitude']-0.0005,
                 'lte':event['body']['Longitude']+0.0005
               }
+            }
             },
+            {
             'term': {
               'Class':event['body']['Class']
             }
-          }
+            }
+          ]
         }
       }
     }

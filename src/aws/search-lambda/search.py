@@ -28,18 +28,14 @@ def search(event,context):
     'filter':{
       'bool':{
         'must':[
-        ],
-        'should':[
         ]
       }
     }
   }
   and_array = query_body['filter']['bool']['must']
-  or_array = query_body['filter']['bool']['should']
   for key in event:
     if key in ['category','reportingUser']:
-      for item in event[key]:
-        or_array.append({'term':{key:item}})
+      and_array.append({'terms':{key:event[key]}})
     elif key in ['severity','time']:
       and_array.append({'range':{key:{'gte':event[key]}}})
     elif key=='location':
@@ -50,7 +46,6 @@ def search(event,context):
     elif key=='select':
       query_body['_source'] = event['select']
   query_body['filter']['bool']['must'] = and_array
-  query_body['filter']['bool']['should'] = or_array
   es = connectES('search-hacktps-2xwfbumjkznhuydichzbdudpe4.us-east-2.es.amazonaws.com') #add endpoint
   data = es.search(size=10000,from_=0,body=query_body)
   def convert_coord_to_miles(lat1,lon1,lat2,lon2):
