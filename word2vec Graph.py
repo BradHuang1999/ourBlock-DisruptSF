@@ -31,7 +31,7 @@ corpus = [
           "Someone is bleeding a lot", 
           "There is a person who is bleeding a lot", 
           "He's pulling out a gun", 
-          "He has a knife"
+          "He has a knife",
           'He has a gun',
           'He has a knife',
           'He will shoot',
@@ -73,7 +73,7 @@ corpus = [
           "He stole my belongings", 
           "Somebody robbed me", 
           "laptop was stolen", 
-          "computer was stolen"
+          "computer was stolen",
           "He stole my bike", 
           "She stole my bike", 
           "My bike is gone", 
@@ -134,7 +134,7 @@ for text in corpus:
 def excess_word_remover(corpus):
     filler_words = ['was', 'to', 'from', 'off', 'after', 'an', 'because', 'on', 
                   'up', 'person', 'like', 'going', 'herself', 'himself', 'he', 
-                  "I'm", "she's", "he's", 'there', 'is', 'a', 'will', 'be', 
+                  "i'm", "she's", "he's", 'there', 'is', 'a', 'will', 'be', 
                   'my', 'was', 'on', 'like', 'this', 'seems', 'I', 'i', 
                   'think', 'the', 'has', "don't", 'into', 'that', 'a', 'lot',
                   'a']
