@@ -1,11 +1,10 @@
 <template>
   <div class="md-layout max-100">
     <div class="md-layout-item md-size-25 max-100">
-      <h1>ourBlock Logo</h1>
-      <h2>Crimes by hour graph</h2>
-      <h2>Crimes by category bar chart</h2>
+      <Linegraph />
+      <Bargraph />
       <h2>Reports from last 7 days</h2>
-      <h2>Crimes by status pie chart</h2>
+      <Piegraph />
     </div>
     <div class="md-layout-item md-size-40 max-100">
       <Map
@@ -23,15 +22,18 @@
 </template>
 
 <script>
+  import axios from 'axios';
   import Card from './components/Card.vue'
   import Map from './components/Map.vue'
-  import axios from 'axios';
+  import Bargraph from './components/Bargraph.vue'
+  import Linegraph from './components/Linegraph.vue'
+  import Piegraph from './components/Piegraph.vue'
 
   export default {
     name: 'app',
 
     components: {
-      Card, Map
+      Card, Map, Bargraph, Linegraph, Piegraph
     },
 
     data() {
@@ -49,11 +51,11 @@
             lonMin: bounds.lonMin,
             lonMax: bounds.lonMax
           },
-          select: 'lat lon upvoterCount downvoterCount followerCount category time',
+          select: 'lat lon upvoterCount downvoterCount followerCount category time privacy status',
         })
         .then(locations => {
           // console.log(locations.data);
-          // this.reports = locations.data;
+          this.reports = locations.data.slice(0,3);
         })
       }
     }

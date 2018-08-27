@@ -4,7 +4,7 @@
       :center="center"
       :zoom="zoom"
       style="width:100%; height: 700px;"
-      @bounds_changed="update($event)"
+      @bounds_changed="changeBounds($event)"
     >
       <gmap-marker
         :key="index"
@@ -26,40 +26,58 @@ export default {
       center: { lat: 37.7833570391, lng: -122.4167107338 },
       zoom: 18,
       markers: [],
+      prevBounds: {},
+      currBounds: {
+        lonMin: -122.4177107338,
+        lonMax: -122.4157107338,
+        latMin: 37.7823570391,
+        latMax: 37.7843570391 
+      }
     };
   },
 
   mounted() {
-    // console.log(this.getBounds());
-    this.getPins(-122.4177107338, -122.4157107338, 37.7823570391, 37.7843570391);
+    setInterval(() => {
+      if (this.prevBounds !==  this.currBounds){
+        this.getPins(this.currBounds);
+        this.$emit('searchBounds', this.currBounds)
+        this.prevBounds = this.currBounds;
+      }
+    }, 1000);
   },
 
   methods: {
-    update(event) {
-      // console.log(event.b.b, event.b.f, event.f.b, event.f.f);
-      this.getPins(event.b.b, event.b.f, event.f.b, event.f.f);
+    changeBounds(event) {
+      if (event){
+        this.currBounds = {
+          lonMin: event.b.b,
+          lonMax: event.b.f,
+          latMin: event.f.b,
+          latMax: event.f.f
+        };
+      }
     },
 
-    getPins(lonMin, lonMax, latMin, latMax) {
+    getPins(bounds) {
       axios.post('https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/search', {
         location: {
-          latMin: latMin,
-          latMax: latMax,
-          lonMin: lonMin,
-          lonMax: lonMax
+          latMin: bounds.latMin,
+          latMax: bounds.latMax,
+          lonMin: bounds.lonMin,
+          lonMax: bounds.lonMax
         },
-        select: 'lat lon',
+        select: 'lat lon upvoterCount downvoterCount followerCount category time',
       })
       .then(locations => {
-          console.log("locations", locations);
-          locations.data.forEach(location => {
-            this.markers.push({
-              position: {
-                lat: location.lat,
-                lng: location.lon
-              }
-            })
-          });
+        console.log("locations", locations);
+        locations.data.forEach(location => {
+          this.markers.push({
+            position: {
+              lat: location.lat,
+              lng: location.lon
+            }
+          })
+        });
       })
     },
 

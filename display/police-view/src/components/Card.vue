@@ -10,14 +10,13 @@
       </md-card-header>
 
       <md-card-content>
-
+        <pre>{{ locData }}</pre>
       </md-card-content>
 
       <md-card-expand>
         <md-card-actions md-alignment="space-between">
           <md-field>
-            <label for="status">Case Status</label>
-            <md-select v-model="status">
+            <md-select v-model="status" placeholder="Case Status">
               <md-option value="pending">Pending</md-option>
               <md-option value="in progress">In Progress</md-option>
               <md-option value="solved by police">Solved by Police</md-option>
@@ -26,8 +25,7 @@
           </md-field>
 
           <md-field>
-            <label for="privacy">Privacy Status</label>
-            <md-select v-model="privacy">
+            <md-select v-model="privacy" placeholder="Privacy Status">
               <md-option value="public">Public</md-option>
               <md-option value="private">Private</md-option>
             </md-select>
@@ -53,7 +51,29 @@
 
 <script>
   export default {
-    name: 'CardExpansion'
+    name: 'CardExpansion',
+    props: {
+      locData: {
+        _id: String,
+        lon: Number,
+        lat: Number,
+        upvoterCount: Number,
+        downvoterCount: Number,
+        followerCount: Number,
+        category: String,
+        time: Number,
+        privacy: String,
+        status: String
+      }
+    },
+    data() {
+      return {
+        otherData: {
+          lat: 22,
+          lon: 23
+        }
+      }
+    }
   }
 </script>
 
