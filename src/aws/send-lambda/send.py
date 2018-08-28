@@ -1,9 +1,10 @@
 import boto3
 import json
 
+sqs = boto3.resource('sqs')
+
 def send(event,context):
   event = json.loads(event['body'])
-  sqs = boto3.resource('sqs')
   try:
     sqs.create_queue(QueueName=event['id'])
   except Exception as e:

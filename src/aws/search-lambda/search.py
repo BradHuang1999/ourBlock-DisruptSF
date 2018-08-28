@@ -3,21 +3,23 @@ from elasticsearch import Elasticsearch,RequestsHttpConnection
 import json
 from math import cos,sqrt
 
+def connectES(esEndPoint):
+  print ('Connecting to the ES Endpoint {0}'.format(esEndPoint))
+  try:
+    esClient = Elasticsearch(
+    hosts=[{'host': esEndPoint, 'port': 443}],
+    use_ssl=True,
+    verify_certs=True,
+    connection_class=RequestsHttpConnection)
+    return esClient
+  except Exception as E:
+    print("Unable to connect to {0}".format(esEndPoint))
+    print(E)
+    exit(3)
+es = connectES('search-hacktps-2xwfbumjkznhuydichzbdudpe4.us-east-2.es.amazonaws.com')
+
 def search(event,context):
   event = json.loads(event['body'])
-  def connectES(esEndPoint):
-    print ('Connecting to the ES Endpoint {0}'.format(esEndPoint))
-    try:
-      esClient = Elasticsearch(
-      hosts=[{'host': esEndPoint, 'port': 443}],
-      use_ssl=True,
-      verify_certs=True,
-      connection_class=RequestsHttpConnection)
-      return esClient
-    except Exception as E:
-      print("Unable to connect to {0}".format(esEndPoint))
-      print(E)
-      exit(3)
   query_body = {
     'query':{
       'query_string':{
@@ -46,7 +48,6 @@ def search(event,context):
     elif key=='select':
       query_body['_source'] = event['select']
   query_body['filter']['bool']['must'] = and_array
-  es = connectES('search-hacktps-2xwfbumjkznhuydichzbdudpe4.us-east-2.es.amazonaws.com') #add endpoint
   data = es.search(index='data',doc_type='crime',size=10000,from_=0,body=query_body)
   def convert_coord_to_miles(lat1,lon1,lat2,lon2):
     #assumes roughly same latitude

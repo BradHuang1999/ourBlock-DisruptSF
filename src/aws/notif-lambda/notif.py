@@ -1,9 +1,10 @@
 import boto3
 import json
 
+sqs = boto3.resource('sqs')
+
 def notif(event,context):
   event = json.loads(event['body'])
-  sqs = boto3.resource('sqs')
   messages = []
   try:
     queue = sqs.get_queue_by_name(QueueName=event['id'])
