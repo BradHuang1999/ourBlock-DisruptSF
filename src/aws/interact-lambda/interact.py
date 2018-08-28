@@ -21,7 +21,8 @@ es = connectES('search-hacktps-2xwfbumjkznhuydichzbdudpe4.us-east-2.es.amazonaws
 def interact(event,context):
   event = json.loads(event['body'])
   user = event['userId']
-  field = event['action']+'rs' if event['action'].endswith('e') else event['action']+'ers'
+  field = event['action']+('' if event['action'].endswith('e') else 'e')+'rs'
+  count_field = event['action']+('' if event['action'].endswith('e') else 'e')+'rCount'
   es.update(index='data',doc_type='crime',id=event['reportId'],body={
     'script':{
       'source':'if (ctx._source.%s.empty) {ctx._source.%s=params.array} else {ctx._source.%s.add(params.item)}' % (field,field,field),
@@ -30,6 +31,12 @@ def interact(event,context):
         'array':[user],
         'item':user
       }
+    }
+  })
+  es.update(index='data',doc_type='crime',id=event['reportId'],body={
+    'script':{
+      'source':'if (ctx._source.%s.empty) {ctx._source.%s = 1} else {ctx._source.%s+=1}' % (count_field,count_field,count_field),
+      'lang':'painless'
     }
   })
   return { 

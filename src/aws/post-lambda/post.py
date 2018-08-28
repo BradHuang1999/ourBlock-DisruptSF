@@ -24,7 +24,28 @@ def post(event,context):
   event = json.loads(event['body'])
   event['status'] = 'pending'
   event['followers'] = [event['reportingUser']]
+  defaults = {
+    lat: 0,
+    lon: 0,
+    time: 0,
+    privacy: "public",
+    reportingUser: "system",
+    anonymous: false,
+    message: "",
+    category: "other",
+    upvoters: [],
+    downvoters: [],
+    comments: [],
+    upvoterCount: 0,
+    downvoterCount: 0,
+    followerCount: 1,
+    commentCount: 0
+  }
+  for key in defaults:
+    if key not in event:
+      event[key] = defaults[key]
   es.index(index='data',doc_type='crime',body=event)
+  '''
   try:
     query_dict = {
       'query': {
@@ -79,6 +100,7 @@ def post(event,context):
   if 'Class' not in event or event['Class'] in ['Assault','Homicide','Sexual Assault'] or (event['Confidence']>0.5 and num_results>1):
     requests.post('https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/send',data={'id':'_all','body':'Crime reported: '+event['Description'] if 'Description' in event else 'no description.'})
   #sendCrime(event['Latitude'],event['Longitude'],event['Description'])
+  '''
   return { 
     'isBase64Encoded': True,
     'statusCode': 200,

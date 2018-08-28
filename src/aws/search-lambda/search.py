@@ -38,7 +38,7 @@ def search(event,context):
   for key in event:
     if key in ['category','reportingUser']:
       and_array.append({'terms':{key:event[key]}})
-    elif key in ['severity','time']:
+    elif key in ['severity','time','upvoterCount','downvoterCount','followerCount','commentCount']:
       and_array.append({'range':{key:{'gte':event[key]}}})
     elif key=='location':
       if all([x in event[key] for x in ['lon','lat','radiusLon','radiusLat']]):

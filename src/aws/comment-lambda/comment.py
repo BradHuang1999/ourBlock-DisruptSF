@@ -33,6 +33,12 @@ def comment(event,context):
       }
     }
   })
+  es.update(index='data',doc_type='crime',id=event['reportId'],body={
+    'script':{
+      'source':'if (ctx._source.commentCount.empty) {ctx._source.commentCount = 1} else {ctx._source.commentCount+=1}',
+      'lang':'painless'
+    }
+  })
   source_doc = es.get(index='data',doc_type='crime',id=event['reportId'])['_source']
   if 'followers' in source_doc:
     for follower in source_doc['followers']:
