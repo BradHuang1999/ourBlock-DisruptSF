@@ -25,7 +25,7 @@ def interact(event,context):
   count_field = event['action']+('' if event['action'].endswith('e') else 'e')+'rCount'
   es.update(index='data',doc_type='crime',id=event['reportId'],body={
     'script':{
-      'source':'if (ctx._source.containsKey(\"%s\")) {ctx._source.%s=params.array} else {ctx._source.%s.add(params.item)}' % (field,field,field),
+      'source':'if (!ctx._source.containsKey(\"%s\")) {ctx._source.%s=params.array} else {ctx._source.%s.add(params.item)}' % (field,field,field),
       'lang':'painless',
       'params':{
         'array':[user],
@@ -35,7 +35,7 @@ def interact(event,context):
   })
   es.update(index='data',doc_type='crime',id=event['reportId'],body={
     'script':{
-      'source':'if (ctx._source.containsKey(\"%s\")) {ctx._source.%s = 1} else {ctx._source.%s+=1}' % (count_field,count_field,count_field),
+      'source':'if (!ctx._source.containsKey(\"%s\")) {ctx._source.%s = 1} else {ctx._source.%s+=1}' % (count_field,count_field,count_field),
       'lang':'painless'
     }
   })

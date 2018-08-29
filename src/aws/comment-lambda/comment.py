@@ -25,7 +25,7 @@ def comment(event,context):
   del new_comment['reportId']
   es.update(index='data',doc_type='crime',id=event['reportId'],body={
     'script':{
-      'source':'if (ctx._source.containsKey(\"comments\")) {ctx._source.comments=params.array} else {ctx._source.comments.add(params.item)}',
+      'source':'if (!ctx._source.containsKey(\"comments\")) {ctx._source.comments=params.array} else {ctx._source.comments.add(params.item)}',
       'lang':'painless',
       'params':{
         'array':[new_comment],
@@ -35,7 +35,7 @@ def comment(event,context):
   })
   es.update(index='data',doc_type='crime',id=event['reportId'],body={
     'script':{
-      'source':'if (ctx._source.containsKey(\"commentCount\")) {ctx._source.commentCount = 1} else {ctx._source.commentCount+=1}',
+      'source':'if (!ctx._source.containsKey(\"commentCount\")) {ctx._source.commentCount = 1} else {ctx._source.commentCount+=1}',
       'lang':'painless'
     }
   })

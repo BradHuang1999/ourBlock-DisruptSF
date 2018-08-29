@@ -20,6 +20,19 @@ es = connectES('search-hacktps-2xwfbumjkznhuydichzbdudpe4.us-east-2.es.amazonaws
 
 def search(event,context):
   event = json.loads(event['body'])
+  if 'reportId' in event:
+    source_doc = es.get(index='data',doc_type='crime',id=event['reportId'])['_source']
+    return { 
+      'isBase64Encoded': True,
+      'statusCode': 200,
+      'body': json.dumps(source_doc),
+      'headers': {
+         'Content-Type': 'application/json', 
+         'Access-Control-Allow-Origin': '*' 
+      }
+    }
+  if 'select' in event:
+    event['select'] = event['select'].split(' ')
   query_body = {
     'query':{
       'bool':{
