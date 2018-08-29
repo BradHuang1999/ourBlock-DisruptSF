@@ -47,3 +47,9 @@ Get summary stats: https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/s
 * Input arguments: none
 
 * Output results: a data dictionary with one key for each possible status, indicating the number of reports with that status in the past week, as well as a key "total", which is the total number of reports in the last week, JSON encoded
+
+Bulk upload: https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/bulk-upload
+
+* Input arguments: \[{"column1":"value1","column2":"value2",...},{"column1":"value3","column2":"value4",...},...\]
+
+* Output results: none

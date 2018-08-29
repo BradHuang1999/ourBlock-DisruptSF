@@ -53,7 +53,7 @@ def search(event,context):
   and_array = query_body['query']['bool']['filter']
   for key in event:
     if key in ['category','reportingUser']:
-      and_array.append({'terms':{key:event[key]}})
+      and_array.append({'term':{key:event[key]}})
     elif key in ['severity','time','upvoterCount','downvoterCount','followerCount','commentCount']:
       and_array.append({'range':{key:{'gte':event[key]}}})
     elif key=='location':
