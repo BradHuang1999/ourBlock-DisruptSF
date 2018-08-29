@@ -57,8 +57,8 @@ def bulk_upload(event,context):
       }
     }
   })
-  event = json.loads(event['body'])
-  bulk(es,[{'_index':'data','_type':'crime','_op_type':'index','_source':item} for item in event])
+  data = json.loads(open('Cleaned-Data.json').read())
+  bulk(es,[{'_index':'data','_type':'crime','_op_type':'index','_source':item} for item in data])
   return { 
         'isBase64Encoded': True,
         'statusCode': 200,
