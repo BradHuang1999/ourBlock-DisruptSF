@@ -22,6 +22,7 @@ def search(event,context):
   event = json.loads(event['body'])
   if 'reportId' in event:
     source_doc = es.get(index='data',doc_type='crime',id=event['reportId'])['_source']
+    source_doc['_id'] = event['reportId']
     return { 
       'isBase64Encoded': True,
       'statusCode': 200,
@@ -76,10 +77,15 @@ def search(event,context):
         lat,lon = event['location']['lat'],event['location']['lon']
         item['_source']['distance'] = convert_coord_to_miles(item['_source']['lat'],item['_source']['lon'],lat,lon)
   #incorporate vishal's code
+  output = []
+  for item in data['hits']['hits']:
+    row = item['_source']
+    row['_id'] = item['_id']
+    output.append(row)
   return { 
     'isBase64Encoded': True,
     'statusCode': 200,
-    'body': json.dumps(data['hits']['hits']),
+    'body': json.dumps(output),
     'headers': {
        'Content-Type': 'application/json', 
        'Access-Control-Allow-Origin': '*' 
