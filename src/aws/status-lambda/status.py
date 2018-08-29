@@ -27,12 +27,12 @@ def status(event,context):
       'status':event['status']
     }
   })
-  lambda_client.invoke(FunctionName='comment',Paylod={'body':json.dumps({
+  lambda_client.invoke(FunctionName='comment',Payload=json.dumps({'body':json.dumps({
     'userId':'sfpd',
     'message':'San Francisco Police: Thanks for all your collaboration! This report is now %s status' % event['status'],
     'reportId':event['reportId'],
     'timestamp':time.time()*1000
-  })})
+  })}))
   return { 
     'isBase64Encoded': True,
     'statusCode': 200,

@@ -117,7 +117,7 @@ class Elasticsearch(object):
             ['localhost:443', 'other_host:443'],
             # turn on SSL
             use_ssl=True,
-            # make sure we verify SSL certificates (off by default)
+            # make sure we verify SSL certificates
             verify_certs=True,
             # provide a path to CA certs on disk
             ca_certs='/path/to/CA_certs'
@@ -131,7 +131,7 @@ class Elasticsearch(object):
             ['localhost:443', 'other_host:443'],
             # turn on SSL
             use_ssl=True,
-            # make sure we verify SSL certificates (off by default)
+            # make sure we verify SSL certificates
             verify_certs=True,
             # provide a path to CA certs on disk
             ca_certs='/path/to/CA_certs',
@@ -151,12 +151,12 @@ class Elasticsearch(object):
             ],
             verify_certs=True
         )
-    
+
     By default, `JSONSerializer
-    <https://github.com/elastic/elasticsearch-py/blob/master/elasticsearch/serializer.py#L24>`_ 
+    <https://github.com/elastic/elasticsearch-py/blob/master/elasticsearch/serializer.py#L24>`_
     is used to encode all outgoing requests.
     However, you can implement your own custom serializer::
-    
+
         from elasticsearch.serializer import JSONSerializer
 
         class SetEncoder(JSONSerializer):
@@ -166,7 +166,7 @@ class Elasticsearch(object):
                 if isinstance(obj, Something):
                     return 'CustomSomethingRepresentation'
                 return JSONSerializer.default(self, obj)
-        
+
         es = Elasticsearch(serializer=SetEncoder())
 
     """
@@ -547,14 +547,15 @@ class Elasticsearch(object):
             doc_type, id, '_update'), params=params, body=body)
 
     @query_params('_source', '_source_exclude', '_source_include',
-        'allow_no_indices', 'analyze_wildcard', 'analyzer',
-        'batched_reduce_size', 'default_operator', 'df', 'docvalue_fields',
-        'expand_wildcards', 'explain', 'from_', 'ignore_unavailable', 'lenient',
-        'max_concurrent_shard_requests', 'pre_filter_shard_size', 'preference',
-        'q', 'request_cache', 'routing', 'scroll', 'search_type', 'size',
-        'sort', 'stats', 'stored_fields', 'suggest_field', 'suggest_mode',
-        'suggest_size', 'suggest_text', 'terminate_after', 'timeout',
-        'track_scores', 'track_total_hits', 'typed_keys', 'version')
+        'allow_no_indices', 'allow_partial_search_results', 'analyze_wildcard',
+        'analyzer', 'batched_reduce_size', 'default_operator', 'df',
+        'docvalue_fields', 'expand_wildcards', 'explain', 'from_',
+        'ignore_unavailable', 'lenient', 'max_concurrent_shard_requests',
+        'pre_filter_shard_size', 'preference', 'q', 'request_cache', 'routing',
+        'scroll', 'search_type', 'size', 'sort', 'stats', 'stored_fields',
+        'suggest_field', 'suggest_mode', 'suggest_size', 'suggest_text',
+        'terminate_after', 'timeout', 'track_scores', 'track_total_hits',
+        'typed_keys', 'version')
     def search(self, index=None, doc_type=None, body=None, params=None):
         """
         Execute a search query and get back search hits that match the query.
@@ -574,6 +575,10 @@ class Elasticsearch(object):
         :arg allow_no_indices: Whether to ignore if a wildcard indices
             expression resolves into no concrete indices. (This includes `_all`
             string or when no indices have been specified)
+        :arg allow_partial_search_results: Set to false to return an overall
+            failure if the request would produce partial results. Defaults to
+            True, which will allow partial results in the case of timeouts or
+            partial failures
         :arg analyze_wildcard: Specify whether wildcard and prefix queries
             should be analyzed (default: false)
         :arg analyzer: The analyzer to use for the query string
@@ -1307,34 +1312,6 @@ class Elasticsearch(object):
             raise ValueError("Empty value passed for a required argument 'id'.")
         return self.transport.perform_request('GET', _make_path('_scripts', id),
             params=params)
-
-    @query_params()
-    def put_template(self, id, body, params=None):
-        """
-        Create a search template.
-        `<http://www.elastic.co/guide/en/elasticsearch/reference/current/search-template.html>`_
-
-        :arg id: Template ID
-        :arg body: The document
-        """
-        for param in (id, body):
-            if param in SKIP_IN_PATH:
-                raise ValueError("Empty value passed for a required argument.")
-        return self.transport.perform_request('PUT', _make_path('_search',
-            'template', id), params=params, body=body)
-
-    @query_params()
-    def get_template(self, id, params=None):
-        """
-        Retrieve a search template.
-        `<http://www.elastic.co/guide/en/elasticsearch/reference/current/search-template.html>`_
-
-        :arg id: Template ID
-        """
-        if id in SKIP_IN_PATH:
-            raise ValueError("Empty value passed for a required argument 'id'.")
-        return self.transport.perform_request('GET', _make_path('_search',
-            'template', id), params=params)
 
     @query_params()
     def delete_script(self, id, params=None):

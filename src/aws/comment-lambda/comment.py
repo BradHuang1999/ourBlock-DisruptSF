@@ -25,7 +25,7 @@ def comment(event,context):
   del new_comment['reportId']
   es.update(index='data',doc_type='crime',id=event['reportId'],body={
     'script':{
-      'source':'if (ctx._source.comments.empty) {ctx._source.comments=params.array} else {ctx._source.comments.add(params.item)}',
+      'source':'if (ctx._source.containsKey(\"comments\")) {ctx._source.comments=params.array} else {ctx._source.comments.add(params.item)}',
       'lang':'painless',
       'params':{
         'array':[new_comment],
@@ -35,17 +35,17 @@ def comment(event,context):
   })
   es.update(index='data',doc_type='crime',id=event['reportId'],body={
     'script':{
-      'source':'if (ctx._source.commentCount.empty) {ctx._source.commentCount = 1} else {ctx._source.commentCount+=1}',
+      'source':'if (ctx._source.containsKey(\"commentCount\")) {ctx._source.commentCount = 1} else {ctx._source.commentCount+=1}',
       'lang':'painless'
     }
   })
   source_doc = es.get(index='data',doc_type='crime',id=event['reportId'])['_source']
   if 'followers' in source_doc:
     for follower in source_doc['followers']:
-      lambda_client.invoke(FunctionName='send',Paylod={'body':json.dumps({
+      lambda_client.invoke(FunctionName='send',Payload=json.dumps({'body':json.dumps({
         'id':follower,
         'body':'A new update to a report you follow: %s: %s' % (new_comment['userId'],new_comment['message'])
-      })})
+      })}))
   return { 
     'isBase64Encoded': True,
     'statusCode': 200,

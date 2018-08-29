@@ -25,21 +25,21 @@ def post(event,context):
   event['status'] = 'pending'
   event['followers'] = [event['reportingUser']]
   defaults = {
-    lat: 0,
-    lon: 0,
-    time: 0,
-    privacy: "public",
-    reportingUser: "system",
-    anonymous: false,
-    message: "",
-    category: "other",
-    upvoters: [],
-    downvoters: [],
-    comments: [],
-    upvoterCount: 0,
-    downvoterCount: 0,
-    followerCount: 1,
-    commentCount: 0
+    'lat': 0,
+    'lon': 0,
+    'time': 0,
+    'privacy': "public",
+    'reportingUser': "system",
+    'anonymous': False,
+    'message': "",
+    'category': "other",
+    'upvoters': [],
+    'downvoters': [],
+    'comments': [],
+    'upvoterCount': 0,
+    'downvoterCount': 0,
+    'followerCount': 1,
+    'commentCount': 0
   }
   for key in defaults:
     if key not in event:
