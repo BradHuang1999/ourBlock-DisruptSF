@@ -24,15 +24,16 @@ def status(event,context):
   event = json.loads(event['body'])
   es.update(index='data',doc_type='crime',id=event['reportId'],body={
     'doc':{
-      'status':event['status']
+      event['field']:event['value']
     }
   })
-  lambda_client.invoke(FunctionName='comment',Payload=json.dumps({'body':json.dumps({
-    'userId':'sfpd',
-    'message':'San Francisco Police: Thanks for all your collaboration! This report is now %s status' % event['status'],
-    'reportId':event['reportId'],
-    'timestamp':time.time()*1000
-  })}))
+  if event['field']=='status':
+    lambda_client.invoke(FunctionName='comment',Payload=json.dumps({'body':json.dumps({
+      'userId':'sfpd',
+      'message':'San Francisco Police: Thanks for all your collaboration! This report is now %s status' % event['value'],
+      'reportId':event['reportId'],
+      'timestamp':time.time()*1000
+    })}))
   return { 
     'isBase64Encoded': True,
     'statusCode': 200,

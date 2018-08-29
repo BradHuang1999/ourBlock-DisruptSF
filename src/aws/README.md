@@ -36,9 +36,9 @@ Comment on a report: https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta
 
 * Output results: none
 
-Change report status: https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/status
+Change report status: https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/update
 
-* Input arguments: {"reportId": report\_id, "status": one of \["pending","in progress","solved by public","solved by police"\]}
+* Input arguments: {"reportId": report\_id, "value": value\_to\_assign, "field": field\_to\_update} (values accepted for "status" field: \["pending","in progress","solved by public","solved by police"\]; values accepted for "privacy" field: \["private","public"\])
 
 * Output results: none
 
