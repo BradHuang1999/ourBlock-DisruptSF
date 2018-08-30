@@ -78,7 +78,32 @@
 <div id="report-details">
   </div>
 
+  <div class="my-container">
+  <div class="card sticky-action">
+                <div class="card-image waves-effect waves-block waves-light">
+                  <img class="activator" src="https://materializecss.com/images/office.jpg">
+                </div>
+                <div class="card-content">
+                  <span class="card-title activator grey-text text-darken-4">Case #{{id}}<i class="material-icons right">more_vert</i></span>
 
+                  <p><a onclick="">More details</a></p>
+                </div>
+
+                <div class="card-action">
+                  <a href="#">Upvote</a>
+                  <a href="#">Downvote</a>
+                </div>
+
+                <div class="card-reveal">
+                  <span class="card-title grey-text text-darken-4">Details<i class="material-icons right">close</i></span>
+                  <p>Description: {{description}}</p>
+                  <p>Date: {{date}}</p>
+                  <p>Votes: {{votes}}</p>
+                  <p>ID: {{id}}</p>
+                </div>
+              </div>
+
+            </div>
 
   </body>
 
