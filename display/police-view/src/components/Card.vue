@@ -2,21 +2,36 @@
   <div class="card-expansion">
     <md-card>
       <md-card-header>
-        <div class="md-title">Title goes here</div>
-        <div class="md-subhead">Subtitle here</div>
+        <div style="text-align: center;">
+          Homicide
+          <md-icon>location_on</md-icon> 500m
+          <md-icon>warning</md-icon> 74
+        </div>
       </md-card-header>
-      
+
       <md-card-content>
-        <div class="md-title">Title goes here</div>
-        <div class="md-subhead">Subtitle here</div>
+
       </md-card-content>
 
       <md-card-expand>
         <md-card-actions md-alignment="space-between">
-          <div>
-            <md-button>Action</md-button>
-            <md-button>Action</md-button>
-          </div>
+          <md-field>
+            <label for="status">Case Status</label>
+            <md-select v-model="status">
+              <md-option value="pending">Pending</md-option>
+              <md-option value="in progress">In Progress</md-option>
+              <md-option value="solved by police">Solved by Police</md-option>
+              <md-option value="solved by public">Solved by Public</md-option>
+            </md-select>
+          </md-field>
+
+          <md-field>
+            <label for="privacy">Privacy Status</label>
+            <md-select v-model="privacy">
+              <md-option value="public">Public</md-option>
+              <md-option value="private">Private</md-option>
+            </md-select>
+          </md-field>
 
           <md-card-expand-trigger>
             <md-button class="md-icon-button">
