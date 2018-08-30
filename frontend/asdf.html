@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Ourblock</title>
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
+     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.min.js"></script>
+     <link href="https://fonts.googleapis.com/css?family=Josefin+Slab" rel="stylesheet">
+  </head>
+  <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+        position: absolute;
+        top: 0;
+  bottom: -200px;
+  left: 0;
+  right: 0;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        font-family: "Josefin Slab"
+      }
+
+      #add-btn {
+        position: absolute;
+
+      }
+        .my-container {
+          width: 60%;
+          margin: auto;
+          position: relative;
+          top: 400px;
+          font-size: 18px;
+        }
+
+        nav{
+          z-index: 900;
+          top:0px;
+          position: absolute;
+        }
+    </style>
+
+  </head>
+  <body>
+
+    <nav>
+    <div class="nav-wrapper">
+        <a href="#" class="brand-logo" style="padding-left: 20px;">Ourblock</a>
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+        <li><a href="./signUp.html">Notifications</a></li>
+        <li><a href="./signUp.html">Search</a></li>
+        </ul>
+    </div>
+    </nav>
+
+    <div id="map"></div>
+
+    <div id="add-btn" class="fixed-action-btn">
+  <a class="btn-floating btn-large red">
+    <i class="large material-icons">add</i>
+  </a>
+  <ul>
+    <li><a class="btn-floating red"><i class="material-icons">insert_chart</i></a></li>
+    <li><a class="btn-floating yellow darken-1"><i class="material-icons">mode_edit</i></a></li>
+    <li><a class="btn-floating green"><i class="material-icons">publish</i></a></li>
+    <li><a class="btn-floating blue"><i class="material-icons">attach_file</i></a></li>
+  </ul>
+</div>
+
+<div id="report-details">
+  </div>
+
+  <div class="my-container">
+  <div class="card sticky-action">
+                <div class="card-image waves-effect waves-block waves-light">
+                  <img class="activator" src="https://materializecss.com/images/office.jpg">
+                </div>
+                <div class="card-content">
+                  <span class="card-title activator grey-text text-darken-4">Case #{{id}}<i class="material-icons right">more_vert</i></span>
+
+                  <p><a onclick="">More details</a></p>
+                </div>
+
+                <div class="card-action">
+                  <a href="#">Upvote</a>
+                  <a href="#">Downvote</a>
+                </div>
+
+                <div class="card-reveal">
+                  <span class="card-title grey-text text-darken-4">Details<i class="material-icons right">close</i></span>
+                  <p>Description: {{description}}</p>
+                  <p>Date: {{date}}</p>
+                  <p>Votes: {{votes}}</p>
+                  <p>ID: {{id}}</p>
+                </div>
+              </div>
+
+            </div>
+
+  </body>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <script async defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD4RlYes-LFZXhM7OJMryGDnVUf3MbrXUM&callback=initMap">
+    </script>
+
+    <script>
+
+    var userName;
+
+      var map, infoWindow, markers;
+      var points = [];
+
+      function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: 37.7749, lng: -122.4194},
+          zoom: 12,
+        });
+        infoWindow = new google.maps.InfoWindow;
+        markers = [];
+        // Try HTML5 geolocation.
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+            var pos = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            };
+            infoWindow.setPosition(pos);
+            infoWindow.setContent('You are here.');
+            infoWindow.open(map);
+            //map.setCenter({lat:37.7749, lng:-122.4194});
+          }, function() {
+            handleLocationError(true, infoWindow, map.getCenter());
+          });
+        } else {
+          // Browser doesn't support Geolocation
+          handleLocationError(false, infoWindow, map.getCenter());
+        }
+      }
+      function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+        infoWindow.setPosition(pos);
+        infoWindow.setContent(browserHasGeolocation ?
+                              'Error: The Geolocation service failed.' :
+                              'Error: Your browser doesn\'t support geolocation.');
+        infoWindow.open(map);
+      }
+
+      function render() {
+
+        $.ajax({
+         type: 'GET',
+         url:'https://c4s.torontopolice.on.ca/arcgis/rest/services/CADPublic/C4S/MapServer/0/query?f=json&where=1%3D1&outSR=4326',
+         dataType: "jsonp",
+         success: function(data){
+            //console.log(data)
+            points = [];
+
+            for(var i = 0; i < data.features.length; i++) {
+              var time = data.features[i].attributes.ATSCENE_TS;
+              var latitude = data.features[i].geometry.y;
+              var longitude = data.features[i].geometry.x
+
+              points.push( {latitude: latitude, longitude: longitude} );
+            }
+
+            markers = [];
+            markers.forEach(function(e) {
+              e.setMap(null);
+            });
+
+            points.forEach(function(point) {
+              var latitude = point.latitude;
+              var longitude = point.longitude;
+              markers.push(new google.maps.Marker({
+                position: {lat: latitude, lng: longitude},
+                map: map,
+                title: "0",
+              }));
+            });
+            markers.forEach(function(e) {
+              e.setMap(map);
+              e.addListener('click', function() {
+                console.log(this.title);
+              });
+            });
+         },
+         error: function(jqXHR, textStatus, errorThrown) {
+            console.log("Error");
+         }
+        });
+
+      }
+
+      render();
+      setInterval(render, 60000);
+
+      setInterval(function() {
+        navigator.geolocation.getCurrentPosition(function(position) {
+          var pos = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          };
+          infoWindow.setPosition(pos);
+        });
+      }, 500000);
+
+    </script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var elems = document.querySelectorAll('.fixed-action-btn');
+      var instances = M.FloatingActionButton.init(elems, {});
+    });
+
+
+    </script>
+
+
+  <script>
+
+  function getInfo(id) {
+    return {
+      id: id,
+    };
+  }
+
+    var vm = new Vue({
+      el: '#report-details',
+      data: {
+
+      },
+      computed: {
+
+      }
+    });
+
+    Vue.component('report', {
+      props: ['id', 'date', 'description', 'votes'],
+      template: '<div class="my-container">
+      <div class="card sticky-action">
+                    <div class="card-image waves-effect waves-block waves-light">
+                      <img class="activator" src="https://materializecss.com/images/office.jpg">
+                    </div>
+                    <div class="card-content">
+                      <span class="card-title activator grey-text text-darken-4">Case #{{id}}<i class="material-icons right">more_vert</i></span>
+
+                      <p><a onclick="">More details</a></p>
+                    </div>
+
+                    <div class="card-action">
+                      <a href="#">Upvote</a>
+                      <a href="#">Downvote</a>
+                    </div>
+
+                    <div class="card-reveal">
+                      <span class="card-title grey-text text-darken-4">Details<i class="material-icons right">close</i></span>
+                      <p>Description: {{description}}</p>
+                      <p>Date: {{date}}</p>
+                      <p>Votes: {{votes}}</p>
+                      <p>ID: {{id}}</p>
+                    </div>
+                  </div>
+
+                </div>',
+    });
+  </script>
+
+  <script>
+
+  function viewCases(cases) {
+
+  }
+
+  </script>
+
+
+</html>
