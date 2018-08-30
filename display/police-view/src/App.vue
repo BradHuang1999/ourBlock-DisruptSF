@@ -1,6 +1,9 @@
 <template>
   <div class="md-layout max-100">
     <div class="md-layout-item md-size-25 max-100">
+      <Linegraph />
+      <Bargraph />
+      <Piegraph />
       <h1>ourBlock Logo</h1>
       <h2>Crimes by hour graph</h2>
       <h2>Crimes by category bar chart</h2>
@@ -22,11 +25,14 @@
 <script>
   import Card from './components/Card.vue'
   import Map from './components/Map.vue'
+  import Bargraph from './components/Bargraph.vue'
+  import Linegraph from './components/Linegraph.vue'
+  import Piegraph from './components/Piegraph.vue'
 
   export default {
     name: 'app',
     components: {
-      Card, Map
+      Card, Map, Bargraph, Linegraph, Piegraph
     }
   }
 </script>
