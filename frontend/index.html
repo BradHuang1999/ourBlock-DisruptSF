@@ -8,16 +8,16 @@
      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
      <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
      <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.min.js"></script>
-     <link href="https://fonts.googleapis.com/css?family=Josefin+Slab" rel="stylesheet">
+     <link href="https://fonts.googleapis.com/css?family=Josefin+Slab|VT323" rel="stylesheet">
   </head>
   <style>
       /* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
       #map {
-        height: 100%;
+        height: 80%;
         position: absolute;
-        top: 0;
-  bottom: -200px;
+        top: 5%;
+  bottom: 15%;
   left: 0;
   right: 0;
       }
@@ -31,7 +31,8 @@
 
       #add-btn {
         position: absolute;
-
+        bottom: 18%;
+        right: 90%;
       }
         .my-container {
           width: 60%;
@@ -45,7 +46,58 @@
           z-index: 900;
           top:0px;
           position: absolute;
+          height: 5%;
+          font-weight: bold;
+          line-height: 5.5em;
         }
+
+        #bottom-bar {
+          position: absolute;
+          height: 15%;
+          width: 100%;
+          top: 85%;
+          font-size: 40px;
+          text-align: center;
+        }
+
+        .col {
+          height: 100%;
+          line-height: 2.5em;
+        }
+
+        .slide-fade-enter-active {
+          transition: all .4s ease;
+        }
+        .slide-fade-leave-active {
+          transition: all .3s ease;
+        }
+        .slide-fade-enter, .slide-fade-leave-to
+        /* .slide-fade-leave-active below version 2.1.8 */ {
+          transform: translateY(100px);
+          opacity: 0;
+        }
+
+        .fade-enter-active, .fade-leave-active {
+          transition: opacity .5s;
+        }
+        .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+          opacity: 0;
+        }
+
+        #popups {
+          z-index: 200;
+          height: 100%;
+          width: 100%;
+        }
+
+        #reports-bar {
+          width: 83%;
+          height: 80%;
+          top: 20%;
+          left: 8.5%;
+          position: absolute;
+        }
+
     </style>
 
   </head>
@@ -55,15 +107,14 @@
     <div class="nav-wrapper">
         <a href="#" class="brand-logo" style="padding-left: 20px;">Ourblock</a>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
-        <li><a href="./signUp.html">Notifications</a></li>
-        <li><a href="./signUp.html">Search</a></li>
         </ul>
     </div>
     </nav>
 
     <div id="map"></div>
 
-    <div id="add-btn" class="fixed-action-btn">
+<transition name="fade">
+    <div v-if="!viewingreports" id="add-btn" class="fixed-action-btn">
   <a class="btn-floating btn-large red">
     <i class="large material-icons">add</i>
   </a>
@@ -74,57 +125,134 @@
     <li><a class="btn-floating blue"><i class="material-icons">attach_file</i></a></li>
   </ul>
 </div>
+</transition>
+
+<report title="asdf" handle="asdf" date="asdf" description="asdf"></report>
 
 <div id="report-details">
   </div>
 
-  <div class="my-container">
-  <div class="card sticky-action">
-                <div class="card-image waves-effect waves-block waves-light">
-                  <img class="activator" src="https://materializecss.com/images/office.jpg">
-                </div>
-                <div class="card-content">
-                  <span class="card-title activator grey-text text-darken-4">Case #{{id}}<i class="material-icons right">more_vert</i></span>
+  <div id="bottom-bar" class="row">
+      <div onclick="darken(this)" class="col s3 pink lighten-4">Map<br><i class="material-icons" style="font-size: 80px">map</i></div>
+      <div onclick="darken(this)" class="col s3 blue lighten-4">Report<br><i class="material-icons" style="font-size: 80px">note_add</i></div>
+      <div onclick="darken(this)" class="col s3 red lighten-4">Search<br><i class="material-icons" style="font-size: 80px">search</i></div>
+      <div onclick="darken(this)" class="col s3 purple lighten-4">Me<br><i class="material-icons" style="font-size: 80px">person</i></div>
+    </div>
 
-                  <p><a onclick="">More details</a></p>
-                </div>
+    <div id="popups">
 
-                <div class="card-action">
-                  <a href="#">Upvote</a>
-                  <a href="#">Downvote</a>
-                </div>
+      <transition name="slide-fade">
+        <div id="reports-bar" class="light-green" v-if="viewingreports">
 
-                <div class="card-reveal">
-                  <span class="card-title grey-text text-darken-4">Details<i class="material-icons right">close</i></span>
-                  <p>Description: {{description}}</p>
-                  <p>Date: {{date}}</p>
-                  <p>Votes: {{votes}}</p>
-                  <p>ID: {{id}}</p>
-                </div>
-              </div>
+          <div v-for "(handle, date, description, location) in reports">
+          </div>
 
-            </div>
+        </div>
+      </transition>
+
+    </div>
 
   </body>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
-    <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD4RlYes-LFZXhM7OJMryGDnVUf3MbrXUM&callback=initMap">
-    </script>
-
     <script>
 
+    var sections = document.getElementsByClassName('col');
+    var currentSection = sections[0];
+
+    function darken(element) {
+
+      lighten(currentSection);
+
+      element.classList.remove('lighten-4');
+      element.classList.add('lighten-2');
+
+      currentSection = element;
+    }
+
+    function lighten(element) {
+      element.classList.remove('lighten-2');
+      element.classList.add('lighten-4');
+    }
+    </script>
+
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD4RlYes-LFZXhM7OJMryGDnVUf3MbrXUM&libraries=visualization&callback=initMap">
+    </script>
+
+    <script defer>
+
     var userName;
+    var reports;
 
       var map, infoWindow, markers;
-      var points = [];
+      var points;
+
+      function update() {
+      $.ajax({
+       type: 'GET',
+       url:'https://c4s.torontopolice.on.ca/arcgis/rest/services/CADPublic/C4S/MapServer/0/query?f=json&where=1%3D1&outSR=4326',
+       dataType: "jsonp",
+       success: function(data){
+
+         for(var i = 0; i < data.features.length; i++) {
+           var time = data.features[i].attributes.ATSCENE_TS;
+           var latitude = data.features[i].geometry.y;
+           var longitude = data.features[i].geometry.x;
+
+           points.push( new google.maps.LatLng(latitude, longitude) );
+         }
+
+       }
+     });
+   }
+
+      function toggleHeatmap() {
+        heatmap.setMap(heatmap.getMap() ? null : map);
+      }
+
+      function changeGradient() {
+        var gradient = [
+          'rgba(0, 255, 255, 0)',
+          'rgba(0, 255, 255, 1)',
+          'rgba(0, 191, 255, 1)',
+          'rgba(0, 127, 255, 1)',
+          'rgba(0, 63, 255, 1)',
+          'rgba(0, 0, 255, 1)',
+          'rgba(0, 0, 223, 1)',
+          'rgba(0, 0, 191, 1)',
+          'rgba(0, 0, 159, 1)',
+          'rgba(0, 0, 127, 1)',
+          'rgba(63, 0, 91, 1)',
+          'rgba(127, 0, 63, 1)',
+          'rgba(191, 0, 31, 1)',
+          'rgba(255, 0, 0, 1)'
+        ]
+        heatmap.set('gradient', heatmap.get('gradient') ? null : gradient);
+      }
+
+      function changeRadius() {
+        heatmap.set('radius', heatmap.get('radius') ? null : 20);
+      }
+
+      function changeOpacity() {
+        heatmap.set('opacity', heatmap.get('opacity') ? null : 0.2);
+      }
 
       function initMap() {
         map = new google.maps.Map(document.getElementById('map'), {
           center: {lat: 37.7749, lng: -122.4194},
           zoom: 12,
         });
+
+        points = new google.maps.MVCArray;
+
+        heatmap = new google.maps.visualization.HeatmapLayer({
+          data: points,
+          map: map
+        });
+
         infoWindow = new google.maps.InfoWindow;
         markers = [];
         // Try HTML5 geolocation.
@@ -200,8 +328,11 @@
 
       }
 
-      render();
-      setInterval(render, 60000);
+      //render();
+      //setInterval(render, 60000);
+
+      update();
+      setInterval(update, 60000);
 
       setInterval(function() {
         navigator.geolocation.getCurrentPosition(function(position) {
@@ -234,9 +365,12 @@
   }
 
     var vm = new Vue({
-      el: '#report-details',
+      el: '#popups',
       data: {
+        viewingreports: false,
+        reports: {
 
+        }
       },
       computed: {
 
@@ -244,39 +378,38 @@
     });
 
     Vue.component('report', {
-      props: ['id', 'date', 'description', 'votes'],
-      template: '<div class="my-container">
-      <div class="card sticky-action">
-                    <div class="card-image waves-effect waves-block waves-light">
-                      <img class="activator" src="https://materializecss.com/images/office.jpg">
-                    </div>
-                    <div class="card-content">
-                      <span class="card-title activator grey-text text-darken-4">Case #{{id}}<i class="material-icons right">more_vert</i></span>
+      props: ['handle', 'date', 'description', 'votes'],
+      template: '<div class="my-container">' +
+      '<div class="card sticky-action">' +
+                    '<div class="card-image waves-effect waves-block waves-light">' +
+                      '<img class="activator" src="https://materializecss.com/images/office.jpg">' +
+                    '</div>' +
+                    '<div class="card-content">' +
+                      '<span class="card-title activator grey-text text-darken-4">Case #{{handle}}<i class="material-icons right">more_vert</i></span>' +
+                      '<p><a onclick="">More details</a></p>' +
+                    '</div>' +
 
-                      <p><a onclick="">More details</a></p>
-                    </div>
+                    '<div class="card-action">' +
+                      '<a href="#">Upvote</a>' +
+                      '<a href="#">Downvote</a>' +
+                    '</div>' +
 
-                    <div class="card-action">
-                      <a href="#">Upvote</a>
-                      <a href="#">Downvote</a>
-                    </div>
+                    '<div class="card-reveal">' +
+                      '<span class="card-title grey-text text-darken-4">Details<i class="material-icons right">close</i></span>' +
+                      '<p>Description: {{description}}</p>' +
+                      '<p>Date: {{date}}</p>' +
+                      '<p>Votes: {{votes}}</p>' +
+                      '<p>ID: {{handle}}</p>' +
+                    '</div>' +
+                  '</div>' +
 
-                    <div class="card-reveal">
-                      <span class="card-title grey-text text-darken-4">Details<i class="material-icons right">close</i></span>
-                      <p>Description: {{description}}</p>
-                      <p>Date: {{date}}</p>
-                      <p>Votes: {{votes}}</p>
-                      <p>ID: {{id}}</p>
-                    </div>
-                  </div>
-
-                </div>',
+                '</div>',
     });
   </script>
 
   <script>
 
-  function render(cases) {
+  function viewCases(cases) {
 
   }
 
