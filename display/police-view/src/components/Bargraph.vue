@@ -1,12 +1,12 @@
 <template>
   <div id='GBarGraph'>
-  <GChart
-    :settings="{packages: ['bar']}"    
-    :data="chartData"
-    :options="chartOptions"
-    :createChart="(el, google) => new google.charts.Bar(el)"
-    @ready="onChartReady"
-  />
+    <GChart
+      :settings="{packages: ['bar']}"    
+      :data="chartData"
+      :options="chartOptions"
+      :createChart="(el, google) => new google.charts.Bar(el)"
+      @ready="onChartReady"
+    />
   </div>
 </template>
 

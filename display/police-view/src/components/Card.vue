@@ -2,21 +2,39 @@
   <div class="card-expansion">
     <md-card>
       <md-card-header>
-        <div style="text-align: center;">
-          Homicide
-          <md-icon>location_on</md-icon> 500m
-          <md-icon>warning</md-icon> 74
+        <div class="row-icons">
+          <strong> {{ locData.category }} </strong>
+          <md-icon>location_on</md-icon> {{ locData.distance.toFixed(0) }}m
+          <md-icon>warning</md-icon> {{ locData.severity.toFixed(2) }}
+        </div>
+        <div class="row-icons">
+          <md-icon>thumb_up</md-icon> {{ locData.upvoterCount }}
+          <md-icon>thumb_down</md-icon> {{ locData.downvoterCount }}
+          <md-icon>chat_bubble</md-icon> {{ locData.commentCount }}
+          <md-icon>add_circle</md-icon> {{ locData.followerCount }}
         </div>
       </md-card-header>
 
       <md-card-content>
-        <pre>{{ locData }}</pre>
+        {{ "reportingUser = " + locData.reportingUser }}
+        <br>
+        {{ "message = " + locData.message }}
+        <br>
+        {{ "id = " + locData._id }}
+        <br>
+        {{ "time = " + (new Date(locData.time)).toLocaleString("en-US", { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric' }) }}
       </md-card-content>
 
       <md-card-expand>
         <md-card-actions md-alignment="space-between">
           <md-field>
-            <md-select v-model="status" placeholder="Case Status">
+            <label for="selectCaseStatus">Case Status</label>
+            <md-select
+              id="selectCaseStatus"
+              v-model="locData['status']"
+              placeholder="Case Status"
+              @md-selected="updateStatus(locData._id, 'status', $event)"
+            >
               <md-option value="pending">Pending</md-option>
               <md-option value="in progress">In Progress</md-option>
               <md-option value="solved by police">Solved by Police</md-option>
@@ -25,7 +43,13 @@
           </md-field>
 
           <md-field>
-            <md-select v-model="privacy" placeholder="Privacy Status">
+            <label for="selectPrivacyStatus">Privacy Status</label>
+            <md-select
+              id="selectPrivacyStatus"
+              v-model="locData['privacy']"
+              placeholder="Privacy Status"
+              @md-selected="updateStatus(locData._id, 'privacy', $event)"
+            >
               <md-option value="public">Public</md-option>
               <md-option value="private">Private</md-option>
             </md-select>
@@ -50,8 +74,11 @@
 </template>
 
 <script>
+  import axios from 'axios';
+
   export default {
     name: 'CardExpansion',
+    
     props: {
       locData: {
         _id: String,
@@ -66,6 +93,7 @@
         status: String
       }
     },
+    
     data() {
       return {
         otherData: {
@@ -73,14 +101,61 @@
           lon: 23
         }
       }
+    },
+
+    mounted() {
+      this.updateStatus = (id, field, value) => {
+        console.log(id, field, value);
+        axios.post('https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/update', {
+          reportId: id,
+          field: field,
+          value: value
+        })
+      }
+    },
+
+    methods: {
+      updateStatus: (id, field, value) => 0
     }
   }
 </script>
 
 <style lang="scss" scoped>
   .md-card {
-    margin: 4px;
-    display: inline-block;
-    vertical-align: top;
+    margin-left: 8px;
+    margin-right: 8px;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    display: block;
+  }
+
+  .md-field {
+    width: 40%;
+  }
+
+  .md-card-header {
+    font-size: 15px;
+    text-align: center;
+  }
+
+  .md-card-content {
+    padding-left: 24px;
+    padding-right: 24px;
+    padding-bottom: 0;
+  }
+
+  .md-card-actions {
+    padding-left: 24px;
+    padding-right: 16px;
+  }
+
+  .row-icons {
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+
+  .md-icon {
+    margin-left: 8px;
+    margin-right: 6px;
   }
 </style>

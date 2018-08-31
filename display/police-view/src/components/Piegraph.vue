@@ -2,7 +2,7 @@
   <div id='GPieGraph'>
   <GChart
     :settings="{packages: ['corechart']}"    
-    :data="chartData"
+    :data="pieData"
     :createChart="(el, google) => new google.visualization.PieChart(el)"
     @ready="onChartReady"
   />
@@ -13,6 +13,8 @@
 import { GChart } from 'vue-google-charts'
 export default {
   name: 'GPieGraph',
+
+  props: ['pieData'],
 
   components: {
     GChart

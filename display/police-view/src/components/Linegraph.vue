@@ -74,6 +74,6 @@ export default {
 
 <style>
   #GLineGraph{
-    height: 200px;
+    height: 220px;
   }
 </style>

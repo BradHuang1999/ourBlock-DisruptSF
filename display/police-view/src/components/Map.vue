@@ -3,7 +3,7 @@
     <gmap-map
       :center="center"
       :zoom="zoom"
-      style="width:100%; height: 700px;"
+      style="width:100%; height: 550px; margin=8px"
       @bounds_changed="changeBounds($event)"
     >
       <gmap-marker
@@ -21,26 +21,35 @@ import axios from 'axios';
 
 export default {
   name: "GoogleMap",
+
+  props: ['markers'],
+
   data() {
+    let center = { lat: 37.785078, lng: -122.400497 };
+    // navigator.geolocation.getCurrentPosition(position => {
+    //   center = {
+    //     lat: position.coords.latitude,
+    //     lng: position.coords.longitude
+    //   };
+    // });
     return {
-      center: { lat: 37.7833570391, lng: -122.4167107338 },
-      zoom: 18,
-      markers: [],
+      center: center,
+      zoom: 16,
+      // markers: this.reportLocs,//this.reports.map(report => { return ({ position: { lat: report.lat, lng: report.lng } }) }),
       prevBounds: {},
       currBounds: {
-        lonMin: -122.4177107338,
-        lonMax: -122.4157107338,
-        latMin: 37.7823570391,
-        latMax: 37.7843570391 
+        lonMin: center.lng - 0.005,
+        lonMax: center.lng + 0.005,
+        latMin: center.lat - 0.005,
+        latMax: center.lat + 0.005
       }
     };
   },
 
   mounted() {
     setInterval(() => {
-      if (this.prevBounds !==  this.currBounds){
-        this.getPins(this.currBounds);
-        this.$emit('searchBounds', this.currBounds)
+      if (this.prevBounds !== this.currBounds){
+        this.$emit('searchBounds', { bounds: this.currBounds, center: this.center });
         this.prevBounds = this.currBounds;
       }
     }, 1000);
@@ -69,7 +78,6 @@ export default {
         select: 'lat lon upvoterCount downvoterCount followerCount category time',
       })
       .then(locations => {
-        console.log("locations", locations);
         locations.data.forEach(location => {
           this.markers.push({
             position: {
@@ -79,27 +87,6 @@ export default {
           })
         });
       })
-    },
-
-    addMarker() {
-      if (this.currentPlace) {
-        const marker = {
-          lat: this.currentPlace.geometry.location.lat(),
-          lng: this.currentPlace.geometry.location.lng()
-        };
-        this.markers.push({ position: marker });
-        this.places.push(this.currentPlace);
-        this.center = marker;
-      }
-    },
-
-    geolocate: function() {
-      navigator.geolocation.getCurrentPosition(position => {
-        this.center = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude
-        };
-      });
     }
   }
 };
