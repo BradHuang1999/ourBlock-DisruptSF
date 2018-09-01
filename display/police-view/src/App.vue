@@ -1,15 +1,21 @@
 <template>
   <div class="md-layout max-100">
     <md-content class="md-layout-item md-size-30 max-100">
-      <h4 style="text-align: center;"> Reports by Hours of Day </h4>
+      <h4 style="text-align: center;"> Crimes by Time, Categorized</h4>
       <div class="boxThing"><Linegraph /></div>
-      <h4 style="text-align: center;"> Reports by Category </h4>
+      <h4 style="text-align: center;"> Total Count Crimes per Hour </h4>
       <div class="boxThing"><Bargraph /></div>
-      <h2> Reports from last 7 days: {{ statsTotal }} </h2>
-      <h4 style="text-align: center;"> Reports by Status from the last 7 days </h4>
+      <!-- <h2> Reports from last 7 days: {{ statsTotal }} </h2> -->
+      <h4 style="text-align: center;"> Crime Category Breakdown </h4>
+      <div class="boxThing"> <Donutgraph /></div>
+      <h4 style="text-align: center;"> Crime by Location </h4>
+      <div class="boxThing"> <Scattergraph /></div>
+      <h4 style="text-align: center;"> Crime Status Breakdown </h4>
       <div class="boxThing"><Piegraph :pie-data="statsPie"/></div>
     </md-content>
+    <img src="logo.png">
     <md-content class="md-layout-item md-size-40 max-100">
+      
       <Map
         @searchBounds="updateMap($event)"
         :markers="reportLocs"
@@ -33,6 +39,8 @@
   import Bargraph from './components/Bargraph.vue'
   import Linegraph from './components/Linegraph.vue'
   import Piegraph from './components/Piegraph.vue'
+  import Donutgraph from './components/Donutgraph.vue'
+  import Scattergraph from './components/Scattergraph.vue'
   import severity from '../lib/severity'
 
   window.onload = function() {
@@ -45,7 +53,7 @@
     name: 'app',
 
     components: {
-      Card, Map, Bargraph, Linegraph, Piegraph
+      Card, Map, Bargraph, Linegraph, Piegraph, Donutgraph, Scattergraph
     },
 
     data() {

@@ -22,14 +22,31 @@ export default {
       chartsLib: null, 
       // Array will be automatically processed with visualization.arrayToDataTable function
       chartData: [
-        ['Crime Type', 'Count', { role: "style" }],
-        ['Larceny/Theft', 18792, 'color: gray'],
-        ['Violence/Homicide', 6052, '#b87333'],
-        ['Traffic Violations', 2316, '#b87333'],
-        ['Drugs/Narcotics', 1580, '#b87333'],
-        ['Kidnapping', 1337, '#b87333'],
-        ['Sex Offences', 358, '#b87333'],
-        ['Mental Health/Bullying', 155, '#b87333']
+        ['Hour of Day', 'Count'],
+          [0 , 1300],
+          [1 ,  855],
+          [2 ,  661],
+          [3 ,  517],
+          [4 ,  363],
+          [5 ,  362],
+          [6 ,  429],
+          [7 ,  628],
+          [8 , 1026],
+          [9 , 1130],
+          [10, 1305],
+          [11, 1457],
+          [12, 1696],
+          [13, 1494],
+          [14, 1561],
+          [15, 1631],
+          [16, 1774],
+          [17, 1870],
+          [18, 2240],
+          [19, 2128],
+          [20, 1909],
+          [21, 1582],
+          [22, 1473],
+          [23, 1199]
       ]
     }
   },
@@ -40,7 +57,7 @@ export default {
         bars: 'horizontal',
         height: 250,
         legend: {
-          position: 'none'
+          position: 'none',
         }
       })
     }
