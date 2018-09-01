@@ -8,9 +8,11 @@
       @bounds_changed="changeBounds($event)"
     >
       <gmap-marker
-        :key="marker._id"
+        :key="marker.id"
         v-for="marker in markers"
         :position="marker.position"
+        :label="selectedId === marker.id ? '!' : ''"
+        @click="markerClicked($event, marker.id)"
       >
         <!-- <GmapInfoWindow opened="openWindowKeys.include(marker._id)" @closeclick="openWindowKeys.pull(marker._id)">
           hey
@@ -26,7 +28,7 @@
 export default {
   name: "GoogleMap",
 
-  props: ['markers'],
+  props: ['markers', "selectedId"],
 
   data() {
     let mapCenter = { lat: 37.786570, lng: -122.402 };
@@ -60,6 +62,11 @@ export default {
   },
 
   methods: {
+    markerClicked(event, id) {
+      console.log(event, id)
+      this.$emit('markerClicked', id);
+    },
+
     changeBounds(event) {
       if (event){
         this.currBounds = {

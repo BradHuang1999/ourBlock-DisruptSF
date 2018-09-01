@@ -114,13 +114,11 @@
 
     mounted() {
       this.updateStatus = (id, field, value) => {
-        console.log(id, field, value);
         axios.post('https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/update', {
           reportId: id,
           field: field,
           value: value
-        })
-        this.$emit('statusUpdate', id);
+        });
       }
     },
 
