@@ -10,6 +10,7 @@
   "dependencies": {
     "@vue/eslint-config-standard": "^3.0.1",
     "axios": "^0.18.0",
+    "d3-force": "^1.1.2",
     "pug": "^2.0.3",
     "pug-plain-loader": "^1.0.0",
     "stylus": "^0.54.5",

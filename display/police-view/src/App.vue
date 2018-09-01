@@ -22,9 +22,12 @@
         <h4 style="text-align: center;"> Crime Status Breakdown </h4>
         <Piegraph :pie-data="statsPie"/>
       </md-content>
+<!--       <md-content class="md-elevation-2">
+        <Nodes/>
+      </md-content> -->
     </md-content>
     <md-content class="md-layout-item md-size-40">
-      <center><img src="./assets/frontPageLogoClear.png" width="300" style="padding: 10px"></center>
+      <center><img src="./assets/frontPageLogoClear.png" width="180" style="padding: 10px"></center>
       {{selectedId}}
       <Map
         @markerClicked="selectCard($event)"
@@ -32,7 +35,6 @@
         :markers="reportLocs"
         :selectedId="selectedId"
       />
-      <Nodes></Nodes>
     </md-content>
     <md-content class="md-layout-item md-size-30 md-scrollbar" style="position: relative; overflow: auto;" id="screenHeightCustom">
         <Card
@@ -149,7 +151,7 @@
 
 <style scoped>
   .md-elevation-2 {
-    padding: 10px;
-    margin: 10px;
+    padding: 3px;
+    margin: 3px;
   }
 </style>
