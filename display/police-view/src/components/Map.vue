@@ -3,8 +3,8 @@
     <gmap-map
       :center="center"
       :zoom="zoom"
-      style="width:100%; height: 700px;"
-      @bounds_changed="update($event)"
+      style="width:100%; height: 550px; margin=8px"
+      @bounds_changed="changeBounds($event)"
     >
       <gmap-marker
         :key="index"
@@ -21,67 +21,72 @@ import axios from 'axios';
 
 export default {
   name: "GoogleMap",
+
+  props: ['markers'],
+
   data() {
+    let center = { lat: 37.785078, lng: -122.400497 };
+    // navigator.geolocation.getCurrentPosition(position => {
+    //   center = {
+    //     lat: position.coords.latitude,
+    //     lng: position.coords.longitude
+    //   };
+    // });
     return {
-      center: { lat: 37.7833570391, lng: -122.4167107338 },
-      zoom: 18,
-      markers: [],
+      center: center,
+      zoom: 16,
+      // markers: this.reportLocs,//this.reports.map(report => { return ({ position: { lat: report.lat, lng: report.lng } }) }),
+      prevBounds: {},
+      currBounds: {
+        lonMin: center.lng - 0.005,
+        lonMax: center.lng + 0.005,
+        latMin: center.lat - 0.005,
+        latMax: center.lat + 0.005
+      }
     };
   },
 
   mounted() {
-    // console.log(this.getBounds());
-    this.getPins(-122.4177107338, -122.4157107338, 37.7823570391, 37.7843570391);
+    setInterval(() => {
+      if (this.prevBounds !== this.currBounds){
+        this.$emit('searchBounds', { bounds: this.currBounds, center: this.center });
+        this.prevBounds = this.currBounds;
+      }
+    }, 1000);
   },
 
   methods: {
-    update(event) {
-      // console.log(event.b.b, event.b.f, event.f.b, event.f.f);
-      this.getPins(event.b.b, event.b.f, event.f.b, event.f.f);
-    },
-
-    getPins(lonMin, lonMax, latMin, latMax) {
-      axios.post('https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/search', {
-        location: {
-          latMin: latMin,
-          latMax: latMax,
-          lonMin: lonMin,
-          lonMax: lonMax
-        },
-        select: 'lat lon',
-      })
-      .then(locations => {
-          console.log("locations", locations);
-          locations.data.forEach(location => {
-            this.markers.push({
-              position: {
-                lat: location.lat,
-                lng: location.lon
-              }
-            })
-          });
-      })
-    },
-
-    addMarker() {
-      if (this.currentPlace) {
-        const marker = {
-          lat: this.currentPlace.geometry.location.lat(),
-          lng: this.currentPlace.geometry.location.lng()
+    changeBounds(event) {
+      if (event){
+        this.currBounds = {
+          lonMin: event.b.b,
+          lonMax: event.b.f,
+          latMin: event.f.b,
+          latMax: event.f.f
         };
-        this.markers.push({ position: marker });
-        this.places.push(this.currentPlace);
-        this.center = marker;
       }
     },
 
-    geolocate: function() {
-      navigator.geolocation.getCurrentPosition(position => {
-        this.center = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude
-        };
-      });
+    getPins(bounds) {
+      axios.post('https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/search', {
+        location: {
+          latMin: bounds.latMin,
+          latMax: bounds.latMax,
+          lonMin: bounds.lonMin,
+          lonMax: bounds.lonMax
+        },
+        select: 'lat lon upvoterCount downvoterCount followerCount category time',
+      })
+      .then(locations => {
+        locations.data.forEach(location => {
+          this.markers.push({
+            position: {
+              lat: location.lat,
+              lng: location.lon
+            }
+          })
+        });
+      })
     }
   }
 };
