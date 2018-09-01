@@ -1,13 +1,13 @@
 <template>
   <div class="md-layout max-100">
     <md-content class="md-layout-item md-size-30 max-100">
-      <h4> Reports by Category </h4>
-      <Linegraph />
-      <h4> Reports by Hours of Day </h4>
-      <Bargraph />
+      <h4 style="text-align: center;"> Reports by Hours of Day </h4>
+      <div class="boxThing"><Linegraph /></div>
+      <h4 style="text-align: center;"> Reports by Category </h4>
+      <div class="boxThing"><Bargraph /></div>
       <h2> Reports from last 7 days: {{ statsTotal }} </h2>
-      <h4> Reports by Status from the last 7 days </h4>
-      <Piegraph :pie-data="statsPie"/>
+      <h4 style="text-align: center;"> Reports by Status from the last 7 days </h4>
+      <div class="boxThing"><Piegraph :pie-data="statsPie"/></div>
     </md-content>
     <md-content class="md-layout-item md-size-40 max-100">
       <Map
@@ -15,7 +15,7 @@
         :markers="reportLocs"
       />
     </md-content>
-    <md-content class="md-layout-item md-size-30 md-scrollbar max-100">
+    <md-content class="md-layout-item md-size-30 md-scrollbar max-100" style="position: relative; overflow: auto;" id="screenHeightCustom">
         <Card
           v-for="report in reports"
           :key="report._id"
@@ -33,6 +33,12 @@
   import Linegraph from './components/Linegraph.vue'
   import Piegraph from './components/Piegraph.vue'
   import severity from '../lib/severity'
+
+  window.onload = function() {
+  var height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+  var myDiv = document.getElementById("screenHeightCustom");
+  myDiv.style.height = height + "px";
+  }
 
   export default {
     name: 'app',
@@ -101,5 +107,10 @@
     max-height: 100%;
     max-width: 100%;
     overflow-x: visible;
+  }
+  .boxThing{
+	  -webkit-box-shadow: 0 1px 2px #777;
+	  -moz-box-shadow: 0 2px 1px #777;
+	  box-shadow: 0 2px 1px #777;
   }
 </style>
