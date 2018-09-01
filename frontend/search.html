@@ -1,145 +1,31 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <link href="https://fonts.googleapis.com/css?family=Josefin+Slab" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+
 
 <style>
-
-body {
-  font-family: 'Josefin Slab';
-  font-size: 32px;
-}
-
-#tags {
-  text-align: center;
-  top: 10%;
-  position: absolute;
-  width: 100%;
-}
-
-.container{
-  width:600px;
-  margin:50px auto;
-}
-
-.searchbox{
-  position:relative;
-  min-width:50px;
-  width:0%;
-  height:50px;
-  float:right;
-  overflow:hidden;
-
-  -webkit-transition: width 0.3s;
-  -moz-transition: width 0.3s;
-  -ms-transition: width 0.3s;
-  -o-transition: width 0.3s;
-  transition: width 0.3s;
-}
-
-.searchbox-input{
-  top:0;
-  right:0;
-  border:0;
-  outline:0;
-  background:#dcddd8;
-  width:100%;
-  height:50px;
-  margin:0;
-  padding:0px 55px 0px 20px;
-  font-size:20px;
-  color:red;
-}
-.searchbox-input::-webkit-input-placeholder {
-  color: #d74b4b;
-}
-.searchbox-input:-moz-placeholder {
-  color: #d74b4b;
-}
-.searchbox-input::-moz-placeholder {
-  color: #d74b4b;
-}
-.searchbox-input:-ms-input-placeholder {
-  color: #d74b4b;
-}
-
-.searchbox-icon,
-.searchbox-submit{
-  width:50px;
-  height:50px;
-  display:block;
-  position:absolute;
-  top:0;
-  font-family:verdana;
-  font-size:22px;
-  right:0;
-  padding:0;
-  margin:0;
-  border:0;
-  outline:0;
-  line-height:50px;
-  text-align:center;
-  cursor:pointer;
-  color:#FFFFFF;
-  background:#ff0000;
-}
-
-.searchbox-open{
-  width:100%;
-}
-
-
+  nav {
+    height: 10%;
+    font-size: 80px;
+  }
+  img {
+    position: absolute;
+    height: 10%;
+    left: 90%;
+  }
 </style>
 
-<div class="container">
-    <form class="searchbox">
-        <input type="search" placeholder="Search......" name="search" class="searchbox-input" onkeyup="buttonUp();" required>
-        <input type="submit" class="searchbox-submit">
-        <span class="searchbox-icon"><i class="large material-icons">search</i></span>
-    </form>
-</div>
-
-<div id="tags">
-{{tags}}
-</div>
-
-<script>
-$(document).ready(function(){
-           var submitIcon = $('.searchbox-icon');
-           var inputBox = $('.searchbox-input');
-           var searchBox = $('.searchbox');
-           var isOpen = false;
-           submitIcon.click(function(){
-               if(isOpen == false){
-                   searchBox.addClass('searchbox-open');
-                   inputBox.focus();
-                   isOpen = true;
-               } else {
-                   searchBox.removeClass('searchbox-open');
-                   inputBox.focusout();
-                   isOpen = false;
-               }
-           });
-            submitIcon.mouseup(function(){
-                   return false;
-               });
-           searchBox.mouseup(function(){
-                   return false;
-               });
-           $(document).mouseup(function(){
-                   if(isOpen == true){
-                       $('.searchbox-icon').css('display','block');
-                       submitIcon.click();
-                   }
-               });
-       });
-           function buttonUp(){
-               var inputVal = $('.searchbox-input').val();
-               inputVal = $.trim(inputVal).length;
-               if( inputVal !== 0){
-                   $('.searchbox-icon').css('display','none');
-               } else {
-                   $('.searchbox-input').val('');
-                   $('.searchbox-icon').css('display','block');
-               }
-           }
-           </script>
+<nav>
+          <div class="nav-wrapper">
+            <form>
+              <div class="input-field">
+                <label class="label-icon" for="search-example">
+                </label>
+                <input style="font-size:40px;" id="search-example" type="search" required="" placeholder  ="Enter a few keywords...">
+                <i class="material-icons" style="font-size: 80px;">search</i>
+              </div>
+            </form>
+          </div>
+        </nav>
