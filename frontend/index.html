@@ -8,15 +8,15 @@
      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
      <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
      <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.min.js"></script>
-     <link href="https://fonts.googleapis.com/css?family=Josefin+Slab|VT323" rel="stylesheet">
+     <link href="https://fonts.googleapis.com/css?family=Josefin+Slab|VT323|Lalezar" rel="stylesheet">
   </head>
   <style>
       /* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
       #map {
-        height: 80%;
+        height: 75%;
         position: absolute;
-        top: 5%;
+        top: 10%;
   bottom: 15%;
   left: 0;
   right: 0;
@@ -35,20 +35,19 @@
         right: 90%;
       }
         .my-container {
-          width: 60%;
+          width: 100%;
           margin: auto;
           position: relative;
-          top: 400px;
-          font-size: 18px;
+          font-size: 30px;
         }
 
-        nav{
+        #header{
           z-index: 900;
           top:0px;
           position: absolute;
-          height: 5%;
+          height: 10%;
           font-weight: bold;
-          line-height: 5.5em;
+          line-height: 11em;
         }
 
         #bottom-bar {
@@ -84,6 +83,43 @@
           opacity: 0;
         }
 
+        #profile-image {
+          position: absolute;
+          width: 40%;
+          left: 30%;
+          top: 5%;
+        }
+
+        #username {
+          text-align: center;
+          font-size: 72px;
+          top: 37%;
+          position: absolute;
+          text-align: center;
+          width:100%;
+          font-family: 'Lalezar';
+        }
+
+        #tokens{
+          font-family: 'Josefin Slab';
+          text-align: center;
+          width: 100%;
+          position: absolute;
+          top: 49%;
+          text-align: center;
+          padding-top: 15px;
+          padding-bottom: 15px;
+          margin: 0px;
+          font-size: 48px;
+        }
+
+        #user-profile {
+          width: 100%;
+          height: 85%;
+          z-index: 400;
+          position: absolute;
+        }
+
         #popups {
           z-index: 200;
           height: 100%;
@@ -96,6 +132,41 @@
           top: 20%;
           left: 8.5%;
           position: absolute;
+          padding: 30px;
+          overflow-y: auto;
+        }
+
+        #search-page {
+          height: 85%;
+          width: 100%;
+          background: white;
+          z-index:40000;
+          position: absolute;
+        }
+
+        #search-bar {
+          height: 11.9%;
+          width: 100%;
+          font-size: 80px;
+          z-index: 400;
+          position: absolute;
+        }
+
+        .dropdown-trigger{
+          position: absolute;
+        }
+
+        #card-title{
+          margin: auto;
+          text-align: center;
+        }
+
+        #status-button {
+
+        }
+
+        #category-button {
+
         }
 
     </style>
@@ -103,37 +174,10 @@
   </head>
   <body>
 
-    <nav>
-    <div class="nav-wrapper">
-        <a href="#" class="brand-logo" style="padding-left: 20px;">Ourblock</a>
-        <ul id="nav-mobile" class="right hide-on-med-and-down">
-        </ul>
-    </div>
-    </nav>
-
     <div id="map"></div>
 
-<transition name="fade">
-    <div v-if="!viewingreports" id="add-btn" class="fixed-action-btn">
-  <a class="btn-floating btn-large red">
-    <i class="large material-icons">add</i>
-  </a>
-  <ul>
-    <li><a class="btn-floating red"><i class="material-icons">insert_chart</i></a></li>
-    <li><a class="btn-floating yellow darken-1"><i class="material-icons">mode_edit</i></a></li>
-    <li><a class="btn-floating green"><i class="material-icons">publish</i></a></li>
-    <li><a class="btn-floating blue"><i class="material-icons">attach_file</i></a></li>
-  </ul>
-</div>
-</transition>
-
-<report title="asdf" handle="asdf" date="asdf" description="asdf"></report>
-
-<div id="report-details">
-  </div>
-
   <div id="bottom-bar" class="row">
-      <div onclick="darken(this)" class="col s3 pink lighten-4">Map<br><i class="material-icons" style="font-size: 80px">map</i></div>
+      <div onclick="darken(this)" class="col s3 pink lighten-2">Map<br><i class="material-icons" style="font-size: 80px">map</i></div>
       <div onclick="darken(this)" class="col s3 blue lighten-4">Report<br><i class="material-icons" style="font-size: 80px">note_add</i></div>
       <div onclick="darken(this)" class="col s3 red lighten-4">Search<br><i class="material-icons" style="font-size: 80px">search</i></div>
       <div onclick="darken(this)" class="col s3 purple lighten-4">Me<br><i class="material-icons" style="font-size: 80px">person</i></div>
@@ -141,16 +185,118 @@
 
     <div id="popups">
 
-      <transition name="slide-fade">
-        <div id="reports-bar" class="light-green" v-if="viewingreports">
+      <nav id="header" v-if="viewing==='map' || viewing ==='reports'">
+      <div class="nav-wrapper">
+          <a href="#" class="brand-logo" style="padding-left: 20px; font-size: 85px">OURBLOCK</a>
+          <ul id="nav-mobile" class="right hide-on-med-and-down">
+          </ul>
+      </div>
+      </nav>
 
-          <div v-for "(handle, date, description, location) in reports">
+      <transition name="fade">
+          <div v-if="viewing==='map'" id="add-btn" class="fixed-action-btn">
+        <a class="btn-floating btn-large red">
+          <i class="large material-icons">add</i>
+        </a>
+        <ul>
+          <li><a class="btn-floating red"><i class="material-icons">insert_chart</i></a></li>
+          <li><a class="btn-floating yellow darken-1"><i class="material-icons">mode_edit</i></a></li>
+          <li><a class="btn-floating green"><i class="material-icons">publish</i></a></li>
+          <li><a class="btn-floating blue"><i class="material-icons">attach_file</i></a></li>
+        </ul>
+      </div>
+      </transition>
+
+      <transition name="slide-fade">
+        <div id="reports-bar" class="light-green" v-if="viewing==='reports'">
+
+          <div v-for="report in reports">
+            <div class="my-container">
+                <div class="card sticky-action">
+
+                          <div class="card-content">
+                            <div class="card-title green-text">Report #{{report.handle}}</div>
+                            <p>Location: {{vm.formatLocation(report.location)}}<br>
+                              Date: {{report.date}}<br>
+                              Description: {{report.description}}<br>
+                            Likes: {{report.likes}} | Dislikes: {{report.dislikes}}</p>
+                            <span class="card-title activator blue-text">View comments<i class="material-icons right" style="font-size: 60px;">expand_less</i></span>
+                          </div>
+
+                          <div class="card-action">
+                            <a href="#"><i class="material-icons small">thumb_up</i> Like</a>
+                            <a href="#"><i class="material-icons small">thumb_down</i> Dislike</a>
+                          </div>
+
+                          <div class="card-reveal">
+                            <span class="card-title blue-text">Comments<i class="material-icons right" style="font-size: 60px;">expand_more</i></span>
+                            <p style="white-space: pre-line;">{{vm.formatComments(report.comments)}}</p>
+                          </div>
+                        </div>
+
+                      </div>
           </div>
 
         </div>
       </transition>
 
-    </div>
+      <transition name="fade">
+        <div id="search-page" v-if="viewing==='search'">
+
+
+          <nav id="search-bar">
+                    <div class="nav-wrapper">
+                      <form>
+                        <div class="input-field">
+                          <label class="label-icon" for="search-example">
+                          </label>
+                          <input style="font-size:40px;" id="search-example" type="search" required="" placeholder  ="Enter a few keywords...">
+                          <i class="material-icons" style="font-size: 80px;">search</i>
+                        </div>
+                      </form>
+                    </div>
+                  </nav>
+
+                  <a id="category-button" class='dropdown-trigger btn large' href='#' data-target='dropdown1'>Category</a>
+
+                  <!-- Dropdown Structure -->
+                  <ul id='dropdown1' class='dropdown-content'>
+                    <li><a href="#!">Homicide</a></li>
+                    <li><a href="#!">Theft</a></li>
+                    <li><a href="#!">Assault</a></li>
+                    <li><a href="#!">Drugs</a></li>
+                  </ul>
+
+                  <a id="status-button" class='dropdown-trigger btn large' href='#' data-target='dropdown2'>Status</a>
+
+                  <!-- Dropdown Structure -->
+                  <ul id='dropdown2' class='dropdown-content'>
+                    <li><a href="#!">Any</a></li>
+                    <li><a href="#!">Pending</a></li>
+                    <li><a href="#!">Solved</a></li>
+                  </ul>
+        </div>
+      </transition>
+
+      <transition name="fade">
+
+      <div v-if="viewing==='me'" id="user-profile" class="light-green lighten-5">
+
+        <img id="profile-image" src="person-icon.png"></img>
+
+        <h1 id="username">{{username}}</h1>
+
+        <div id="tokens" class="tokens light-green lighten-4">My tokens: &nbsp; {{tokens}}</div>
+
+        <div v-for="notif in notifs">
+
+        </div>
+      </div>
+
+      </transition>
+
+      </div>
+
 
   </body>
 
@@ -169,6 +315,10 @@
       element.classList.add('lighten-2');
 
       currentSection = element;
+
+      var temp = element.innerHTML.substring(0, element.innerHTML.indexOf('<')).toLowerCase();
+
+      vm.viewing = temp;
     }
 
     function lighten(element) {
@@ -182,9 +332,6 @@
     </script>
 
     <script defer>
-
-    var userName;
-    var reports;
 
       var map, infoWindow, markers;
       var points;
@@ -367,47 +514,52 @@
     var vm = new Vue({
       el: '#popups',
       data: {
-        viewingreports: false,
-        reports: {
+        viewing: 'map',
 
-        }
+        username: 'TheLegend27',
+        tokens: 0,
+
+        reports: [
+          {
+          handle: '12345',
+          date: '01/01/2001',
+          location: {latitude: 43, longitude: -72},
+          likes: 0,
+          dislikes: 0,
+          description: 'wolololo',
+          comments:['asdf','asdf'],
+        },
+        ],
+
+        notifs: [
+
+        ]
       },
-      computed: {
+      methods: {
+        formatComments: function (comments) {
 
+          var output = '';
+
+          for (var i = 0; i<comments.length-1; i++) {
+            output += comments[i] + '\n';
+          }
+
+          output += comments[comments.length-1];
+
+          return output;
+        },
+
+        formatLocation: function (location) {
+
+          return 'Latitude: ' + location.latitude + ' | Longitude: ' + location.longitude;
+        }
       }
     });
 
-    Vue.component('report', {
-      props: ['handle', 'date', 'description', 'votes'],
-      template: '<div class="my-container">' +
-      '<div class="card sticky-action">' +
-                    '<div class="card-image waves-effect waves-block waves-light">' +
-                      '<img class="activator" src="https://materializecss.com/images/office.jpg">' +
-                    '</div>' +
-                    '<div class="card-content">' +
-                      '<span class="card-title activator grey-text text-darken-4">Case #{{handle}}<i class="material-icons right">more_vert</i></span>' +
-                      '<p><a onclick="">More details</a></p>' +
-                    '</div>' +
-
-                    '<div class="card-action">' +
-                      '<a href="#">Upvote</a>' +
-                      '<a href="#">Downvote</a>' +
-                    '</div>' +
-
-                    '<div class="card-reveal">' +
-                      '<span class="card-title grey-text text-darken-4">Details<i class="material-icons right">close</i></span>' +
-                      '<p>Description: {{description}}</p>' +
-                      '<p>Date: {{date}}</p>' +
-                      '<p>Votes: {{votes}}</p>' +
-                      '<p>ID: {{handle}}</p>' +
-                    '</div>' +
-                  '</div>' +
-
-                '</div>',
-    });
   </script>
 
   <script>
+
 
   function viewCases(cases) {
 
