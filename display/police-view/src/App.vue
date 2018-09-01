@@ -10,16 +10,19 @@
       <div class="boxThing"><Piegraph :pie-data="statsPie"/></div>
     </md-content>
     <md-content class="md-layout-item md-size-40 max-100">
+      {{selectedId}}
       <Map
+        @markerClicked="selectCard($event)"
         @searchBounds="updateMap($event)"
         :markers="reportLocs"
+        :selectedId="selectedId"
       />
     </md-content>
     <md-content class="md-layout-item md-size-30 md-scrollbar max-100" style="position: relative; overflow: auto;" id="screenHeightCustom">
         <Card
           v-for="report in reports"
           :key="report._id"
-        :loc-data="report"
+          :loc-data="report"
         >
         </Card>
     </md-content>
@@ -36,9 +39,9 @@
   import severity from '../lib/severity'
 
   window.onload = function() {
-  var height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
-  var myDiv = document.getElementById("screenHeightCustom");
-  myDiv.style.height = height + "px";
+    var height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+    var myDiv = document.getElementById("screenHeightCustom");
+    myDiv.style.height = height + "px";
   }
 
   export default {
@@ -55,7 +58,8 @@
         statsTotal: 0,
         statsPie: [],
         lastBounds: {},
-        lastCenter: {}
+        lastCenter: {},
+        selectedId: 0
       }
     },
 
@@ -66,6 +70,12 @@
     },
 
     methods: {
+      selectCard(id) {
+        console.log(id);
+        this.selectedId = id;
+        this.getSelectedToTop();
+      },
+
       getStats() {
         axios.get('https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/stats')
           .then(stats => {
@@ -97,11 +107,22 @@
         })
         .then(locations => {
           this.reports = severity.getTopSeverity('police', Date.now(), this.lastCenter.lat, this.lastCenter.lng, locations.data, 25);
-          this.reportLocs = this.reports.map(report => ({ position: { lat: report.lat, lng: report.lon } }));
+          this.getSelectedToTop();
+          console.log(this.reports);
+          this.reportLocs = this.reports.map(report => ({ position: { lat: report.lat, lng: report.lon }, id: report._id }));
           // navigator.geolocation.getCurrentPosition(position => {
           //   this.reports = severity.getTopSeverity('police', Date.now(), position.coords.latitude, position.coords.longitude, locations.data, 5);
           // });
         })
+      },
+
+      getSelectedToTop() {
+        var selectedReportIndex = this.reports.findIndex(report => report._id === this.selectedId);
+        if (selectedReportIndex > 0) {
+          var selectedReport = this.reports[selectedReportIndex];
+          this.reports.splice(selectedReportIndex, 1);
+          this.reports.unshift(selectedReport);
+        }
       }
     }
   }
@@ -114,8 +135,8 @@
     overflow-x: visible;
   }
   .boxThing{
-	  -webkit-box-shadow: 0 1px 2px #777;
-	  -moz-box-shadow: 0 2px 1px #777;
-	  box-shadow: 0 2px 1px #777;
+    -webkit-box-shadow: 0 1px 2px #777;
+    -moz-box-shadow: 0 2px 1px #777;
+    box-shadow: 0 2px 1px #777;
   }
 </style>
