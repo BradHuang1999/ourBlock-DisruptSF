@@ -1,6 +1,7 @@
 <template>
   <div class="md-layout max-100">
     <md-content class="md-layout-item md-size-30 max-100">
+
       <h4 style="text-align: center;"> Crimes by Time, Categorized</h4>
       <div class="boxThing"><Linegraph /></div>
       <h4 style="text-align: center;"> Total Count Crimes per Hour </h4>
@@ -12,8 +13,9 @@
       <div class="boxThing"> <Scattergraph /></div>
       <h4 style="text-align: center;"> Crime Status Breakdown </h4>
       <div class="boxThing"><Piegraph :pie-data="statsPie"/></div>
+
     </md-content>
-    
+
     <md-content class="md-layout-item md-size-40 max-100">
       <img src="logo.png">
       {{selectedId}}
@@ -23,6 +25,7 @@
         :markers="reportLocs"
         :selectedId="selectedId"
       />
+      <Nodes></Nodes>
     </md-content>
     <md-content class="md-layout-item md-size-30 md-scrollbar max-100" style="position: relative; overflow: auto;" id="screenHeightCustom">
         <Card
@@ -45,6 +48,7 @@
   import Donutgraph from './components/Donutgraph.vue'
   import Scattergraph from './components/Scattergraph.vue'
   import severity from '../lib/severity'
+  import Nodes from '../nodes/src/example/Example.vue'
 
   window.onload = function() {
     var height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
@@ -56,7 +60,7 @@
     name: 'app',
 
     components: {
-      Card, Map, Bargraph, Linegraph, Piegraph, Donutgraph, Scattergraph
+      Card, Map, Bargraph, Linegraph, Piegraph, Donutgraph, Scattergraph, Nodes
     },
 
     data() {
@@ -141,10 +145,12 @@
     max-height: 100%;
     max-width: 100%;
     overflow-x: visible;
+    bakckground: white;
   }
   .boxThing{
     -webkit-box-shadow: 0 1px 2px #777;
     -moz-box-shadow: 0 2px 1px #777;
     box-shadow: 0 2px 1px #777;
+    z-index: 10000;
   }
 </style>
