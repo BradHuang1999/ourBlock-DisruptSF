@@ -1,21 +1,30 @@
 <template>
-  <div class="md-layout max-100">
-    <md-content class="md-layout-item md-size-30 max-100">
-      <h4 style="text-align: center;"> Crimes by Time, Categorized</h4>
-      <div class="boxThing"><Linegraph /></div>
-      <h4 style="text-align: center;"> Total Count Crimes per Hour </h4>
-      <div class="boxThing"><Bargraph /></div>
+  <div class="md-layout">
+    <md-content class="md-layout-item md-size-30">
+      <md-content class="md-elevation-2">
+        <h4 style="text-align: center;"> Crimes by Time, Categorized</h4>
+        <Linegraph />
+      </md-content>
+      <md-content class="md-elevation-2">
+        <h4 style="text-align: center;"> Total Count Crimes per Hour </h4>
+        <Bargraph />
+      </md-content>
       <!-- <h2> Reports from last 7 days: {{ statsTotal }} </h2> -->
-      <h4 style="text-align: center;"> Crime Category Breakdown </h4>
-      <div class="boxThing"> <Donutgraph /></div>
-      <h4 style="text-align: center;"> Crime by Location </h4>
-      <div class="boxThing"> <Scattergraph /></div>
-      <h4 style="text-align: center;"> Crime Status Breakdown </h4>
-      <div class="boxThing"><Piegraph :pie-data="statsPie"/></div>
+      <md-content class="md-elevation-2">
+        <h4 style="text-align: center;"> Crime Category Breakdown </h4>
+        <Donutgraph />
+      </md-content>
+      <md-content class="md-elevation-2">
+        <h4 style="text-align: center;"> Crime by Location </h4>
+        <Scattergraph />
+      </md-content>
+      <md-content class="md-elevation-2">
+        <h4 style="text-align: center;"> Crime Status Breakdown </h4>
+        <Piegraph :pie-data="statsPie"/>
+      </md-content>
     </md-content>
-    
-    <md-content class="md-layout-item md-size-40 max-100">
-      <img src="logo.png">
+    <md-content class="md-layout-item md-size-40">
+      <center><img src="./assets/frontPageLogoClear.png" width="300" style="padding: 10px"></center>
       {{selectedId}}
       <Map
         @markerClicked="selectCard($event)"
@@ -24,7 +33,7 @@
         :selectedId="selectedId"
       />
     </md-content>
-    <md-content class="md-layout-item md-size-30 md-scrollbar max-100" style="position: relative; overflow: auto;" id="screenHeightCustom">
+    <md-content class="md-layout-item md-size-30 md-scrollbar" style="position: relative; overflow: auto;" id="screenHeightCustom">
         <Card
           v-for="report in reports"
           :key="report._id"
@@ -137,14 +146,14 @@
 </script>
 
 <style scoped>
-  body, html, .max-100{
+  body, html, .max-100 {
     max-height: 100%;
     max-width: 100%;
     overflow-x: visible;
   }
-  .boxThing{
-    -webkit-box-shadow: 0 1px 2px #777;
-    -moz-box-shadow: 0 2px 1px #777;
-    box-shadow: 0 2px 1px #777;
+
+  .md-elevation-2 {
+    padding: 10px;
+    margin: 10px;
   }
 </style>
