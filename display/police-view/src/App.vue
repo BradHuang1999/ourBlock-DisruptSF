@@ -13,8 +13,9 @@
       <h4 style="text-align: center;"> Crime Status Breakdown </h4>
       <div class="boxThing"><Piegraph :pie-data="statsPie"/></div>
     </md-content>
-    <img src="logo.png">
+    
     <md-content class="md-layout-item md-size-40 max-100">
+      <img src="logo.png">
       {{selectedId}}
       <Map
         @markerClicked="selectCard($event)"
