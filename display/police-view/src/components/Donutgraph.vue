@@ -4,6 +4,7 @@
     :settings="{packages: ['corechart']}"    
     :data="chartData"
     :createChart="(el, google) => new google.visualization.PieChart(el)"
+    :options="options"
     @ready="onChartReady"
   />
   </div>
@@ -33,7 +34,10 @@ export default {
         ['Kidnapping', 1337],
         ['Sex Offences', 358],
         ['Mental Health/Bullying', 155]
-      ]
+      ],
+      options: {
+        pieHole: 0.25
+      }
     }
   },
    /*computed: {

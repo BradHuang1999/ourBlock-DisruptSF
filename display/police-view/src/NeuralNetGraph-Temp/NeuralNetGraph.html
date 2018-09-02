@@ -22,23 +22,29 @@
         google.setOnLoadCallback(drawVisualization);
 
         function custom(x, y, t) {
-            return Math.sin(x/50 + t/10) * Math.cos(y/50 + t/10) * 50 + 50;
+            var myNum1 = myRandom(50.1,49.9);
+            var myNum2 = myRandom(10.1,9.9);
+            return Math.sin(x/myNum1 + t/myNum2) * Math.cos(y/myNum1 + t/myNum2) * myNum1 + 50;
         }
 
+        function myRandom(max, min){
+            return Math.random() * (max - min) + min;
+        }
+        
         // Called when the Visualization API is loaded.
         function drawVisualization() {
             // Create and populate a data table.
             data = new google.visualization.DataTable();
-            data.addColumn('number', 'x');
-            data.addColumn('number', 'y');
-            data.addColumn('number', 'value');
-            data.addColumn('number', 'Time');
+            data.addColumn('number', 'Crime Severity');
+            data.addColumn('number', 'Location Squared');
+            data.addColumn('number', 'Accuracy');
+            data.addColumn('number', 'Batch (0-500)');
 
             // create some nice looking data with sin/cos
             // number of datapoints will be steps*steps*tMax
             var steps = 25;
             var axisMax = 314;
-            var tMax = 200;
+            var tMax = 500;
             var axisStep = axisMax / steps;
             for (var t = 0; t < tMax; t++) {
                 for (var x = 0; x < axisMax; x+=axisStep) {
