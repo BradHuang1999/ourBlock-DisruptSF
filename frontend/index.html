@@ -9,6 +9,7 @@
      <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
      <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.min.js"></script>
      <link href="https://fonts.googleapis.com/css?family=Josefin+Slab|VT323|Lalezar" rel="stylesheet">
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
   </head>
   <style>
       /* Always set the map height explicitly to define the size of the div
@@ -174,7 +175,7 @@
   </head>
   <body>
 
-    <div id="map"></div>
+    <div id="map" onclick="clickMap()"></div>
 
   <div id="bottom-bar" class="row">
       <div onclick="darken(this)" class="col s3 pink lighten-2">Map<br><i class="material-icons" style="font-size: 80px">map</i></div>
@@ -251,7 +252,7 @@
                           <label class="label-icon" for="search-example">
                           </label>
                           <input style="font-size:40px;" id="search-example" type="search" required="" placeholder  ="Enter a few keywords...">
-                          <i class="material-icons" style="font-size: 80px;">search</i>
+                          <i onclick="search()" class="material-icons" style="font-size: 80px;">search</i>
                         </div>
                       </form>
                     </div>
@@ -303,6 +304,23 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
     <script>
+
+    function clickMap() {
+      vm.viewing = 'map';
+    }
+
+    function search() {
+      var term = document.getElementById('search-example').value;
+      console.log(term);
+
+      axios.get('https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/search', {
+        params: {
+          'query': 'man in green'
+        }
+      }).then(function(res) {
+        console.log(res);
+      });
+    }
 
     var sections = document.getElementsByClassName('col');
     var currentSection = sections[0];
@@ -411,7 +429,7 @@
             };
             infoWindow.setPosition(pos);
             infoWindow.setContent('You are here.');
-            infoWindow.open(map);
+            //infoWindow.open(map);
             //map.setCenter({lat:37.7749, lng:-122.4194});
           }, function() {
             handleLocationError(true, infoWindow, map.getCenter());
@@ -420,13 +438,27 @@
           // Browser doesn't support Geolocation
           handleLocationError(false, infoWindow, map.getCenter());
         }
+
+        google.maps.event.addListener(map, 'dragend', function() {
+         var sw = map.getBounds().getSouthWest();
+         var ne = map.getBounds().getNorthEast();
+
+         var body = {
+           lonmin: sw.lng(),
+           lonmax: ne.lng(),
+           latmin: sw.lat(),
+           latmax: ne.lat()
+         }
+
+         console.log(body);
+      });
       }
       function handleLocationError(browserHasGeolocation, infoWindow, pos) {
         infoWindow.setPosition(pos);
         infoWindow.setContent(browserHasGeolocation ?
                               'Error: The Geolocation service failed.' :
                               'Error: Your browser doesn\'t support geolocation.');
-        infoWindow.open(map);
+        //infoWindow.open(map);
       }
 
       function render() {

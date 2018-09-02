@@ -1,20 +1,11 @@
 <template>
 
-<!DOCTYPE HTML>
-<html>
-<head>
-    <title>Graph 3D animation demo</title>
+<div>
 
-    <style type="text/css">
-        body {
-            font: 10pt arial;
-        }
-    </style>
+    <script2 type="text/javascript2" src="http://www.google.com/jsapi"></script2>
+    <script2 type="text/javascript2" src="./NeuralNetGraph-Temp/graph3d.js"></script2>
 
-    <script type="text/javascript" src="http://www.google.com/jsapi"></script>
-    <script type="text/javascript" src="graph3d.js"></script>
-
-    <script type="text/javascript">
+    <script2 type="text/javascript2">
         var data = null;
         var graph = null;
 
@@ -75,16 +66,26 @@
             // Draw our graph with the created data and options
             graph.draw(data, options);
         }
-    </script>
-</head>
+    </script2>
 
-<body>
 <div id="mygraph"></div>
 
 <div id="info"></div>
-</body>
-</html>
 
-
+</div>
 
 </template>
+
+<script>
+
+export default {
+  name: 'Neuralnetgraph'
+}
+
+</script>
+
+<style type="text/css">
+    body {
+        font: 10pt arial;
+    }
+</style>

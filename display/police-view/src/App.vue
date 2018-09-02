@@ -25,6 +25,9 @@
 <!--       <md-content class="md-elevation-2">
         <Nodes/>
       </md-content> -->
+      <md-content class="md-elevation-2">
+      <img :src="require('./neuralnetgraph.gif')">
+      </md-content>
     </md-content>
     <md-content class="md-layout-item md-size-40">
       <center><img src="./assets/frontPageLogoClear.png" width="180" style="padding: 10px"></center>
@@ -58,6 +61,7 @@
   import Scattergraph from './components/Scattergraph.vue'
   import severity from '../lib/severity'
   import Nodes from '../nodes/src/example/Example.vue'
+  import Neuralnetgraph from './components/Neuralnetgraph.vue'
 
   window.onload = function() {
     var height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
@@ -69,7 +73,7 @@
     name: 'app',
 
     components: {
-      Card, Map, Bargraph, Linegraph, Piegraph, Donutgraph, Scattergraph, Nodes
+      Card, Map, Bargraph, Linegraph, Piegraph, Donutgraph, Scattergraph, Nodes, Neuralnetgraph
     },
 
     data() {
