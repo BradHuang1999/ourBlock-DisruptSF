@@ -36,7 +36,7 @@ export default {
         ['Mental Health/Bullying', 155]
       ],
       options: {
-        pieHole: 0.4
+        pieHole: 0.25
       }
     }
   },
