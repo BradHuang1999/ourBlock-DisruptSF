@@ -22,8 +22,9 @@
         <h4 style="text-align: center;"> Crime Status Breakdown </h4>
         <Piegraph :pie-data="statsPie"/>
       </md-content>
-      <md-content class="md-elevation-2">
-        <Nodes/>
+      <md-content class="md-elevation-2" style="zoom: 60%;">
+        <h4 style="text-align: center; zoom:160%;"> Blockchain Ledger Hash Activity </h4>
+        <Nodes></Nodes>
       </md-content>
     </md-content>
     <md-content class="md-layout-item md-size-40">
