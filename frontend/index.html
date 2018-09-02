@@ -216,7 +216,7 @@
                 <div class="card sticky-action">
 
                           <div class="card-content">
-                            <div class="card-title green-text">Report #{{report.handle}}</div>
+                            <div class="card-title green-text">Report #{{report._id}}</div>
                             <p>Location: {{vm.formatLocation(report)}}<br>
                               Date: {{report.date}}<br>
                               Description: {{report.description}}<br>
@@ -249,7 +249,7 @@
 
           <nav id="search-bar">
                     <div class="nav-wrapper">
-                      <form>
+                      <form onsubmit="search()">
                         <div class="input-field">
                           <label class="label-icon" for="search-example">
                           </label>
@@ -307,6 +307,15 @@
 
     <script>
 
+    function comment(element) {
+      var reportID = element.getParentNode().getParentNode().getChildNodes()[0].getChildNodes()[0].innerHTML;
+      reportID = reportID.substring(reportID.lastIndexOf(' ') + 1);
+
+      var comment = element.value;
+
+      
+    }
+
     function clickMap() {
       vm.viewing = 'map';
     }
@@ -319,11 +328,17 @@
           'query': term
         }
       }).then(function(res) {
-        console.log(res);
-        vm.reports = res;
+        console.log(res.data);
+        vm.reports = res.data;
         vm.viewing = 'reports'
       });
     }
+
+    $("search-example").on('keyup', function (e) {
+    if (e.keyCode == 13) {
+        search();
+    }
+  });
 
     var sections = document.getElementsByClassName('col');
     var currentSection = sections[0];
@@ -553,17 +568,7 @@
         username: 'TheLegend27',
         tokens: 0,
 
-        reports: [
-          {
-          handle: '12345',
-          date: '01/01/2001',
-          location: {latitude: 43, longitude: -72},
-          likes: 0,
-          dislikes: 0,
-          description: 'wolololo',
-          comments:['asdf','asdf'],
-        },
-        ],
+        reports: [        ],
 
         notifs: [
 
