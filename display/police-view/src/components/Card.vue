@@ -1,6 +1,9 @@
 <template>
   <div class="card-expansion">
-    <md-card>
+    <md-card
+      class="init-color"
+      v-bind:class="{ 'change-color': locData._id === selectedId }"
+    >
       <md-card-header>
         <div class="row-icons">
           <strong> {{ locData.category }} </strong>
@@ -26,7 +29,11 @@
       </md-card-content>
 
       <md-card-expand>
-        <md-card-actions md-alignment="space-between">
+        <md-card-actions
+          class="init-color"
+          v-bind:class="{ 'change-color': locData._id === selectedId }"
+          md-alignment="space-between"
+        >
           <md-field>
             <label for="selectCaseStatus">Case Status</label>
             <md-select
@@ -100,16 +107,8 @@
         time: Number,
         privacy: String,
         status: String
-      }
-    },
-    
-    data() {
-      return {
-        otherData: {
-          lat: 22,
-          lon: 23
-        }
-      }
+      },
+      selectedId: String
     },
 
     mounted() {
@@ -129,6 +128,45 @@
 </script>
 
 <style lang="scss" scoped>
+  @-webkit-keyframes change-color-animation {
+    0%    { background-color: white; }  
+    50%   { background-color: #82be70; } 
+    100%  { background-color: white; }  
+  }
+
+  @keyframes change-color-animation {
+    0%    { background-color: white; }  
+    50%   { background-color: #82be70; } 
+    100%  { background-color: white; }  
+  }
+
+  .change-color {
+    -webkit-animation-name: change-color-animation; /* Safari 4.0 - 8.0 */
+    -webkit-animation-duration: 0.7s; /* Safari 4.0 - 8.0 */
+    animation-name: change-color-animation;
+    animation-duration: 0.7s;
+  }
+
+  @-webkit-keyframes init-color-animation {
+    0%    { background-color: white; }  
+    50%   { background-color: #82be70; } 
+    100%  { background-color: white; }  
+  }
+
+  /* Standard syntax */
+  @keyframes init-color-animation {
+    0%    { background-color: white; }  
+    50%  { background-color: #82be70; } 
+    100%   { background-color: white; }  
+  }
+
+  .init-color {
+    -webkit-animation-name: init-color-animation; /* Safari 4.0 - 8.0 */
+    -webkit-animation-duration: 0.5s; /* Safari 4.0 - 8.0 */
+    animation-name: init-color-animation;
+    animation-duration: 0.5s;
+  }
+
   .md-card {
     margin-left: 8px;
     margin-right: 8px;

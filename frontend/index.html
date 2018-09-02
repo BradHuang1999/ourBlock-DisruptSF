@@ -9,6 +9,7 @@
      <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
      <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.min.js"></script>
      <link href="https://fonts.googleapis.com/css?family=Josefin+Slab|VT323|Lalezar" rel="stylesheet">
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
   </head>
   <style>
       /* Always set the map height explicitly to define the size of the div
@@ -174,7 +175,7 @@
   </head>
   <body>
 
-    <div id="map"></div>
+    <div id="map" onclick="clickMap()"></div>
 
     <div onclick="darken(this)" class="col s3 grey lighten-4"> <img style="position:absolute; top:87%; left:41.5%; z-index:1; zoom: 130%;" src="report-final.png" alt=""></div>
 
@@ -219,10 +220,12 @@
 
                           <div class="card-content">
                             <div class="card-title green-text">Report #{{report.handle}}</div>
-                            <p>Location: {{vm.formatLocation(report.location)}}<br>
+                            <p>Location: {{vm.formatLocation(report)}}<br>
                               Date: {{report.date}}<br>
                               Description: {{report.description}}<br>
-                            Likes: {{report.likes}} | Dislikes: {{report.dislikes}}</p>
+                              Category: {{report.category}}<br>
+                              Status: {{report.status}}<br>
+                            Likes: {{report.upvoterCount}} | Dislikes: {{report.downvoterCount}}</p>
                             <span class="card-title activator blue-text">View comments<i class="material-icons right" style="font-size: 60px;">expand_less</i></span>
                           </div>
 
@@ -254,7 +257,7 @@
                           <label class="label-icon" for="search-example">
                           </label>
                           <input style="font-size:40px;" id="search-example" type="search" required="" placeholder  ="Enter a few keywords...">
-                          <i class="material-icons" style="font-size: 80px;">search</i>
+                          <i onclick="search()" class="material-icons" style="font-size: 80px;">search</i>
                         </div>
                       </form>
                     </div>
@@ -306,6 +309,24 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
     <script>
+
+    function clickMap() {
+      vm.viewing = 'map';
+    }
+
+    function search() {
+      var term = document.getElementById('search-example').value;
+
+      axios.post('https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/search', {
+        params: {
+          'query': term
+        }
+      }).then(function(res) {
+        console.log(res);
+        vm.reports = res;
+        vm.viewing = 'reports'
+      });
+    }
 
     var sections = document.getElementsByClassName('col');
     var currentSection = sections[0];
@@ -414,7 +435,7 @@
             };
             infoWindow.setPosition(pos);
             infoWindow.setContent('You are here.');
-            infoWindow.open(map);
+            //infoWindow.open(map);
             //map.setCenter({lat:37.7749, lng:-122.4194});
           }, function() {
             handleLocationError(true, infoWindow, map.getCenter());
@@ -423,13 +444,27 @@
           // Browser doesn't support Geolocation
           handleLocationError(false, infoWindow, map.getCenter());
         }
+
+        google.maps.event.addListener(map, 'dragend', function() {
+         var sw = map.getBounds().getSouthWest();
+         var ne = map.getBounds().getNorthEast();
+
+         var body = {
+           lonmin: sw.lng(),
+           lonmax: ne.lng(),
+           latmin: sw.lat(),
+           latmax: ne.lat()
+         }
+
+         console.log(body);
+      });
       }
       function handleLocationError(browserHasGeolocation, infoWindow, pos) {
         infoWindow.setPosition(pos);
         infoWindow.setContent(browserHasGeolocation ?
                               'Error: The Geolocation service failed.' :
                               'Error: Your browser doesn\'t support geolocation.');
-        infoWindow.open(map);
+        //infoWindow.open(map);
       }
 
       function render() {
@@ -440,7 +475,6 @@
          dataType: "jsonp",
          success: function(data){
             //console.log(data)
-            points = [];
 
             for(var i = 0; i < data.features.length; i++) {
               var time = data.features[i].attributes.ATSCENE_TS;
@@ -552,9 +586,9 @@
           return output;
         },
 
-        formatLocation: function (location) {
+        formatLocation: function (report) {
 
-          return 'Latitude: ' + location.latitude + ' | Longitude: ' + location.longitude;
+          return 'Latitude: ' + report.lat + ' | Longitude: ' + report.lon;
         }
       }
     });

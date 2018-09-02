@@ -22,14 +22,16 @@
         <h4 style="text-align: center;"> Crime Status Breakdown </h4>
         <Piegraph :pie-data="statsPie"/>
       </md-content>
-      <md-content class="md-elevation-2" style="zoom: 60%;">
-        <h4 style="text-align: center; zoom:160%;"> Blockchain Ledger Hash Activity </h4>
-        <Nodes></Nodes>
+      <md-content class="md-elevation-2">
+        <h4 style="text-align: center;"> Blockchain Ledger Hash Activity </h4>
+        <Nodes style="zoom: 60%;"></Nodes>
+      </md-content>
+      <md-content class="md-elevation-2">
+        <img :src="require('./assets/neuralnetgraph.gif')">
       </md-content>
     </md-content>
     <md-content class="md-layout-item md-size-40">
       <center><img src="./assets/frontPageLogoClear.png" width="180" style="padding: 10px"></center>
-      {{selectedId}}
       <Map
         @markerClicked="selectCard($event)"
         @searchBounds="updateMap($event)"
@@ -42,6 +44,7 @@
           v-for="report in reports"
           :key="report._id"
           :loc-data="report"
+          :selectedId="selectedId"
         >
         </Card>
     </md-content>
@@ -49,6 +52,7 @@
 </template>
 
 <script>
+  import Vue from 'vue'
   import axios from 'axios';
   import Card from './components/Card.vue'
   import Map from './components/Map.vue'
@@ -57,8 +61,8 @@
   import Piegraph from './components/Piegraph.vue'
   import Donutgraph from './components/Donutgraph.vue'
   import Scattergraph from './components/Scattergraph.vue'
+  import Nodes from './components/nodes/src/example/Example.vue'
   import severity from '../lib/severity'
-  import Nodes from '../nodes/src/example/Example.vue'
 
   window.onload = function() {
     var height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
@@ -70,7 +74,7 @@
     name: 'app',
 
     components: {
-      Card, Map, Bargraph, Linegraph, Piegraph, Donutgraph, Scattergraph , Nodes
+      Card, Map, Bargraph, Linegraph, Piegraph, Donutgraph, Scattergraph, Nodes
     },
 
     data() {
@@ -81,7 +85,7 @@
         statsPie: [],
         lastBounds: {},
         lastCenter: {},
-        selectedId: 0
+        selectedId: ''
       }
     },
 
@@ -130,7 +134,6 @@
         .then(locations => {
           this.reports = severity.getTopSeverity('police', Date.now(), this.lastCenter.lat, this.lastCenter.lng, locations.data, 25);
           this.getSelectedToTop();
-          console.log(this.reports);
           this.reportLocs = this.reports.map(report => ({ position: { lat: report.lat, lng: report.lon }, id: report._id }));
           // navigator.geolocation.getCurrentPosition(position => {
           //   this.reports = severity.getTopSeverity('police', Date.now(), position.coords.latitude, position.coords.longitude, locations.data, 5);
@@ -152,11 +155,15 @@
 
 <style>
   body {
-    background-color: white !important
+    background-color: white
   }
 
   .md-elevation-2 {
-    padding: 3px;
-    margin: 3px;
+    padding: 8px;
+    margin-left: 8px;
+    margin-right: 8px;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    display: block;
   }
 </style>
