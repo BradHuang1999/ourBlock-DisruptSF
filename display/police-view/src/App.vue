@@ -22,17 +22,10 @@
         <h4 style="text-align: center;"> Crime Status Breakdown </h4>
         <Piegraph :pie-data="statsPie"/>
       </md-content>
-<<<<<<< HEAD
-<!--       <md-content class="md-elevation-2">
-        <Nodes/>
-      </md-content> -->
-      <md-content class="md-elevation-2">
       <img :src="require('./neuralnetgraph.gif')">
-=======
       <md-content class="md-elevation-2" style="zoom: 60%;">
         <h4 style="text-align: center; zoom:160%;"> Blockchain Ledger Hash Activity </h4>
         <Nodes></Nodes>
->>>>>>> df3fa0e80cac60d3643e04b92a321f161d555ad1
       </md-content>
     </md-content>
     <md-content class="md-layout-item md-size-40">
@@ -79,11 +72,7 @@
     name: 'app',
 
     components: {
-<<<<<<< HEAD
       Card, Map, Bargraph, Linegraph, Piegraph, Donutgraph, Scattergraph, Nodes, Neuralnetgraph
-=======
-      Card, Map, Bargraph, Linegraph, Piegraph, Donutgraph, Scattergraph , Nodes
->>>>>>> df3fa0e80cac60d3643e04b92a321f161d555ad1
     },
 
     data() {

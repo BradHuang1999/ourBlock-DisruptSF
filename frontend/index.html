@@ -217,10 +217,12 @@
 
                           <div class="card-content">
                             <div class="card-title green-text">Report #{{report.handle}}</div>
-                            <p>Location: {{vm.formatLocation(report.location)}}<br>
+                            <p>Location: {{vm.formatLocation(report)}}<br>
                               Date: {{report.date}}<br>
                               Description: {{report.description}}<br>
-                            Likes: {{report.likes}} | Dislikes: {{report.dislikes}}</p>
+                              Category: {{report.category}}<br>
+                              Status: {{report.status}}<br>
+                            Likes: {{report.upvoterCount}} | Dislikes: {{report.downvoterCount}}</p>
                             <span class="card-title activator blue-text">View comments<i class="material-icons right" style="font-size: 60px;">expand_less</i></span>
                           </div>
 
@@ -311,14 +313,15 @@
 
     function search() {
       var term = document.getElementById('search-example').value;
-      console.log(term);
 
-      axios.get('https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/search', {
+      axios.post('https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/search', {
         params: {
-          'query': 'man in green'
+          'query': term
         }
       }).then(function(res) {
         console.log(res);
+        vm.reports = res;
+        vm.viewing = 'reports'
       });
     }
 
@@ -469,7 +472,6 @@
          dataType: "jsonp",
          success: function(data){
             //console.log(data)
-            points = [];
 
             for(var i = 0; i < data.features.length; i++) {
               var time = data.features[i].attributes.ATSCENE_TS;
@@ -581,9 +583,9 @@
           return output;
         },
 
-        formatLocation: function (location) {
+        formatLocation: function (report) {
 
-          return 'Latitude: ' + location.latitude + ' | Longitude: ' + location.longitude;
+          return 'Latitude: ' + report.lat + ' | Longitude: ' + report.lon;
         }
       }
     });
