@@ -14,10 +14,10 @@
       /* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
       #map {
-        height: 75%;
+        height: 80%;
         position: absolute;
         top: 10%;
-  bottom: 15%;
+  bottom: 10%;
   left: 0;
   right: 0;
       }
@@ -52,9 +52,9 @@
 
         #bottom-bar {
           position: absolute;
-          height: 15%;
+          height: 10%;
           width: 100%;
-          top: 85%;
+          top: 90%;
           font-size: 40px;
           text-align: center;
         }
@@ -176,18 +176,21 @@
 
     <div id="map"></div>
 
+    <div onclick="darken(this)" class="col s3 grey lighten-4"> <img style="position:absolute; top:87%; left:41.5%; z-index:1; zoom: 130%;" src="report-final.png" alt=""></div>
+
   <div id="bottom-bar" class="row">
-      <div onclick="darken(this)" class="col s3 pink lighten-2">Map<br><i class="material-icons" style="font-size: 80px">map</i></div>
-      <div onclick="darken(this)" class="col s3 blue lighten-4">Report<br><i class="material-icons" style="font-size: 80px">note_add</i></div>
-      <div onclick="darken(this)" class="col s3 red lighten-4">Search<br><i class="material-icons" style="font-size: 80px">search</i></div>
-      <div onclick="darken(this)" class="col s3 purple lighten-4">Me<br><i class="material-icons" style="font-size: 80px">person</i></div>
+      <div onclick="darken(this)" class="col s3 grey lighten-4"> <img style="margin-top: 44px; zoom: 110%;" src="map-black.png" alt=""></div>
+      <div onclick="darken(this)" class="col s3 grey lighten-4"> <img style="margin-top: 44px; margin-right: 100px; zoom: 110%;" src="search-black.png" alt=""></div>
+      <div onclick="darken(this)" class="col s3 grey lighten-4"> <img style="margin-top: 44px; margin-left: 100px; zoom: 110%;" src="notif-black.png" alt=""></div>
+      <div onclick="darken(this)" class="col s3 grey lighten-4"> <img style="margin-top: 44px; zoom: 110%;" src="profile-black.png" alt=""></div>
     </div>
 
     <div id="popups">
 
-      <nav id="header" v-if="viewing==='map' || viewing ==='reports'">
+      <nav id="header" style="background-color:white;" v-if="viewing==='map' || viewing ==='reports'">
       <div class="nav-wrapper">
-          <a href="#" class="brand-logo" style="padding-left: 20px; font-size: 85px">OURBLOCK</a>
+        <img style="zoom:25%; display: block; margin-left: auto;
+            margin-right: auto; width: 50%; margin-top: 3%"src="logo.png" alt="">
           <ul id="nav-mobile" class="right hide-on-med-and-down">
           </ul>
       </div>
