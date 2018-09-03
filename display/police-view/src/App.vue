@@ -120,7 +120,7 @@
       setInterval(this.getStats, 1000 * 10);
       setInterval(this.updateMap, 1000 * 10);
       this.screenHeight = window.innerHeight;
-      setInterval(this.count, 30);
+      setInterval(this.count, 150);
     },
 
     methods: {
@@ -130,7 +130,10 @@
       },
 
       count() {
-        this.iter++;
+          var min = Math.ceil(0);
+          var max = Math.floor(12);
+          var myRandom = Math.floor(Math.random() * (max - min)) + min;
+          this.iter += myRandom;
       },
 
       getStats() {
