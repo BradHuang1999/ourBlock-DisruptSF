@@ -1,5 +1,5 @@
 <template lang="pug">
-  #app
+  #app-blockchain-nodes
     d3-net-example
 
 </template>
@@ -96,7 +96,7 @@ export default {
     bottom: 0
     color: $dark
 
-  #app-nodes
+  #app-blockchain-nodes
     text-align:center
     user-select: none
 </style>

@@ -66,7 +66,7 @@
   import Piegraph from './components/Piegraph.vue'
   import Donutgraph from './components/Donutgraph.vue'
   import Scattergraph from './components/Scattergraph.vue'
-  import Nodes from './components/nodes/src/example/Example.vue'
+  import Nodes from './components/blockchain-nodes/example/Example.vue'
   import severity from '../lib/severity'
 
   window.onload = function() {
@@ -125,7 +125,7 @@
               ["pending", stats.data["pending"]],
               ["in progress", stats.data["in progress"]],
               ["solved by public", stats.data["solved by public"]],
-              ["solved by police", stats.data["pesolved by police"]]
+              ["solved by police", stats.data["solved by police"]]
             ]
           });
       },
