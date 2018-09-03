@@ -177,7 +177,7 @@
 
     <div id="map" onclick="clickMap()"></div>
 
-    <div data-section="report" onclick="select(this)" class="col s3 grey lighten-4"> <img style="position:absolute; top:87%; left:41.5%; z-index:1; zoom: 130%;" src="report-final.png" alt=""></div>
+    <div data-section="report" onclick="select(this)" class="col s3 grey lighten-4"> <img style="position:absolute; top:87%; left:41.5%; z-index:60000; zoom: 130%;" src="report-final.png" alt=""></div>
 
   <div id="bottom-bar" class="row">
 
@@ -298,8 +298,8 @@
 
     }
 
-    var light = [' <img style="position:absolute; top:87%; left:41.5%; z-index:1; zoom: 130%;" src="report-final.png" alt="">', '<img style="margin-top: 44px; zoom: 110%;" src="map.png" alt="">', '<img style="margin-top: 44px; margin-right: 100px; zoom: 110%;" src="search.png" alt="">', '<img style="margin-top: 44px; margin-left: 100px; zoom: 110%;" src="notif.png" alt="">', '<img style="margin-top: 44px; zoom: 110%;" src="profile.png" alt="">'];
-    var dark = [' <img style="position:absolute; top:87%; left:41.5%; z-index:1; zoom: 130%;" src="report-final.png" alt="">', '<img style="margin-top: 44px; zoom: 110%;" src="map-black.png" alt="">', '<img style="margin-top: 44px; margin-right: 100px; zoom: 110%;" src="search-black.png" alt="">', '<img style="margin-top: 44px; margin-left: 100px; zoom: 110%;" src="notif-black.png" alt="">', '<img style="margin-top: 44px; zoom: 110%;" src="profile-black.png" alt="">'];
+    var light = [' <img style="position:absolute; top:87%; left:41.5%; z-index:1; zoom: 130%;" src="report.png" alt="">', '<img style="margin-top: 44px; zoom: 110%;" src="map.png" alt="">', '<img style="margin-top: 44px; margin-right: 100px; zoom: 110%;" src="search.png" alt="">', '<img style="margin-top: 44px; margin-left: 100px; zoom: 110%;" src="notif.png" alt="">', '<img style="margin-top: 44px; zoom: 110%;" src="profile.png" alt="">'];
+    var dark = [' <img style="position:absolute; top:87%; left:41.5%; z-index:1; zoom: 130%;" src="report-black.png" alt="">', '<img style="margin-top: 44px; zoom: 110%;" src="map-black.png" alt="">', '<img style="margin-top: 44px; margin-right: 100px; zoom: 110%;" src="search-black.png" alt="">', '<img style="margin-top: 44px; margin-left: 100px; zoom: 110%;" src="notif-black.png" alt="">', '<img style="margin-top: 44px; zoom: 110%;" src="profile-black.png" alt="">'];
 
     var sections = document.getElementsByClassName('col');
 
@@ -511,6 +511,30 @@
               'message': description
             }
           });
+        }
+
+        function upvote(reportId) {
+
+          axios.post('https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/interact', {
+            params: {
+              'userId': vm.username,
+              'reportID': reportId,
+              'action': 'upvote'
+            }
+          });
+
+        }
+
+        function downVote(reportId) {
+
+          axios.post('https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/interact', {
+            params: {
+              'userId': vm.username,
+              'reportID': reportId,
+              'action': 'downvote'
+            }
+          });
+
         }
 
     </script>
