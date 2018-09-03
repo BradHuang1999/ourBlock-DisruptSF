@@ -1,12 +1,12 @@
 <template>
   <div id='GPieGraph'>
-  <GChart
-    :settings="{packages: ['corechart']}"    
-    :data="pieData"
-    :createChart="(el, google) => new google.visualization.PieChart(el)"
-    :options="options"
-    @ready="onChartReady"
-  />
+    <GChart
+      :settings="{packages: ['corechart']}"    
+      :data="pieData"
+      :createChart="(el, google) => new google.visualization.PieChart(el)"
+      :options="options"
+      @ready="onChartReady"
+    />
   </div>
 </template>
 
@@ -26,7 +26,8 @@ export default {
       chartsLib: null,
       options: {
         hAxis: { format: 'decimal' },
-        colors: ['#1b9e77', '#d95f02', '#7570b3']
+        colors: ['#1b9e77', '#d95f02', '#7570b3', '#454ade'],
+        height: 120,
       }
     }
   },
@@ -60,6 +61,6 @@ export default {
 
 <style>
   #GPieGraph{
-    height: 200px;
+    height: 120px;
   }
 </style>

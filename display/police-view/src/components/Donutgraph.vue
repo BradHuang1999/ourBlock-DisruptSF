@@ -1,5 +1,5 @@
 <template>
-  <div id='GPieGraph'>
+  <div id='GDonutGraph'>
   <GChart
     :settings="{packages: ['corechart']}"    
     :data="chartData"
@@ -36,7 +36,8 @@ export default {
         ['Mental Health/Bullying', 155]
       ],
       options: {
-        pieHole: 0.25
+        pieHole: 0.25,
+        height: 194,
       }
     }
   },
@@ -73,7 +74,7 @@ export default {
 </script>
 
 <style>
-  #GPieGraph{
-    height: 200px;
+  #GDonutGraph{
+    height: 194px;
   }
 </style>

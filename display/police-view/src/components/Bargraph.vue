@@ -55,7 +55,7 @@ export default {
       if (!this.chartsLib) return null
       return this.chartsLib.charts.Bar.convertOptions({
         bars: 'horizontal',
-        height: 250,
+        height: 140,
         legend: {
           position: 'none',
         }
@@ -72,6 +72,6 @@ export default {
 
 <style>
   #GBarGraph{
-    height: 250px;
+    height: 140px;
   }
 </style>

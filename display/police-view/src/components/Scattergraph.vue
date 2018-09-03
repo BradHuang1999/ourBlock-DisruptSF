@@ -1,5 +1,5 @@
 <template>
-  <div id='GBarGraph'>
+  <div id='GScatterGraph'>
     <GChart
       :settings="{packages: ['scatter']}"    
       :data="chartData"
@@ -13,7 +13,7 @@
 <script>
 import { GChart } from 'vue-google-charts'
 export default {
-  name: 'GBarGraph',
+  name: 'GScatterGraph',
   components: {
     GChart
   },
@@ -22,7 +22,7 @@ export default {
       chartsLib: null, 
       // Array will be automatically processed with visualization.arrayToDataTable function
       chartData: [
-        ['Hour of Day', 'Count'],        
+        ['Latitude', 'Longitude'],        
         [-122.407163, 37.779738],
         [-122.427160, 37.772526],
         [-122.468117, 37.738900],
@@ -2150,7 +2150,7 @@ export default {
     chartOptions () {
       if (!this.chartsLib) return null
       return this.chartsLib.charts.Scatter.convertOptions({
-        height: 250,
+        height: 200,
         legend: {
           position: 'none',
         }
@@ -2165,8 +2165,8 @@ export default {
 }
 </script>
 
-<style>
-  #GBarGraph{
-    height: 250px;
+<style scoped>
+  #GScatterGraph{
+    height: 200px;
   }
 </style>
