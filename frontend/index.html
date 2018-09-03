@@ -30,11 +30,6 @@
         font-family: "Josefin Slab"
       }
 
-      #add-btn {
-        position: absolute;
-        bottom: 18%;
-        right: 90%;
-      }
         .my-container {
           width: 100%;
           margin: auto;
@@ -86,9 +81,7 @@
 
         #profile-image {
           position: absolute;
-          width: 40%;
-          left: 30%;
-          top: 5%;
+          width: 100%;
         }
 
         #username {
@@ -119,12 +112,15 @@
           height: 85%;
           z-index: 400;
           position: absolute;
+          top: 0px;
         }
 
         #popups {
-          z-index: 200;
+          z-index: 0;
           height: 100%;
           width: 100%;
+          position: absolute;
+          top: 0px;
         }
 
         #reports-bar {
@@ -143,13 +139,15 @@
           background: white;
           z-index:40000;
           position: absolute;
+          top:0px;
         }
 
         #search-bar {
+          top: 0px;
           height: 11.9%;
           width: 100%;
           font-size: 80px;
-          z-index: 400;
+          z-index: 4000;
           position: absolute;
         }
 
@@ -175,18 +173,19 @@
   </head>
   <body>
 
+    <div id="popups">
+
     <div id="map" onclick="clickMap()"></div>
 
-    <div onclick="darken(this)" class="col s3 grey lighten-4"> <img style="position:absolute; top:87%; left:41.5%; z-index:1; zoom: 130%;" src="report-final.png" alt=""></div>
+    <div data-section="report" onclick="select(this)" class="col s3 grey lighten-4"> <img style="position:absolute; top:87%; left:41.5%; z-index:1; zoom: 130%;" src="report-final.png" alt=""></div>
 
   <div id="bottom-bar" class="row">
-      <div onclick="darken(this)" class="col s3 grey lighten-4"> <img style="margin-top: 44px; zoom: 110%;" src="map-black.png" alt=""></div>
-      <div onclick="darken(this)" class="col s3 grey lighten-4"> <img style="margin-top: 44px; margin-right: 100px; zoom: 110%;" src="search-black.png" alt=""></div>
-      <div onclick="darken(this)" class="col s3 grey lighten-4"> <img style="margin-top: 44px; margin-left: 100px; zoom: 110%;" src="notif-black.png" alt=""></div>
-      <div onclick="darken(this)" class="col s3 grey lighten-4"> <img style="margin-top: 44px; zoom: 110%;" src="profile-black.png" alt=""></div>
-    </div>
 
-    <div id="popups">
+      <div data-section="map" onclick="select(this)" class="col s3 grey lighten-4"> <img style="margin-top: 44px; zoom: 110%;" src="map-black.png" alt=""></div>
+      <div data-section="search" onclick="select(this)" class="col s3 grey lighten-4"> <img style="margin-top: 44px; margin-right: 100px; zoom: 110%;" src="search.png" alt=""></div>
+      <div data-section="notif" onclick="select(this)" class="col s3 grey lighten-4"> <img style="margin-top: 44px; margin-left: 100px; zoom: 110%;" src="notif.png" alt=""></div>
+      <div data-section="profile" onclick="select(this)" class="col s3 grey lighten-4"> <img style="margin-top: 44px; zoom: 110%;" src="profile.png" alt=""></div>
+    </div>
 
       <nav id="header" style="background-color:white;" v-if="viewing==='map' || viewing ==='reports'">
       <div class="nav-wrapper">
@@ -197,22 +196,8 @@
       </div>
       </nav>
 
-      <transition name="fade">
-          <div v-if="viewing==='map'" id="add-btn" class="fixed-action-btn">
-        <a class="btn-floating btn-large red">
-          <i class="large material-icons">add</i>
-        </a>
-        <ul>
-          <li><a class="btn-floating red"><i class="material-icons">insert_chart</i></a></li>
-          <li><a class="btn-floating yellow darken-1"><i class="material-icons">mode_edit</i></a></li>
-          <li><a class="btn-floating green"><i class="material-icons">publish</i></a></li>
-          <li><a class="btn-floating blue"><i class="material-icons">attach_file</i></a></li>
-        </ul>
-      </div>
-      </transition>
-
       <transition name="slide-fade">
-        <div id="reports-bar" class="light-green" v-if="viewing==='reports'">
+        <div style="z-index:4000" id="reports-bar" class="light-green" v-if="viewing==='reports'">
 
           <div v-for="report in reports">
             <div class="my-container">
@@ -225,7 +210,7 @@
                               Description: {{report.description}}<br>
                               Category: {{report.category}}<br>
                               Status: {{report.status}}<br>
-                            Likes: {{report.upvoterCount}} | Dislikes: {{report.downvoterCount}}</p>
+                              Likes: {{report.upvoterCount}} | Dislikes: {{report.downvoterCount}}</p>
                             <span class="card-title activator blue-text">View comments<i class="material-icons right" style="font-size: 60px;">expand_less</i></span>
                           </div>
 
@@ -247,7 +232,7 @@
       </transition>
 
       <transition name="fade">
-        <div id="search-page" v-if="viewing==='search'">
+        <div style="z-index:4000" id="search-page" v-if="viewing==='search'">
 
 
           <nav id="search-bar">
@@ -284,17 +269,11 @@
         </div>
       </transition>
 
-      <transition name="fade">
+      <transition style="z-index:4000" name="fade">
 
-      <div v-if="viewing==='me'" id="user-profile" class="light-green lighten-5">
+      <div v-if="viewing==='profile'" id="user-profile" class="light-green lighten-5">
 
-        <img id="profile-image" src="person-icon.png"></img>
-
-        <h1 id="username">{{username}}</h1>
-
-        <div id="tokens" class="tokens light-green lighten-4">My tokens: &nbsp; {{tokens}}</div>
-
-        <div v-for="notif in notifs">
+        <img id="profile-image" src="https://lh6.googleusercontent.com/ga0ltQRxKJNzWtb_O1u5bHD2-ABRhYgLsOxZ6dF1JMD1SOlMPD_I9j69nvFtvXnnHAfe_Q33ljeH8rH0XWm3=w1920-h910-rw"></img>
 
         </div>
       </div>
@@ -311,16 +290,34 @@
     <script>
 
     function comment(element) {
-      var reportID = element.getParentNode().getParentNode().getChildNodes()[0].getChildNodes()[0].innerHTML;
+      var reportID = element.getParentNode().getParentNode().firstElementChild.firstElementChild.innerHTML;
       reportID = reportID.substring(reportID.lastIndexOf(' ') + 1);
 
       var comment = element.value;
 
-      
+
+    }
+
+    var light = [' <img style="position:absolute; top:87%; left:41.5%; z-index:1; zoom: 130%;" src="report-final.png" alt="">', '<img style="margin-top: 44px; zoom: 110%;" src="map.png" alt="">', '<img style="margin-top: 44px; margin-right: 100px; zoom: 110%;" src="search.png" alt="">', '<img style="margin-top: 44px; margin-left: 100px; zoom: 110%;" src="notif.png" alt="">', '<img style="margin-top: 44px; zoom: 110%;" src="profile.png" alt="">'];
+    var dark = [' <img style="position:absolute; top:87%; left:41.5%; z-index:1; zoom: 130%;" src="report-final.png" alt="">', '<img style="margin-top: 44px; zoom: 110%;" src="map-black.png" alt="">', '<img style="margin-top: 44px; margin-right: 100px; zoom: 110%;" src="search-black.png" alt="">', '<img style="margin-top: 44px; margin-left: 100px; zoom: 110%;" src="notif-black.png" alt="">', '<img style="margin-top: 44px; zoom: 110%;" src="profile-black.png" alt="">'];
+
+    var sections = document.getElementsByClassName('col');
+
+    function select(element) {
+
+      for (var i = 0; i<sections.length; i++) {
+        if (element === sections[i]) {
+          sections[i].innerHTML = dark[i];
+        } else {
+          sections[i].innerHTML = light[i];
+        }
+      }
+
+      vm.viewing = element.getAttribute('data-section');
     }
 
     function clickMap() {
-      vm.viewing = 'map';
+      select(document.getElementById('map'));
     }
 
     function search() {
@@ -333,6 +330,7 @@
       }).then(function(res) {
         console.log(res.data);
         vm.reports = res.data;
+        vm.reports.length = 20;
         vm.viewing = 'reports'
       });
     }
@@ -343,27 +341,6 @@
     }
   });
 
-    var sections = document.getElementsByClassName('col');
-    var currentSection = sections[0];
-
-    function darken(element) {
-
-      lighten(currentSection);
-
-      element.classList.remove('lighten-4');
-      element.classList.add('lighten-2');
-
-      currentSection = element;
-
-      var temp = element.innerHTML.substring(0, element.innerHTML.indexOf('<')).toLowerCase();
-
-      vm.viewing = temp;
-    }
-
-    function lighten(element) {
-      element.classList.remove('lighten-2');
-      element.classList.add('lighten-4');
-    }
     </script>
 
     <script async defer
@@ -374,25 +351,6 @@
 
       var map, infoWindow, markers;
       var points;
-
-      function update() {
-      $.ajax({
-       type: 'GET',
-       url:'https://c4s.torontopolice.on.ca/arcgis/rest/services/CADPublic/C4S/MapServer/0/query?f=json&where=1%3D1&outSR=4326',
-       dataType: "jsonp",
-       success: function(data){
-
-         for(var i = 0; i < data.features.length; i++) {
-           var time = data.features[i].attributes.ATSCENE_TS;
-           var latitude = data.features[i].geometry.y;
-           var longitude = data.features[i].geometry.x;
-
-           points.push( new google.maps.LatLng(latitude, longitude) );
-         }
-
-       }
-     });
-   }
 
       function toggleHeatmap() {
         heatmap.setMap(heatmap.getMap() ? null : map);
@@ -450,6 +408,8 @@
             };
             infoWindow.setPosition(pos);
             infoWindow.setContent('You are here.');
+            vm.location.lat=pos.lat;
+            vm.location.lon=pos.lng;
             //infoWindow.open(map);
             //map.setCenter({lat:37.7749, lng:-122.4194});
           }, function() {
@@ -460,19 +420,36 @@
           handleLocationError(false, infoWindow, map.getCenter());
         }
 
-        google.maps.event.addListener(map, 'dragend', function() {
-         var sw = map.getBounds().getSouthWest();
-         var ne = map.getBounds().getNorthEast();
+        google.maps.event.addListener(map, 'bounds_changed', function() {
+          var sw = map.getBounds().getSouthWest();
+          var ne = map.getBounds().getNorthEast();
 
-         var body = {
-           lonmin: sw.lng(),
-           lonmax: ne.lng(),
-           latmin: sw.lat(),
-           latmax: ne.lat()
-         }
+          var body = {
+            lonMin: sw.lng(),
+            lonMax: ne.lng(),
+            latMin: sw.lat(),
+            latMax: ne.lat()
+          }
 
-         console.log(body);
-      });
+          console.log(body);
+
+          axios.post('https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/search', {
+            params: {
+              'location': body,
+              'select': 'lon lat'
+            }
+          }).then(function(res) {
+
+            points = new google.maps.MVCArray();
+            console.log(res.data);
+
+            for (var i = 0; i<res.data.length; i++) {
+              points.push( new google.maps.LatLng(res.data[i].lat, res.data[i].lon));
+            }
+          }).catch(function(e) {
+            console.log(e);
+          });
+        });
       }
       function handleLocationError(browserHasGeolocation, infoWindow, pos) {
         infoWindow.setPosition(pos);
@@ -482,57 +459,6 @@
         //infoWindow.open(map);
       }
 
-      function render() {
-
-        $.ajax({
-         type: 'GET',
-         url:'https://c4s.torontopolice.on.ca/arcgis/rest/services/CADPublic/C4S/MapServer/0/query?f=json&where=1%3D1&outSR=4326',
-         dataType: "jsonp",
-         success: function(data){
-            //console.log(data)
-
-            for(var i = 0; i < data.features.length; i++) {
-              var time = data.features[i].attributes.ATSCENE_TS;
-              var latitude = data.features[i].geometry.y;
-              var longitude = data.features[i].geometry.x
-
-              points.push( {latitude: latitude, longitude: longitude} );
-            }
-
-            markers = [];
-            markers.forEach(function(e) {
-              e.setMap(null);
-            });
-
-            points.forEach(function(point) {
-              var latitude = point.latitude;
-              var longitude = point.longitude;
-              markers.push(new google.maps.Marker({
-                position: {lat: latitude, lng: longitude},
-                map: map,
-                title: "0",
-              }));
-            });
-            markers.forEach(function(e) {
-              e.setMap(map);
-              e.addListener('click', function() {
-                console.log(this.title);
-              });
-            });
-         },
-         error: function(jqXHR, textStatus, errorThrown) {
-            console.log("Error");
-         }
-        });
-
-      }
-
-      //render();
-      //setInterval(render, 60000);
-
-      update();
-      setInterval(update, 60000);
-
       setInterval(function() {
         navigator.geolocation.getCurrentPosition(function(position) {
           var pos = {
@@ -540,6 +466,8 @@
             lng: position.coords.longitude
           };
           infoWindow.setPosition(pos);
+          vm.location.lat=pos.lat;
+          vm.location.lon=pos.lng;
         });
       }, 500000);
 
@@ -551,6 +479,39 @@
       var instances = M.FloatingActionButton.init(elems, {});
     });
 
+
+    </script>
+
+    <script>
+
+    function getNotifs() {}
+      axios.post('https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/notif', {
+
+        params: {
+          'id': vm.username;
+        }
+
+        }).then(function(res) {
+
+          vm.notifs = res.data;
+
+        });
+
+      }
+
+      setInterval(getNotifs, 45000);
+
+        function newReport(description, anonymous) {
+          axios.post('https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/post', {
+            params: {
+              'reportingUser': vm.username,
+              'lat': vm.location.lat,
+              'lon': vm.location.lon,
+              'anonymous': anonymous,
+              'message': description
+            }
+          });
+        }
 
     </script>
 
@@ -568,10 +529,17 @@
       data: {
         viewing: 'map',
 
+        location: {
+          lat: 0,
+          lon: 0
+        },
+
         username: 'TheLegend27',
         tokens: 0,
 
-        reports: [        ],
+        reports: [
+
+        ],
 
         notifs: [
 
