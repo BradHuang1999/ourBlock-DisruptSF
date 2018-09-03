@@ -1,36 +1,44 @@
 <template>
   <div class="md-layout">
-    <md-content class="md-layout-item md-size-30" style="position: relative; overflow: auto;" id="screenHeightCustom">
-      <center><img src="./assets/frontPageLogoClear.png" width="140" style="padding: 10px"></center>
+    <md-content 
+      class="md-layout-item md-size-30"
+      style="position: relative; overflow: auto;"
+      id="leftTab"
+    >
+      <center>
+        <img src="./assets/frontPageLogoClear.png" width="150" style="padding: 10px">
+      </center>
       <md-content class="md-elevation-2">
-        <h4 style="text-align: center;"> Crimes by Time, Categorized</h4>
+        <h4> Crimes by Time, Categorized</h4>
         <Linegraph />
       </md-content>
       <md-content class="md-elevation-2">
-        <h4 style="text-align: center;"> Blockchain Node Network Graph </h4>
-        <Nodes style="zoom: 42%;"></Nodes>
+        <h4> Blockchain Node Network Graph </h4>
+        <Nodes style="zoom: 56%;"></Nodes>
       </md-content>
       <md-content class="md-elevation-2">
-        <h4 style="text-align: center;"> Neural Network Training Rate </h4>
+        <h4> Neural Network Training Rate </h4>
         <div id="trainingStep">Training Step: {{iter}} </div>  
         <img style="height:250px;" :src="require('./assets/neuralnetgraph.gif')">
       </md-content>
       <md-content class="md-elevation-2">
-        <h4 style="text-align: center;"> Crime Category Breakdown </h4>
+        <h4> Crime Category Breakdown </h4>
         <Donutgraph />
       </md-content>
       <md-content class="md-elevation-2">
-        <h4 style="text-align: center;"> Crime Count Per Hour </h4>
+        <h4> Crime Count Per Hour </h4>
         <Bargraph />
       </md-content>
-      <!-- <h2> Reports from last 7 days: {{ statsTotal }} </h2> -->
-
-             <md-content class="md-elevation-2">
-        <h4 style="text-align: center;"> Crime by Location </h4>
+      <md-content class="md-elevation-2">
+        <h4> Crime by Location </h4>
         <Scattergraph />
       </md-content>
     </md-content>
-    <md-content class="md-layout-item md-size-40">
+
+    <md-content 
+      class="md-layout-item md-size-40"
+      id="middleTab"
+    >
       <Map
         @markerClicked="selectCard($event)"
         @searchBounds="updateMap($event)"
@@ -39,17 +47,26 @@
         :screenHeight="screenHeight"
       />
     </md-content>
+
     <md-content class="md-layout-item md-size-30 md-scrollbar">
-        <md-content style="position: relative; overflow: auto;" id="screenHeightCustom2">
+      <md-content 
+        style="position: relative; overflow: auto;"
+        id="rightTab"
+      >
         <Card
           v-for="report in reports"
           :key="report._id"
           :loc-data="report"
           :selectedId="selectedId"
+          :screenHeight="screenHeight"
         ></Card>
-        </md-content>
-      <md-content class="md-elevation-2">
-        <h4 style="text-align: center;"> Crime Status Breakdown </h4>
+      </md-content>
+      <md-content 
+        class="md-elevation-2"
+        style="margin-bottom=0"
+      >
+        <!-- <h2> Reports from last 7 days: {{ statsTotal }} </h2> -->
+        <h4> Crime Status Breakdown </h4>
         <Piegraph :pie-data="statsPie"/>
       </md-content>
     </md-content>
@@ -70,11 +87,11 @@
   import severity from '../lib/severity'
 
   window.onload = function() {
-    var height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
-    var myDiv = document.getElementById("screenHeightCustom");
-    var myDiv2 = document.getElementById("screenHeightCustom2");
-    myDiv.style.height = height + "px";
-    myDiv2.style.height = height - 198 + "px";
+    this.screenHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+    var leftTab = document.getElementById("leftTab");
+    var rightTab = document.getElementById("rightTab");
+    leftTab.style.height = this.screenHeight + "px";
+    rightTab.style.height = this.screenHeight - 198 + "px";
   }
 
   export default {
@@ -93,21 +110,21 @@
         lastBounds: {},
         lastCenter: {},
         selectedId: '',
-        iter:0
+        screenHeight: 0,
+        iter: 0
       }
     },
 
     mounted(){
       this.getStats();
-      setInterval(this.getStats, 1000 * 60);
+      setInterval(this.getStats, 1000 * 10);
       setInterval(this.updateMap, 1000 * 10);
-      
+      this.screenHeight = window.innerHeight;
       setInterval(this.count, 30);
     },
 
     methods: {
       selectCard(id) {
-        console.log(id);
         this.selectedId = id;
         this.getSelectedToTop();
       },
@@ -142,8 +159,8 @@
             latMax: this.lastBounds.latMax,
             lonMin: this.lastBounds.lonMin,
             lonMax: this.lastBounds.lonMax
-          }
-          // ,select: 'lat lon upvoterCount downvoterCount followerCount category time privacy status',
+          },
+          select: 'lat lon upvoterCount downvoterCount commentCount reportingUser followerCount category message comments time privacy status',
         })
         .then(locations => {
           this.reports = severity.getTopSeverity('police', Date.now(), this.lastCenter.lat, this.lastCenter.lng, locations.data, 25);
@@ -167,9 +184,9 @@
   }
 </script>
 
-<style>
-  body {
-    background-color: white
+<style scoped>
+  h4 {
+    text-align: center;
   }
 
   .md-elevation-2 {
