@@ -7,7 +7,7 @@
       <md-card-header>
         <div class="row-icons">
           <strong style="color:red;"> {{ locData.category }} </strong>
-          <md-icon>location_on</md-icon> <span style="color:blue;"> {{ locData.distance.toFixed(0) }} </span>
+          <md-icon>location_on</md-icon> <span style="color:blue;"> {{ locData.distance.toFixed(0) }}m </span>
           <md-icon>warning</md-icon> <span style="color: orange;"> {{ locData.severity.toFixed(2) }} </span>
         </div>
         <div class="row-icons">
