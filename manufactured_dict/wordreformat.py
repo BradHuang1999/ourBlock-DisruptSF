@@ -29,7 +29,8 @@ def dictcompile():
              "smells like alcohol", "blacked out", "was drinking", " had vodka", " has beer", "at a bar", "gin",
              "possession", "bong", "selling drugs", "dealing drugs", "dealing weed", "rock", "ounce", "gram", 
              "has white powder", "trafficking", "has a lot of drugs", "has a shipment", "hallucinating", "tripping out", 
-             "took acid", "is addicted to", "growing weed", "cooking meth", "making meth", "is making drugs"]
+             "took acid", "is addicted to", "growing weed", "cooking meth", "making meth", "is making drugs", "smoking a blunt", 
+             "tripping out", "drank too much"]
     
     theft = ["stole my bike", "stole a bike", "bike is gone", "took bike", "bike", "bike lock", "stealing", "stole",
              "broke", "theft", "thief", "steal", "took it", "car stolen", "car was hijacked", "alarm in a car is going off", 
@@ -54,7 +55,7 @@ def dictcompile():
     
     traffic = ["car is swerving erratically", "car moving weird", "driving drunk", "ran a red light", "has a suspended license", 
                "cannot drive", "hit and run", "had an accident", "crashed into someone", "broke their car", "ran a stop sign", 
-               "hit someone with their car", "is driving while high", "is speeding", "is too fast"]
+               "hit someone with their car", "is driving while high", "is speeding", "is too fast", "driving like a maniac"]
     
     violence = ["stabbing", "stabbed",  "killing", "killed", "is getting stabbed", "is shot", "shot someone", "shot him", 
                 "stabbed someone", "stabbed him", "got stabbed", "got shot", "bleeding a lot", "is bleeding", "blood", 
