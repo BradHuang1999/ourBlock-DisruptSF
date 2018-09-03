@@ -57,7 +57,7 @@ export default {
       if (!this.chartsLib) return null
       return this.chartsLib.charts.Line.convertOptions({
         curveType: 'function',
-        height: 220,
+        height: 210,
         legend: {
           position: 'none'
         }
@@ -74,6 +74,6 @@ export default {
 
 <style>
   #GLineGraph{
-    height: 220px;
+    height: 210px;
   }
 </style>

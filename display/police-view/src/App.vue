@@ -1,52 +1,57 @@
 <template>
   <div class="md-layout">
-    <md-content class="md-layout-item md-size-30">
+    <md-content class="md-layout-item md-size-30" style="position: relative; overflow: auto;" id="screenHeightCustom">
+      <center><img src="./assets/frontPageLogoClear.png" width="140" style="padding: 10px"></center>
       <md-content class="md-elevation-2">
         <h4 style="text-align: center;"> Crimes by Time, Categorized</h4>
         <Linegraph />
       </md-content>
       <md-content class="md-elevation-2">
-        <h4 style="text-align: center;"> Total Count Crimes per Hour </h4>
-        <Bargraph />
+        <h4 style="text-align: center;"> Blockchain Node Network Graph </h4>
+        <Nodes style="zoom: 42%;"></Nodes>
       </md-content>
-      <!-- <h2> Reports from last 7 days: {{ statsTotal }} </h2> -->
+      <md-content class="md-elevation-2">
+        <h4 style="text-align: center;"> Neural Network Training Rate </h4>
+        <div id="trainingStep">Training Step: </div>  
+        <img style="height:250px;" :src="require('./assets/neuralnetgraph.gif')">
+      </md-content>
       <md-content class="md-elevation-2">
         <h4 style="text-align: center;"> Crime Category Breakdown </h4>
         <Donutgraph />
       </md-content>
       <md-content class="md-elevation-2">
+        <h4 style="text-align: center;"> Crime Count Per Hour </h4>
+        <Bargraph />
+      </md-content>
+      <!-- <h2> Reports from last 7 days: {{ statsTotal }} </h2> -->
+
+             <md-content class="md-elevation-2">
         <h4 style="text-align: center;"> Crime by Location </h4>
         <Scattergraph />
       </md-content>
-      <md-content class="md-elevation-2">
-        <h4 style="text-align: center;"> Crime Status Breakdown </h4>
-        <Piegraph :pie-data="statsPie"/>
-      </md-content>
-      <md-content class="md-elevation-2">
-        <h4 style="text-align: center;"> Blockchain Ledger Hash Activity </h4>
-        <Nodes style="zoom: 60%;"></Nodes>
-      </md-content>
-      <md-content class="md-elevation-2">
-        <img :src="require('./assets/neuralnetgraph.gif')">
-      </md-content>
     </md-content>
     <md-content class="md-layout-item md-size-40">
-      <center><img src="./assets/frontPageLogoClear.png" width="180" style="padding: 10px"></center>
       <Map
         @markerClicked="selectCard($event)"
         @searchBounds="updateMap($event)"
         :markers="reportLocs"
         :selectedId="selectedId"
+        :screenHeight="screenHeight"
       />
     </md-content>
-    <md-content class="md-layout-item md-size-30 md-scrollbar" style="position: relative; overflow: auto;" id="screenHeightCustom">
+    <md-content class="md-layout-item md-size-30 md-scrollbar">
+        <md-content style="position: relative; overflow: auto;" id="screenHeightCustom2">
         <Card
           v-for="report in reports"
           :key="report._id"
           :loc-data="report"
           :selectedId="selectedId"
-        >
-        </Card>
+        ></Card>
+        </md-content>
+      <md-content class="md-elevation-2">
+        <h4 style="text-align: center;"> Crime Status Breakdown </h4>
+        <Piegraph :pie-data="statsPie"/>
+      </md-content>
     </md-content>
   </div>
 </template>
@@ -67,7 +72,9 @@
   window.onload = function() {
     var height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
     var myDiv = document.getElementById("screenHeightCustom");
+    var myDiv2 = document.getElementById("screenHeightCustom2");
     myDiv.style.height = height + "px";
+    myDiv2.style.height = height - 198 + "px";
   }
 
   export default {
@@ -93,6 +100,12 @@
       this.getStats();
       setInterval(this.getStats, 1000 * 60);
       setInterval(this.updateMap, 1000 * 10);
+      /*
+      var iter = 0;
+      function counter() {
+        console.log('show at ' + (iter++));
+        setTimeout(counter, 1000);
+      }*/
     },
 
     methods: {

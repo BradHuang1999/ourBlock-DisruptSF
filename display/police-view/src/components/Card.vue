@@ -19,13 +19,17 @@
       </md-card-header>
 
       <md-card-content>
-        {{ "reportingUser = " + locData.reportingUser }}
+        <strong>{{ "Reported by: "}}</strong>
+        {{ locData.reportingUser }}
         <br>
-        {{ "message = " + locData.message }}
+        <strong>{{ "Message: "}}</strong>
+        {{ locData.message }}
         <br>
-        {{ "id = " + locData._id }}
+        <strong>{{ "Case ID: "}}</strong>
+        {{ locData._id }}
         <br>
-        {{ "time = " + (new Date(locData.time)).toLocaleString("en-US", { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric' }) }}
+        <strong>{{ "Time Reported: "}}</strong>
+        {{ (new Date(locData.time)).toLocaleString("en-US", { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric' }) }}
       </md-card-content>
 
       <md-card-expand>
