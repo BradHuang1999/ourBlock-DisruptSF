@@ -291,7 +291,11 @@
     <transition style="z-index:4000;" name="fade">
       <div v-if="viewing==='notif'" id="notifs" class="light-green lighten-4" style="z-index:5000; position: absolute; width: 100%; height:100%; top: 0px; margin: 0px; left: 0px;">
         <div v-for="notif in notifs">
-          <div height="100px" style="font-family: 'Josenfin Slab'; font-size: 60px; z-index: 1000000; text-align: center; border-style: solid">{{notif}}</div><br>
+          <div class="card-panel teal">
+            <div class="white-text">
+              <div height="100px" style="font-family: 'Josenfin Slab'; font-size: 60px; z-index: 1000000; text-align: center;">{{notif}}</div>
+            </div>
+          </div>
         </div>
       </div>
     </transition>
@@ -544,7 +548,7 @@
         'id': vm.username
       }).then(function (res) {
         if (res.data[0]){
-          vm.notifs.push(res.data[0]);
+          vm.notifs.unshift(res.data[0]);
           getNotifs();
         }
       });
@@ -626,7 +630,7 @@
         username: '0',
         tokens: 0,
         reports: [],
-        notifs: ['message1', 'message2']
+        notifs: ['asdf']
       },
       methods: {
         formatComments: function (comments) {
