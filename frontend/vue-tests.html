@@ -1,0 +1,40 @@
+<style>
+.slide-fade-enter-active {
+  transition: all .4s ease;
+}
+.slide-fade-leave-active {
+  transition: all .4s ease;
+}
+.slide-fade-enter, .slide-fade-leave-to
+/* .slide-fade-leave-active below version 2.1.8 */ {
+  transform: translateY(100px);
+  opacity: 0;
+}
+
+</style>
+
+<div id="my-container">
+
+  <transition name="slide-fade">
+    <div v-show="ok">Hello, world!</div>
+  </transition>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.min.js"></script>
+
+<script>
+
+var ok = false;
+
+var vm = new Vue({
+  el: '#my-container',
+  data: {
+    ok: false,
+  },
+  computed: {
+
+  }
+});
+
+</script>
