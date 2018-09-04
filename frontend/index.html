@@ -187,7 +187,7 @@
     <div id="map" onclick="clickMap()"></div>
 
     <div data-section="report" onclick="select(this)" class="col s3 grey lighten-4">
-      <img style="position:absolute; top:87%; left:41.5%; z-index:600000; zoom: 130%;" src="report-final.png" alt="">
+      <img style="position:absolute; top:87%; left:41.5%; z-index:60000; zoom: 130%;" src="report-final.png" alt="">
     </div>
 
     <div id="bottom-bar" class="row" style="z-index:50000">
@@ -205,7 +205,7 @@
       </div>
     </div>
 
-    <nav id="header" style="background-color:white;" v-if="viewing==='map' || viewing ==='reports' || viewing==='report'">
+    <nav id="header" style="background-color:white;" v-if="viewing==='map' || viewing ==='reports'">
       <div class="nav-wrapper">
         <img style="zoom:25%; display: block; margin-left: auto;
             margin-right: auto; width: 50%; margin-top: 3%"
@@ -300,12 +300,39 @@
     <transition name="fade">
       <div v-if="viewing==='report'">
         <img src="addReport.png" style="top:0; width: 100%; position:absolute; top:0px; z-index:40000">
+        <textarea id="report-description" style="font-size: 70px; font-family: 'Josefin Slab'; position: absolute; max-width: 880px; min-height: 665px; left:5%; top: 42.5%; z-index: 100000000000;"></textarea>
+        <div onclick="togglePrivacy()" id="keep-report-private" style="position: absolute; min-width: 430px; min-height: 110px; left:3.5%; top: 77%; z-index: 100000000000;">&nbsp</div>
+        <div onclick="submitReport()" id="submit-report" style="position: absolute; min-width: 430px; min-height: 110px; left:52.6%; top: 77%; z-index: 100000000000;">&nbsp</div>
+
+        <div v-if="vm.reportPrivacy">
+          <img src="checkmark.png" style="position: absolute; top: 77.5%; left:7%; width: 5%; height:3%; z-index: 100000000000;">
+      </div>
+    </transition>
+
+    <transition>
+      <div v-if="viewing==='profile'">
+        <img src="profile-1.png" style="top:0; width: 100%; position:absolute; top:0px; z-index:40000">
+        <div id="my-tokens" style="font-weight:bold; font-size: 80px; position: absolute; min-width:30px; min-height: 110px; left:78.5%; top: 41%; z-index: 100000000000;">{{vm.tokens}}</div>
       </div>
     </transition>
 
   </div>
 
   <script>
+
+    var togglePrivacyButton = document.getElementById('keep-report-private');
+    var submitReportButton = document.getElementById('submit-report');
+
+    function togglePrivacy() {
+      vm.reportPrivacy = !vm.reportPrivacy;
+    }
+
+    function submitReport() {
+      var description = document.getElementById('report-description');
+
+        newReport(description, vm.reportPrivacy);
+    }
+
     function comment(element) {
       var reportID = element.getParentNode().getParentNode().firstElementChild.firstElementChild.innerHTML;
       reportID = reportID.substring(reportID.lastIndexOf(' ') + 1);
@@ -354,7 +381,7 @@
     }
 
     function clickMap() {
-      // select(document.getElementById('map'));
+      select(document.getElementById('map'));
     }
 
     function search() {
@@ -535,6 +562,9 @@
         'lon': vm.location.lon,
         'anonymous': anonymous,
         'message': description
+      }).then(function(res) {
+        console.log(res);
+        clickMap();
       });
     }
 
@@ -574,6 +604,7 @@
     var vm = new Vue({
       el: '#popups',
       data: {
+        reportPrivacy: false,
         viewing: 'map',
         location: {
           lat: 0,
