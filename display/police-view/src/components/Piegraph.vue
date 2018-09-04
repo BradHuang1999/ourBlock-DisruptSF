@@ -28,6 +28,7 @@ export default {
         hAxis: { format: 'decimal' },
         colors: ['#1b9e77', '#d95f02', '#7570b3', '#454ade'],
         height: 120,
+        chartArea: {'width': '100%', 'height': '80%'}
       }
     }
   },
