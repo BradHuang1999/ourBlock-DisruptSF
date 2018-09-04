@@ -192,7 +192,8 @@ def predict(stringin):
     predictstring = predictstring.lower()
     predictstring = predictstring.join([removal.stem(i) for i in re.sub("[^a-zA-Z]", " ", predictstring).split() if i not in stoppingwords]).lower()
     print(model.predict([predictstring]))
-
+    return model.predict([predictstring])
+    
 # Tests
 predict('He was doing meth in the park')
 predict('I just saw someone get killed at 65th and Ingleside')

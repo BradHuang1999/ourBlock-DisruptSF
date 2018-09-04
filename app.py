@@ -8,19 +8,17 @@ app = Flask(__name__)
 
 @app.route('/post',methods=['POST'])
 def post():
-  form = ast.literal_eval(list(dict(request.form).keys())[0]) 
+  form = dict(request.form)
   try:
-    classified,confidence = predict(form['Description'])
+    classified = predict(form['Description'][0])
   except Exception as e:
     print(e)
-    classified,confidence = '',0
+    classified = ''
   data = form
   data['Class'] = classified
-  data['Confidence'] = float(confidence)
-  print(data['Class'],data['Confidence'])
   print(form)
   #requests.post('https://wx44n042ha.execute-api.us-east-1.amazonaws.com/alpha/ourblockreportloglambda',json=data)
-  requests.post('https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/post',json=data)
+  #requests.post('https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/post',json=data)
   resp = Response('')
   return resp
 
