@@ -30,6 +30,7 @@
       height: 100%;
       margin: 0;
       padding: 0;
+      overflow: hidden;
       font-family: "Josefin Slab"
     }
 
@@ -423,6 +424,12 @@
       function getMapBounds() {
         var sw = map.getBounds().getSouthWest();
         var ne = map.getBounds().getNorthEast();
+        // console.log({
+        //   lonMin: sw.lng(),
+        //   lonMax: ne.lng(),
+        //   latMin: sw.lat(),
+        //   latMax: ne.lat()
+        // });
         return {
           lonMin: sw.lng(),
           lonMax: ne.lng(),
@@ -461,22 +468,25 @@
       infoWindow = new google.maps.InfoWindow;
       markers = [];
 
-      var boundsBody = getMapBounds;
-      axios.post('https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/search', {
-        location: boundsBody,
-        select: 'lon lat'
-      }).then(function (res) {
-        console.log(res.data);
-        for (var i = 0; i < res.data.length; i++) {
-          points.push(new google.maps.LatLng(res.data[i].lat, res.data[i].lon));
-        }
-        heatmap = new google.maps.visualization.HeatmapLayer({
-          data: points,
-          map: map
+      var initListener = map.addListener('tilesloaded', function() {
+        var boundsBody = getMapBounds();
+        axios.post('https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/search', {
+          location: boundsBody,
+          select: 'lon lat'
+        }).then(function (res) {
+          // console.log(res.data);
+          for (var i = 0; i < res.data.length; i++) {
+            points.push(new google.maps.LatLng(res.data[i].lat, res.data[i].lon));
+          }
+          heatmap = new google.maps.visualization.HeatmapLayer({
+            data: points,
+            map: map
+          });
+          heatmap.set('radius', 18);
+          heatmap.set('opacity', 0.5);
         });
-        heatmap.set('radius', 18);
-        heatmap.set('opacity', 0.5);
-      });
+        google.maps.event.removeListener(initListener);
+      });      
 
       map.addListener('dragend', postSearch);
       map.addListener('zoom_changed', postSearch);
