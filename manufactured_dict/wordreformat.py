@@ -15,14 +15,14 @@ def dictcompile():
                  "that person", "them", "I see", "There is", "Another"]
     #newlist = []
     
-    kidnap = ["missing", "can't find", "Don't see", "gone", "dissapeared", "haven't seen", "kidnapped", 
+    kidnap = ["missing", "can't find", "Don't see", "gone", "disappeared", "haven't seen", "kidnapped", 
              "took from park", "took from school", "forced into car", "pushed into van", "found person", 
              "found", "child taking", "child stealing", "kidnapping adult", "kidnapping kid", "tried to kidnap", "has hostages", 
              "hostage", "taken", "abducted", "my child", "my daughter", "my son", "human trafficking"]
     
     drugs = ["took drugs", "snorted drugs", "had drugs", "smoked drugs", "injected drugs", "doing drugs",
              "heroin", "had meth", "had crack", "had weed", "had coke", "had cocaine", "doing meth", "doing coke",
-             "was selling drugs", "was selling coke", "was selling meth", "was selling weed", 
+             "was selling drugs", "was selling coke", "was selling meth", "was selling weed","cocaine", "coke", 
              "was selling xanax", "smoked weed", "smoked crack", "smoked meth", "smoked from a pipe",
              "had a joint", "smells like weed", "smells like skunk", "had needles", "dropped needles", 
              "has Heroin needles", " seems high", "has used ectasy", "has used Amphetamines", "has used Cocaine", 
@@ -32,7 +32,7 @@ def dictcompile():
              "possession", "bong", "selling drugs", "dealing drugs", "dealing weed", "rock", "ounce", "gram", 
              "has white powder", "trafficking", "has a lot of drugs", "has a shipment", "hallucinating", "tripping out", 
              "took acid", "is addicted to", "growing weed", "cooking meth", "making meth", "is making drugs", "smoking a blunt", 
-             "tripping out", "drank too much", "greened out", "green"]
+             "tripping out", "drank too much", "greened out"]
     
     theft = ["stole my bike", "stole a bike", "bike is gone", "took bike", "bike", "bike lock", "stealing", "stole",
              "broke", "theft", "thief", "steal", "took it", "car stolen", "car was hijacked", "alarm in a car is going off", 
@@ -55,12 +55,14 @@ def dictcompile():
     sex = ["raped", "rape", "sexual assault", "forced", "groped", " touching her inappropriately", "touching inappropriately",
            "sex", "fucked", "kissing", "made out", "harassed", "cat called", "spanked", "slapped", "butt", "boob", "breast",
            "forced", "oral", "mouth", "minors", "pedophile", "molested", "penetrated", "whip", "dominate", "anal", "bleed from sex",
-           "used her", "ass"]
+           "used her", "ass", "molested", "molesting", "harrass", "harrassing", "stalking", "creepy man", "stalk", "staring", "sexual",
+           "make out", "slipped something in drink", "sexual abuse", "human trafficking", "brothel", "pimp", "prostitute", "prostitution"]
     
     traffic = ["car is swerving erratically", "car moving weird", "driving drunk", "ran a red light", "has a suspended license", 
                "cannot drive", "hit and run", "had an accident", "crashed into someone", "broke their car", "ran a stop sign", 
                "hit someone with their car", "is driving while high", "is speeding", "is too fast", "driving like a maniac", "reckless driving",
-               "dangerous driving", "license", "driver", "passenger", "pedestrian", "hit someone", "police car", "tailgate", "roadrage"]
+               "dangerous driving", "license", "driver", "passenger", "pedestrian", "hit someone", "police car", "tailgate", "roadrage",
+               "demerit points", "red light", "speeding camera", "red light camera"]
     
     violence = ["stabbing", "stabbed", "killing", "killed", "is getting stabbed", "is shot", "shot someone", "shot him", 
                 "stabbed someone", "stabbed him", "got stabbed", "got shot", "bleeding a lot", "is bleeding", "blood", 
@@ -68,7 +70,8 @@ def dictcompile():
                 "hit her", "domestic violence", "assaulted", "assaulting", "beat up", "is beating", "punching", "punched",
                 "kicking", "kicked", "threatened to kill", "threatened to hit", "threatened", "abused", "abuse", "battery", 
                 "shot", "hid his gun", "bullets", "gun shots", "arson", "burning", "firing", "fired", "burned", "exploded",
-                "has explosives", "is resisting", "gang", "part of gang", "in a gang", "has gangs", "fighting", "fought", "is stalking"]
+                "has explosives", "is resisting", "gang", "part of gang", "in a gang", "has gangs", "fighting", "fought", "is stalking",
+                "arsen", "fire"]
     
     
     def listmaker(alist):
