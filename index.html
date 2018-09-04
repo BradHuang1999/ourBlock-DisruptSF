@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>Ourblock</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.min.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Josefin+Slab|VT323|Lalezar" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
+  <style>
+    /* Always set the map height explicitly to define the size of the div element that contains the map. */
+    #map {
+      zoom: 250%;
+      height: 80%;
+      position: absolute;
+      top: 10%;
+      bottom: 10%;
+      left: 0;
+      right: 0;
+    }
+
+    /* Optional: Makes the sample page fill the window. */
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      font-family: "Josefin Slab"
+    }
+
+    .my-container {
+      width: 100%;
+      margin: auto;
+      position: relative;
+      font-size: 30px;
+    }
+
+    #header {
+      z-index: 900;
+      top: 0px;
+      position: absolute;
+      height: 10%;
+      font-weight: bold;
+      line-height: 11em;
+    }
+
+    #bottom-bar {
+      position: absolute;
+      height: 10%;
+      width: 100%;
+      top: 90%;
+      font-size: 40px;
+      text-align: center;
+    }
+
+    .col {
+      height: 100%;
+      line-height: 2.5em;
+    }
+
+    .slide-fade-enter-active {
+      transition: all .4s ease;
+    }
+
+    .slide-fade-leave-active {
+      transition: all .3s ease;
+    }
+
+    .slide-fade-enter,
+    .slide-fade-leave-to
+
+    /* .slide-fade-leave-active below version 2.1.8 */
+      {
+      transform: translateY(100px);
+      opacity: 0;
+    }
+
+    .fade-enter-active,
+    .fade-leave-active {
+      transition: opacity .5s;
+    }
+
+    .fade-enter,
+    .fade-leave-to
+
+    /* .fade-leave-active below version 2.1.8 */
+      {
+      opacity: 0;
+    }
+
+    #profile-image {
+      position: absolute;
+      width: 100%;
+    }
+
+    #username {
+      text-align: center;
+      font-size: 72px;
+      top: 37%;
+      position: absolute;
+      text-align: center;
+      width: 100%;
+      font-family: 'Lalezar';
+    }
+
+    #tokens {
+      font-family: 'Josefin Slab';
+      text-align: center;
+      width: 100%;
+      position: absolute;
+      top: 49%;
+      text-align: center;
+      padding-top: 15px;
+      padding-bottom: 15px;
+      margin: 0px;
+      font-size: 48px;
+    }
+
+    #user-profile {
+      width: 100%;
+      height: 85%;
+      z-index: 400;
+      position: absolute;
+      top: 0px;
+    }
+
+    #popups {
+      z-index: 0;
+      height: 100%;
+      width: 100%;
+      position: absolute;
+      top: 0px;
+    }
+
+    #reports-bar {
+      width: 83%;
+      height: 80%;
+      top: 20%;
+      left: 8.5%;
+      position: absolute;
+      padding: 30px;
+      overflow-y: auto;
+    }
+
+    #search-page {
+      height: 10%;
+      width: 100%;
+      z-index: 40000;
+      position: absolute;
+      top: 0px;
+    }
+
+    #search-bar {
+      top: 0px;
+      height: 100%;
+      width: 100%;
+      font-size: 80px;
+      z-index: 4000;
+      position: absolute;
+    }
+
+    .dropdown-trigger {
+      position: absolute;
+    }
+
+    #card-title {
+      margin: auto;
+      text-align: center;
+    }
+
+    #status-button {}
+
+    #category-button {}
+  </style>
+</head>
+
+<body>
+
+  <div id="popups">
+
+    <div id="map" onclick="clickMap()"></div>
+
+
+    <div data-section="report" onclick="select(this)" class="col s3 grey lighten-4" style="z-index:6000000000;">
+      <img style="position:absolute; top:87%; left:41.5%; z-index:6000000000; zoom: 130%;" src="report-final.png" alt="">
+    </div>
+
+    <div id="bottom-bar" class="row" style="z-index:50000">
+      <div id="map-icon" data-section="map" onclick="select(this)" class="col s3 grey lighten-4">
+        <img style="margin-top: 44px; zoom: 110%;" src="map-black.png" alt="">
+      </div>
+      <div data-section="search" onclick="select(this)" class="col s3 grey lighten-4">
+        <img style="margin-top: 44px; margin-right: 100px; zoom: 110%;" src="search.png" alt="">
+      </div>
+      <div data-section="notif" onclick="select(this)" class="col s3 grey lighten-4">
+        <img style="margin-top: 44px; margin-left: 100px; zoom: 110%;" src="notif.png" alt="">
+      </div>
+      <div data-section="profile" onclick="select(this)" class="col s3 grey lighten-4">
+        <img style="margin-top: 44px; zoom: 110%;" src="profile.png" alt="">
+      </div>
+    </div>
+
+    <nav id="header" style="background-color:white;" v-if="viewing==='map' || viewing ==='reports'">
+      <div class="nav-wrapper">
+        <img style="zoom:25%; display: block; margin-left: auto;
+            margin-right: auto; width: 50%; margin-top: 3%"
+          src="logo.png" alt="">
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+        </ul>
+      </div>
+    </nav>
+
+    <transition name="slide-fade">
+      <div style="z-index:4000" id="reports-bar" class="light-green" v-if="viewing==='reports'">
+        <div v-for="report in reports">
+          <div class="my-container">
+            <div class="card sticky-action">
+
+              <div class="card-content">
+                <div class="card-title green-text">Report #{{report._id}}</div>
+                <p>Location: {{vm.formatLocation(report)}}<br>
+                  Date: {{report.date}}<br>
+                  Description: {{report.description}}<br>
+                  Category: {{report.category}}<br>
+                  Status: {{report.status}}<br>
+                  Likes: {{report.upvoterCount}} | Dislikes: {{report.downvoterCount}}</p>
+                <span class="card-title activator blue-text">View comments<i class="material-icons right" style="font-size: 60px;">expand_less</i></span>
+              </div>
+
+              <div class="card-action">
+                <a href="#"><i class="material-icons small">thumb_up</i> Like</a>
+                <a href="#"><i class="material-icons small">thumb_down</i> Dislike</a>
+              </div>
+
+              <div class="card-reveal">
+                <span class="card-title blue-text">Comments<i class="material-icons right" style="font-size: 60px;">expand_more</i></span>
+                <p style="white-space: pre-line;">{{vm.formatComments(report.comments)}}</p>
+
+                <form onsubmit="comment(this)">
+                  <input type="text"></input>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </transition>
+
+    <transition name="fade">
+      <div style="z-index:4000" id="search-page" v-if="viewing==='search'">
+        <nav id="search-bar">
+          <div class="nav-wrapper">
+            <form onsubmit="search()">
+              <div class="input-field">
+                <label class="label-icon" for="search-example">
+                </label>
+                <input style="font-size:40px;" id="search-example" type="search" required="" placeholder="Enter a few keywords...">
+                <i onclick="search()" class="material-icons" style="font-size: 80px;">search</i>
+              </div>
+            </form>
+          </div>
+        </nav>
+
+        <a id="category-button" class='dropdown-trigger btn large' href='#' data-target='dropdown1'>Category</a>
+
+        <!-- Dropdown Structure -->
+        <ul id='dropdown1' class='dropdown-content'>
+          <li><a href="#!">Homicide</a></li>
+          <li><a href="#!">Theft</a></li>
+          <li><a href="#!">Assault</a></li>
+          <li><a href="#!">Drugs</a></li>
+        </ul>
+
+        <a id="status-button" class='dropdown-trigger btn large' href='#' data-target='dropdown2'>Status</a>
+
+        <!-- Dropdown Structure -->
+        <ul id='dropdown2' class='dropdown-content'>
+          <li><a href="#!">Any</a></li>
+          <li><a href="#!">Pending</a></li>
+          <li><a href="#!">Solved</a></li>
+        </ul>
+      </div>
+    </transition>
+
+    <transition style="z-index:4000;" name="fade">
+      <div v-if="viewing==='notif'" id="notifs" class="light-green lighten-4" style="z-index:5000; position: absolute; width: 100%; height:100%; top: 0px; margin: 0px; left: 0px;">
+        <div v-for="notif in notifs">
+          <div height="100px" style="font-family: 'Josenfin Slab'; font-size: 60px; z-index: 1000000; text-align: center; border-style: solid">{{notif}}</div><br>
+        </div>
+      </div>
+    </transition>
+
+    <transition name="fade">
+      <div v-if="viewing==='profile'">
+        <img id="profile-image" src="profile-1.png" style="top:0; width: 100%; position:absolute; top:0px; z-index:40000">
+        <div id="my-tokens" style="font-weight:bold; font-size: 80px; position: absolute; min-width:30px; min-height: 110px; left:78.5%; top: 41%; z-index: 100000000000;">{{vm.tokens}}</div>
+      </div>
+    </transition>
+
+    <transition name="fade">
+      <div v-if="viewing==='report'">
+        <img src="addReport.png" style="top:0; width: 100%; position:absolute; top:0px; z-index:40000">
+        <textarea id="report-description" style="font-size: 70px; font-family: 'Josefin Slab'; position: absolute; max-width: 880px; min-height: 665px; left:5%; top: 42.5%; z-index: 100000000000;"></textarea>
+        <div onclick="togglePrivacy()" id="keep-report-private" style="position: absolute; min-width: 430px; min-height: 110px; left:3.5%; top: 77%; z-index: 100000000000;">&nbsp</div>
+        <div onclick="submitReport()" id="submit-report" style="position: absolute; min-width: 430px; min-height: 110px; left:52.6%; top: 77%; z-index: 100000000000;">&nbsp</div>
+
+        <div v-if="vm.reportPrivacy">
+          <img src="checkmark.png" style="position: absolute; top: 77.5%; left:7%; width: 5%; height:3%; z-index: 100000000000;">
+      </div>
+    </transition>
+
+  </div>
+
+  <script>
+
+    var cards = document.getElementsByClassName('card');
+
+    var togglePrivacyButton = document.getElementById('keep-report-private');
+    var submitReportButton = document.getElementById('submit-report');
+
+    function togglePrivacy() {
+      vm.reportPrivacy = !vm.reportPrivacy;
+    }
+
+    function submitReport() {
+      var description = document.getElementById('report-description').innerText;
+
+        newReport(description, vm.reportPrivacy);
+    }
+
+    function comment(element) {
+      var reportID = element.parentNode.parentNode.firstElementChild.firstElementChild.innerHTML;
+      reportID = reportID.substring(reportID.lastIndexOf('#') + 1);
+      var message = element.firstElementChild.value;
+
+      addComment(reportID, message);
+    }
+
+    var light = [
+      '<img style="position:absolute; top:87%; left:41.5%; z-index:1; zoom: 130%;" src="report.png" alt="">',
+      '<img style="margin-top: 44px; zoom: 110%;" src="map.png" alt="">',
+      '<img style="margin-top: 44px; margin-right: 100px; zoom: 110%;" src="search.png" alt="">',
+      '<img style="margin-top: 44px; margin-left: 100px; zoom: 110%;" src="notif.png" alt="">',
+      '<img style="margin-top: 44px; zoom: 110%;" src="profile.png" alt="">'
+    ];
+    var dark = [
+      '<img style="position:absolute; top:87%; left:41.5%; z-index:1; zoom: 130%;" src="report-black.png" alt="">',
+      '<img style="margin-top: 44px; zoom: 110%;" src="map-black.png" alt="">',
+      '<img style="margin-top: 44px; margin-right: 100px; zoom: 110%;" src="search-black.png" alt="">',
+      '<img style="margin-top: 44px; margin-left: 100px; zoom: 110%;" src="notif-black.png" alt="">',
+      '<img style="margin-top: 44px; zoom: 110%;" src="profile-black.png" alt="">'
+    ];
+
+    var sections = document.getElementsByClassName('col');
+
+    function select(element) {
+      for (var i = 0; i < sections.length; i++) {
+        if (element === sections[i]) {
+          sections[i].innerHTML = dark[i];
+        } else {
+          sections[i].innerHTML = light[i];
+        }
+      }
+
+      vm.viewing = element.getAttribute('data-section');
+    }
+
+    function clickMap() {
+      select(document.getElementById('map-icon'));
+    }
+
+    function search() {
+      var term = document.getElementById('search-example').value;
+
+      axios.post('https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/search', {
+        'messageQuery': term,
+        'limit': 20,
+        'severity': true,
+        'currentTime': Date.now(),
+        'currLat': vm.location.lat,
+        'currLon': vm.location.lon,
+        'role': 'police'
+      }).then(function (res) {
+        console.log(res.data);
+        vm.reports = res.data;
+        vm.viewing = 'reports'
+      });
+    }
+
+    $("search-example").on('keyup', function (e) {
+      if (e.keyCode == 13) {
+        search();
+      }
+    });
+
+    var profileImages = [
+      'profile-1.png',
+      'profile-2.png',
+      'profile-3.png',
+      'profile-4.png',
+      'profile-5.png',
+      'profile-6.png',
+      'profile-7.png'
+    ];
+
+    document.getElementById('profile-image').src;
+  </script>
+
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD4RlYes-LFZXhM7OJMryGDnVUf3MbrXUM&libraries=visualization&callback=initMap">
+  </script>
+
+  <script>
+    var map, infoWindow, markers;
+    var points;
+
+    // function toggleHeatmap() {
+    //   heatmap.setMap(heatmap.getMap() ? null : map);
+    // }
+
+    // function changeGradient() {
+    //   var gradient = [
+    //     'rgba(0, 255, 255, 0)',
+    //     'rgba(0, 255, 255, 1)',
+    //     'rgba(0, 191, 255, 1)',
+    //     'rgba(0, 127, 255, 1)',
+    //     'rgba(0, 63, 255, 1)',
+    //     'rgba(0, 0, 255, 1)',
+    //     'rgba(0, 0, 223, 1)',
+    //     'rgba(0, 0, 191, 1)',
+    //     'rgba(0, 0, 159, 1)',
+    //     'rgba(0, 0, 127, 1)',
+    //     'rgba(63, 0, 91, 1)',
+    //     'rgba(127, 0, 63, 1)',
+    //     'rgba(191, 0, 31, 1)',
+    //     'rgba(255, 0, 0, 1)'
+    //   ]
+    //   heatmap.set('gradient', heatmap.get('gradient') ? null : gradient);
+    // }
+
+    function getLocation() {
+      navigator.geolocation.getCurrentPosition(function (position) {
+        var pos = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        };
+        infoWindow.setPosition(pos);
+        vm.location.lat = pos.lat;
+        vm.location.lon = pos.lng;
+      });
+    }
+
+    function initMap() {
+      function getMapBounds() {
+        var sw = map.getBounds().getSouthWest();
+        var ne = map.getBounds().getNorthEast();
+        // console.log({
+        //   lonMin: sw.lng(),
+        //   lonMax: ne.lng(),
+        //   latMin: sw.lat(),
+        //   latMax: ne.lat()
+        // });
+        return {
+          lonMin: sw.lng(),
+          lonMax: ne.lng(),
+          latMin: sw.lat(),
+          latMax: ne.lat()
+        }
+      }
+
+      function postSearch() {
+        var boundsBodySearch = getMapBounds();
+        axios.post('https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/search', {
+          location: boundsBodySearch,
+          select: 'lon lat'
+        }).then(function (res) {
+          for (var i = 0; i < points.length; i++) {
+            points.pop();
+          }
+          console.log(res.data);
+          for (var i = 0; i < res.data.length; i++) {
+            points.push(new google.maps.LatLng(res.data[i].lat, res.data[i].lon));
+          }
+        }).catch(function (e) {
+          console.log(e);
+        });
+      }
+
+      getLocation();
+      setInterval(getLocation, 500000);
+
+      map = new google.maps.Map(document.getElementById('map'), {
+        center: {
+          lat: 37.786570,
+          lng: -122.402
+        },
+        zoom: 15
+      });
+
+      points = new google.maps.MVCArray;
+      infoWindow = new google.maps.InfoWindow;
+      markers = [];
+
+      var initListener = map.addListener('tilesloaded', function() {
+        var boundsBody = getMapBounds();
+        axios.post('https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/search', {
+          location: boundsBody,
+          select: 'lon lat'
+        }).then(function (res) {
+          // console.log(res.data);
+          for (var i = 0; i < res.data.length; i++) {
+            points.push(new google.maps.LatLng(res.data[i].lat, res.data[i].lon));
+          }
+          heatmap = new google.maps.visualization.HeatmapLayer({
+            data: points,
+            map: map
+          });
+          heatmap.set('radius', 18);
+          heatmap.set('opacity', 0.5);
+        });
+        google.maps.event.removeListener(initListener);
+      });
+
+      map.addListener('dragend', postSearch);
+      map.addListener('zoom_changed', postSearch);
+    }
+  </script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var elems = document.querySelectorAll('.fixed-action-btn');
+      var instances = M.FloatingActionButton.init(elems, {});
+    });
+  </script>
+
+  <script>
+    function getNotifs() {
+      axios.post('https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/notif', {
+        'id': vm.username
+      }).then(function (res) {
+        if (res.data[0]){
+          vm.notifs.push(res.data[0]);
+          getNotifs();
+        }
+      });
+    }
+    setInterval(getNotifs, 10 * 1000);
+
+    function newReport(description, anonymous) {
+
+      console.log({
+        'reportingUser': vm.username,
+        'lat': vm.location.lat,
+        'lon': vm.location.lon,
+        'anonymous': anonymous,
+        'message': description
+      });
+
+      axios.post('https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/post', {
+        'reportingUser': vm.username,
+        'lat': vm.location.lat,
+        'lon': vm.location.lon,
+        'anonymous': anonymous,
+        'message': description
+      }).then(function(res) {
+        console.log(res);
+        clickMap();
+      });
+    }
+
+    function upvote(reportId) {
+      axios.post('https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/interact', {
+        'userId': vm.username,
+        'reportId': reportId,
+        'action': 'upvote'
+      });
+    }
+
+    function downVote(reportId) {
+      axios.post('https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/interact', {
+        'userId': vm.username,
+        'reportId': reportId,
+        'action': 'downvote'
+      });
+    }
+
+    function addComment(reportId, commentMessage) {
+      axios.post('https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/comment', {
+        'userId': vm.username,
+        'reportId': reportId,
+        'message': commentMessage,
+        'timestamp': Date.now()
+      });
+    }
+  </script>
+
+  <script>
+    function getInfo(id) {
+      return {
+        id: id,
+      };
+    }
+
+    var vm = new Vue({
+      el: '#popups',
+      data: {
+        reportPrivacy: false,
+        viewing: 'map',
+        location: {
+          lat: 0,
+          lon: 0
+        },
+        username: 0,
+        tokens: 0,
+        reports: [],
+        notifs: ['message1', 'message2']
+      },
+      methods: {
+        formatComments: function (comments) {
+          var output = '';
+          for (var i = 0; i < comments.length - 1; i++) {
+            output += comments[i] + '\n';
+          }
+          output += comments[comments.length - 1];
+          return output;
+        },
+
+        formatLocation: function (report) {
+          return 'Latitude: ' + report.lat + ' | Longitude: ' + report.lon;
+        }
+      }
+    });
+  </script>
+</body>
+
+</html>
