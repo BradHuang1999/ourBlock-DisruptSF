@@ -6,13 +6,15 @@ Created on Wed Aug 29 01:00:00 2018
 
 Required packages:
     - Python 3.5
-    - Pandas 
+    - Pandas
 """
 # Imports
 import pandas as pd
+import os
 
 # Read in file
-data = pd.read_csv('shortPoliceReports.csv')
+module_dir = os.path.abspath(os.path.dirname(__file__))
+data = pd.read_csv(os.path.join(module_dir,'shortPoliceReports.csv'))
 #data = pd.read_csv('PoliceReports.csv')
 
 
@@ -144,18 +146,18 @@ removal = SnowballStemmer('english')
 stoppingwords = stopwords.words("english")
 
 
-#stoppingwords = ['i', 'me', 'my', 'myself', 'we', 'our', 'ours', 'ourselves', 'you', "you're", "you've", "you'll", "you'd", 'your', 
-#                 'yours', 'yourself', 'yourselves', 'he', 'him', 'his', 'himself', 'she', "she's", 'her', 'hers', 'herself', 'it', 
-#                 "it's", 'its', 'itself', 'they', 'them', 'their', 'theirs', 'themselves', 'what', 'which', 'who', 'whom', 'this', 
-#                 'that', "that'll", 'these', 'those', 'am', 'is', 'are', 'was', 'were', 'be', 'been', 'being', 'have', 'has', 
-#                 'had', 'having', 'do', 'does', 'did', 'doing', 'a', 'an', 'the', 'and', 'but', 'if', 'or', 'because', 'as', 'until', 
-#                 'while', 'of', 'at', 'by', 'for', 'with', 'about', 'against', 'between', 'into', 'through', 'during', 'before', 'after', 
-#                 'above', 'below', 'to', 'from', 'up', 'down', 'in', 'out', 'on', 'off', 'over', 'under', 'again', 'further', 'then', 'once', 
-#                 'here', 'there', 'when', 'where', 'why', 'how', 'all', 'any', 'both', 'each', 'few', 'more', 'most', 'other', 'some', 
+#stoppingwords = ['i', 'me', 'my', 'myself', 'we', 'our', 'ours', 'ourselves', 'you', "you're", "you've", "you'll", "you'd", 'your',
+#                 'yours', 'yourself', 'yourselves', 'he', 'him', 'his', 'himself', 'she', "she's", 'her', 'hers', 'herself', 'it',
+#                 "it's", 'its', 'itself', 'they', 'them', 'their', 'theirs', 'themselves', 'what', 'which', 'who', 'whom', 'this',
+#                 'that', "that'll", 'these', 'those', 'am', 'is', 'are', 'was', 'were', 'be', 'been', 'being', 'have', 'has',
+#                 'had', 'having', 'do', 'does', 'did', 'doing', 'a', 'an', 'the', 'and', 'but', 'if', 'or', 'because', 'as', 'until',
+#                 'while', 'of', 'at', 'by', 'for', 'with', 'about', 'against', 'between', 'into', 'through', 'during', 'before', 'after',
+#                 'above', 'below', 'to', 'from', 'up', 'down', 'in', 'out', 'on', 'off', 'over', 'under', 'again', 'further', 'then', 'once',
+#                 'here', 'there', 'when', 'where', 'why', 'how', 'all', 'any', 'both', 'each', 'few', 'more', 'most', 'other', 'some',
 #                 'such', 'no', 'nor', 'not', 'only', 'own', 'same', 'so', 'than', 'too', 'very', 's', 't', 'can', 'will', 'just', 'don',
 #                 "don't", 'should', "should've", 'now', "aren't", 'couldn', "couldn't",
 #                 'didn', "didn't", 'doesn', "doesn't", 'hadn', "hadn't", 'hasn', "hasn't", 'haven', "haven't", 'isn', "isn't", 'ma', 'mightn',
-#                 "mightn't", 'mustn', "mustn't", 'needn', "needn't", 'shan', "shan't", 'shouldn', "shouldn't", 'wasn', "wasn't", 'weren', "weren't", 
+#                 "mightn't", 'mustn', "mustn't", 'needn', "needn't", 'shan', "shan't", 'shouldn', "shouldn't", 'wasn', "wasn't", 'weren', "weren't",
 #                 'won', "won't", 'wouldn', "wouldn't", 'someone', 'guy', 'girl', 'man', 'women', 'group', 'kept', ]
 
 data['cleaned'] = data['message'].apply(lambda x: " ".join([removal.stem(i) for i in re.sub("[^a-zA-Z]", " ", x).split() if i not in stoppingwords]).lower())
@@ -193,7 +195,7 @@ def predict(stringin):
     predictstring = predictstring.join([removal.stem(i) for i in re.sub("[^a-zA-Z]", " ", predictstring).split() if i not in stoppingwords]).lower()
     print(model.predict([predictstring]))
     return model.predict([predictstring])
-    
+
 # Tests
 predict('He was doing meth in the park')
 predict('I just saw someone get killed at 65th and Ingleside')
@@ -201,4 +203,4 @@ predict('Some guy just tried to steal a car')
 predict('He kidnap her in a white van')
 
 # Export to CSV
-data.to_csv('output_data.csv')
+#data.to_csv('output_data.csv')

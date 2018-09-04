@@ -1,0 +1,5 @@
+{'message': 'somebody stole my bike'}
+{'message': 'somebody stole my bike'}
+{'message': 'somebody stole my bike'}
+{'message': 'somebody stole my bike', 'category': array(['Larceny/Theft'], dtype=object)}
+{'message': 'somebody stole my bike', 'category': 'Larceny/Theft'}
