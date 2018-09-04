@@ -53,3 +53,9 @@ Bulk upload: https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/bulk-up
 * Input arguments: \[{"column1":"value1","column2":"value2",...},{"column1":"value3","column2":"value4",...},...\]
 
 * Output results: none
+
+Token: https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/token
+
+* Input arguments: {"userId": user\_id, "action": optional argument, if included will increment token count by 1}
+
+* Output results: the number of tokens belonging to a user
