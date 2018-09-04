@@ -544,8 +544,7 @@
         'id': vm.username
       }).then(function (res) {
         if (res.data[0]){
-          vm.notifs.push(res.data[0]);
-          getNotifs();
+          vm.notifs = res.data.slice(0);
         }
       });
     }
@@ -615,7 +614,7 @@
           lat: 0,
           lon: 0
         },
-        username: 0,
+        username: '0',
         tokens: 0,
         reports: [],
         notifs: ['message1', 'message2']
