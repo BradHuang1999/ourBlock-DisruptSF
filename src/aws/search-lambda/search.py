@@ -18,6 +18,67 @@ def connectES(esEndPoint):
     exit(3)
 es = connectES('search-hacktps-2xwfbumjkznhuydichzbdudpe4.us-east-2.es.amazonaws.com')
 
+weights = {
+    'police': {
+        'distance': -0.1 / 1000,
+        'category': 1,
+        'time': -10 / (1000 * 1000 * 60 * 60 * 24),
+        'upvotes': 0.1,
+        'downvotes': -0.2,
+        'followers': 0.2,
+        'status': 1
+    },
+    'civilian': {
+        'distance': -1,
+        'category': 1,
+        'time': 1,
+        'upvotes': 1,
+        'downvotes': -1,
+        'followers': 1, 
+        'status': 1  
+    }
+}
+
+categoryWeights = {
+    "Larceny/Theft": 0.3,
+    "Violence/Homicide": 1,
+    "Mental Health/Bullying": 0.6,
+    "Drug/Narcotics": 0.5,
+    "Kidnapping": 0.9,
+    "Traffic Violation": 0.4,
+    "Sex Offences": 0.6
+}
+
+statusWeights = {
+    "solved by police": 0.001,
+    "solved by public": 0.01,
+    "in progress": 0.1,
+    "pending": 1
+}
+
+def convert_coord_to_miles(lat1,lon1,lat2,lon2):
+  #assumes roughly same latitude
+  dx = abs(lat1-lat2)*69
+  dy = cos(lat1*3.141592/180)*69*abs(lon1-lon2)
+  return sqrt(dx**2+dy**2)
+
+def getSeverity(role,currentTime,currLat,currLon,doc):
+  categoryCoef = categoryWeights[doc['category']]
+  statusCoef = statusWeights[doc['status']]
+  distance = convert_coord_to_miles(currLat,currLon,doc['lat'],doc['lon'])
+  doc['distance'] = distance
+  severity = sum([
+    weights[role]['status']*statusCoef,
+    weights[role]['distance']*distance,
+    weights[role]['category']*categoryCoef,
+    weights[role]['time']*(currentTime-doc['time']),
+    weights[role]['upvotes']*doc['upvoterCount'],
+    weights[role]['downvotes']*doc['downvoterCount'],
+    weights[role]['followers']*doc['followerCount']
+  ])
+  doc['severity'] = severity
+  return severity
+
 def search(event,context):
   event = json.loads(event['body'])
   if 'reportId' in event:
@@ -53,25 +114,21 @@ def search(event,context):
     }]
   and_array = query_body['query']['bool']['filter']
   for key in event:
-    if key in ['category','reportingUser']:
+    if key in ['category','reportingUser','status']:
       and_array.append({'term':{key:event[key]}})
-    elif key in ['severity','time','upvoterCount','downvoterCount','followerCount','commentCount']:
+    elif key in ['time','upvoterCount','downvoterCount','followerCount','commentCount']:
       and_array.append({'range':{key:{'gte':event[key]}}})
     elif key=='location':
-      if all([x in event[key] for x in ['lon','lat','radiusLon','radiusLat']]):
-        lon,lat,rlon,rlat = [event[key][x] for x in ['lon','lat','radiusLon','radiusLat']]
-        and_array.append({'range':{'lon':{'gte':lon-rlon,'lte':lon+rlon}}})
-        and_array.append({'range':{'lat':{'gte':lat-rlat,'lte':lat+rlat}}})
-    elif key=='select':
+      if all([x in event[key] for x in ['lonMin','lonMax','latMin','latMax']]):
+        lonmin,lonmax,latmin,latmax = [event[key][x] for x in ['lonMin','lonMax','latMin','latMax']]
+        and_array.append({'range':{'lon':{'gte':lonmin,'lte':lonmax}}})
+        and_array.append({'range':{'lat':{'gte':latmin,'lte':latmax}}})
+    elif key=='select' and 'severity' not in event:
       query_body['_source'] = event['select']
   query_body['query']['bool']['filter'] = and_array
-  data = es.search(index='data',doc_type='crime',size=10000,from_=0,body=query_body)
-  def convert_coord_to_miles(lat1,lon1,lat2,lon2):
-    #assumes roughly same latitude
-    dx = abs(lat1-lat2)*69
-    dy = cos(lat1*3.141592/180)*69*abs(lon1-lon2)
-    return sqrt(dx**2+dy**2)
-  if 'select' in event and 'distance' in event['select']:
+  limit = 10000 if 'limit' not in event else min(10000,event['limit'])
+  data = es.search(index='data',doc_type='crime',size=limit,from_=0,body=query_body)
+  if ('select' in event and 'distance' in event['select']):
     for item in data['hits']['hits']:
       if 'lat' in item['_source'] and 'lon' in item['_source']:
         lat,lon = event['location']['lat'],event['location']['lon']
@@ -82,6 +139,12 @@ def search(event,context):
     row = item['_source']
     row['_id'] = item['_id']
     output.append(row)
+  if all([x in event for x in ['severity','currentTime','currLat','currLon','role']]):
+    output = sorted(output,key=lambda x: getSeverity(event['role'],event['currentTime'],event['currLat'],event['currLon'],x))
+    if 'select' in event:
+      event['select'].extend(['_id','severity','distance'])
+      for i,item in enumerate(output):
+        output[i] = {key:item[key] for key in item if key in event['select']}
   return { 
     'isBase64Encoded': True,
     'statusCode': 200,

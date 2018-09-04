@@ -28,6 +28,12 @@ def status(event,context):
     }
   })
   if event['field']=='status':
+    if event['value'] in ['solved by public','solved by police']:
+      orig_user = es.get(index='data',doc_type='crime',id=event['reportId'])['_source']['reportingUser']
+      lambda_client.invoke(FunctionName='token',Payload=json.dumps({'body':json.dumps({
+        'userId':orig_user,
+        'action':True
+      })}))
     lambda_client.invoke(FunctionName='comment',Payload=json.dumps({'body':json.dumps({
       'userId':'sfpd',
       'message':'San Francisco Police: Thanks for all your collaboration! This report is now %s' % event['value'],
