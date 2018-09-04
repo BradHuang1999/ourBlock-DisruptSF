@@ -149,7 +149,7 @@
     }
 
     #search-page {
-      height: 85%;
+      height: 10%;
       width: 100%;
       z-index: 40000;
       position: absolute;
@@ -158,7 +158,7 @@
 
     #search-bar {
       top: 0px;
-      height: 11.9%;
+      height: 100%;
       width: 100%;
       font-size: 80px;
       z-index: 4000;
@@ -186,12 +186,13 @@
 
     <div id="map" onclick="clickMap()"></div>
 
-    <div data-section="report" onclick="select(this)" class="col s3 grey lighten-4">
-      <img style="position:absolute; top:87%; left:41.5%; z-index:60000; zoom: 130%;" src="report-final.png" alt="">
+
+    <div data-section="report" onclick="select(this)" class="col s3 grey lighten-4" style="z-index:6000000000;">
+      <img style="position:absolute; top:87%; left:41.5%; z-index:6000000000; zoom: 130%;" src="report-final.png" alt="">
     </div>
 
     <div id="bottom-bar" class="row" style="z-index:50000">
-      <div data-section="map" onclick="select(this)" class="col s3 grey lighten-4">
+      <div id="map-icon" data-section="map" onclick="select(this)" class="col s3 grey lighten-4">
         <img style="margin-top: 44px; zoom: 110%;" src="map-black.png" alt="">
       </div>
       <div data-section="search" onclick="select(this)" class="col s3 grey lighten-4">
@@ -240,6 +241,10 @@
               <div class="card-reveal">
                 <span class="card-title blue-text">Comments<i class="material-icons right" style="font-size: 60px;">expand_more</i></span>
                 <p style="white-space: pre-line;">{{vm.formatComments(report.comments)}}</p>
+
+                <form onsubmit="comment(this)">
+                  <input type="text"></input>
+                </form>
               </div>
             </div>
           </div>
@@ -283,17 +288,18 @@
       </div>
     </transition>
 
-    <transition style="z-index:4000" name="fade">
-      <div v-if="viewing==='profile'" id="user-profile" class="light-green lighten-5">
-        <img id="profile-image" src="">
+    <transition style="z-index:4000;" name="fade">
+      <div v-if="viewing==='notif'" id="notifs" class="light-green lighten-4" style="z-index:5000; position: absolute; width: 100%; height:100%; top: 0px; margin: 0px; left: 0px;">
+        <div v-for="notif in notifs">
+          <div height="100px" style="font-family: 'Josenfin Slab'; font-size: 60px; z-index: 1000000; text-align: center; border-style: solid">{{notif}}</div><br>
+        </div>
       </div>
     </transition>
 
-    <transition style="z-index:4000;" name="fade">
-      <div v-if="viewing==='notif'" id="notifs" class="light-green lighten-5" style="z-index:5000;">
-        <div v-for="notif in notifs">
-          <div>{{notif}}</div>
-        </div>
+    <transition name="fade">
+      <div v-if="viewing==='profile'">
+        <img id="profile-image" src="profile-1.png" style="top:0; width: 100%; position:absolute; top:0px; z-index:40000">
+        <div id="my-tokens" style="font-weight:bold; font-size: 80px; position: absolute; min-width:30px; min-height: 110px; left:78.5%; top: 41%; z-index: 100000000000;">{{vm.tokens}}</div>
       </div>
     </transition>
 
@@ -309,16 +315,11 @@
       </div>
     </transition>
 
-    <transition>
-      <div v-if="viewing==='profile'">
-        <img src="profile-1.png" style="top:0; width: 100%; position:absolute; top:0px; z-index:40000">
-        <div id="my-tokens" style="font-weight:bold; font-size: 80px; position: absolute; min-width:30px; min-height: 110px; left:78.5%; top: 41%; z-index: 100000000000;">{{vm.tokens}}</div>
-      </div>
-    </transition>
-
   </div>
 
   <script>
+
+    var cards = document.getElementsByClassName('card');
 
     var togglePrivacyButton = document.getElementById('keep-report-private');
     var submitReportButton = document.getElementById('submit-report');
@@ -328,15 +329,17 @@
     }
 
     function submitReport() {
-      var description = document.getElementById('report-description');
+      var description = document.getElementById('report-description').innerText;
 
         newReport(description, vm.reportPrivacy);
     }
 
     function comment(element) {
-      var reportID = element.getParentNode().getParentNode().firstElementChild.firstElementChild.innerHTML;
-      reportID = reportID.substring(reportID.lastIndexOf(' ') + 1);
-      var comment = element.value;
+      var reportID = element.parentNode.parentNode.firstElementChild.firstElementChild.innerHTML;
+      reportID = reportID.substring(reportID.lastIndexOf('#') + 1);
+      var message = element.firstElementChild.value;
+
+      addComment(reportID, message);
     }
 
     var light = [
@@ -368,31 +371,24 @@
       vm.viewing = element.getAttribute('data-section');
     }
 
-    var instance;
-
-    $(document).ready(function () {
-      $('.modal').modal();
-      instance = M.Modal.getInstance(document.getElementById('new-report-modal'));
-    });
-
-    function openModal(element) {
-      select(element)
-      instance.open();
-    }
-
     function clickMap() {
-      select(document.getElementById('map'));
+      select(document.getElementById('map-icon'));
     }
 
     function search() {
       var term = document.getElementById('search-example').value;
 
       axios.post('https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/search', {
-        'query': term
+        'messageQuery': term,
+        'limit': 20,
+        'severity': true,
+        'currentTime': Date.now(),
+        'currLat': vm.location.lat,
+        'currLon': vm.location.lon,
+        'role': 'police'
       }).then(function (res) {
         console.log(res.data);
         vm.reports = res.data;
-        vm.reports.length = 20;
         vm.viewing = 'reports'
       });
     }
@@ -528,7 +524,7 @@
           heatmap.set('opacity', 0.5);
         });
         google.maps.event.removeListener(initListener);
-      });      
+      });
 
       map.addListener('dragend', postSearch);
       map.addListener('zoom_changed', postSearch);
@@ -556,6 +552,15 @@
     setInterval(getNotifs, 10 * 1000);
 
     function newReport(description, anonymous) {
+
+      console.log({
+        'reportingUser': vm.username,
+        'lat': vm.location.lat,
+        'lon': vm.location.lon,
+        'anonymous': anonymous,
+        'message': description
+      });
+
       axios.post('https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/post', {
         'reportingUser': vm.username,
         'lat': vm.location.lat,
@@ -613,7 +618,7 @@
         username: 0,
         tokens: 0,
         reports: [],
-        notifs: []
+        notifs: ['message1', 'message2']
       },
       methods: {
         formatComments: function (comments) {
