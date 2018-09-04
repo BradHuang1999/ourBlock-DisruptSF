@@ -62,12 +62,15 @@ def convert_coord_to_miles(lat1,lon1,lat2,lon2):
   dy = cos(lat1*3.141592/180)*69*abs(lon1-lon2)
   return sqrt(dx**2+dy**2)
 
+def convert_coord_to_meters(lat1, lon1, lat2, lon2):
+  return 1609.34 * convert_coord_to_miles(lat1,lon1,lat2,lon2)
+
 def getSeverity(role,currentTime,currLat,currLon,doc):
   categoryCoef = categoryWeights[doc['category']]
   statusCoef = statusWeights[doc['status']]
-  distance = convert_coord_to_miles(currLat,currLon,doc['lat'],doc['lon'])
+  distance = convert_coord_to_meters(currLat,currLon,doc['lat'],doc['lon'])
   doc['distance'] = distance
-  severity = sum([
+  arr = [
     weights[role]['status']*statusCoef,
     weights[role]['distance']*distance,
     weights[role]['category']*categoryCoef,
@@ -75,7 +78,8 @@ def getSeverity(role,currentTime,currLat,currLon,doc):
     weights[role]['upvotes']*doc['upvoterCount'],
     weights[role]['downvotes']*doc['downvoterCount'],
     weights[role]['followers']*doc['followerCount']
-  ])
+  ]
+  severity = sum(arr)
   doc['severity'] = severity
   return severity
 
@@ -140,7 +144,7 @@ def search(event,context):
     row['_id'] = item['_id']
     output.append(row)
   if all([x in event for x in ['severity','currentTime','currLat','currLon','role']]):
-    output = sorted(output,key=lambda x: getSeverity(event['role'],event['currentTime'],event['currLat'],event['currLon'],x))
+    output = sorted(output,key=lambda x: getSeverity(event['role'],event['currentTime'],event['currLat'],event['currLon'],x),reverse=True)
     if 'select' in event:
       event['select'].extend(['_id','severity','distance'])
       for i,item in enumerate(output):
