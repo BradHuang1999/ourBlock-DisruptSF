@@ -234,8 +234,8 @@
               </div>
 
               <div class="card-action">
-                <a href="#"><i class="material-icons small">thumb_up</i> Like</a>
-                <a href="#"><i class="material-icons small">thumb_down</i> Dislike</a>
+                <a onclick="upvote(this)"><i class="material-icons small">thumb_up</i> Like</a>
+                <a onclick="downvote(this)"><i class="material-icons small">thumb_down</i> Dislike</a>
               </div>
 
               <div class="card-reveal">
@@ -544,11 +544,12 @@
         'id': vm.username
       }).then(function (res) {
         if (res.data[0]){
-          vm.notifs = res.data.slice(0);
+          vm.notifs.push(res.data[0]);
+          getNotifs();
         }
       });
     }
-    setInterval(getNotifs, 10 * 1000);
+    setInterval(getNotifs, 10 * 100);
 
     function newReport(description, anonymous) {
 
@@ -572,7 +573,11 @@
       });
     }
 
-    function upvote(reportId) {
+    function upvote(element) {
+
+      var reportId = element.parentNode.parentNode.firstElementChild.firstElementChild;
+      reportID = reportID.substring(reportID.lastIndexOf('#') + 1);
+
       axios.post('https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/interact', {
         'userId': vm.username,
         'reportId': reportId,
@@ -580,7 +585,11 @@
       });
     }
 
-    function downVote(reportId) {
+    function downvote(element) {
+
+      var reportId = element.parentNode.parentNode.firstElementChild.firstElementChild;
+      reportID = reportID.substring(reportID.lastIndexOf('#') + 1);
+
       axios.post('https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/interact', {
         'userId': vm.username,
         'reportId': reportId,
