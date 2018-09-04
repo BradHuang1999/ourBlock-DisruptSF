@@ -187,7 +187,7 @@
       <div data-section="profile" onclick="select(this)" class="col s3 grey lighten-4"> <img style="margin-top: 44px; zoom: 110%;" src="profile.png" alt=""></div>
     </div>
 
-      <nav id="header" style="background-color:white;" v-if="viewing==='map' || viewing ==='reports'">
+      <nav id="header" style="background-color:white;" v-if="viewing==='map' || viewing ==='reports' || viewing==='report'">
       <div class="nav-wrapper">
         <img style="zoom:25%; display: block; margin-left: auto;
             margin-right: auto; width: 50%; margin-top: 3%"src="logo.png" alt="">
@@ -367,7 +367,7 @@
 
       axios.post('https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/search', {
         params: {
-          'query': term
+          query: term
         }
       }).then(function(res) {
         console.log(res.data);
@@ -382,6 +382,10 @@
         search();
     }
   });
+
+  var profileImages = ['https://lh5.googleusercontent.com/4VAvgobcv9Cppz7Ke5G6WHiCJW53KUvNlKeM9b1I3JiQSlGwSFaluBN8oejL9BkyfU10kTpxHfnsg_N4pXzu=w1920-h937', 'https://lh4.googleusercontent.com/KRyzytLE-rBLbupTsKJaIwzHQXQYAY6t7N-mBzXBD9SFpymlRZcStgD34NLot1ySGAoyLa9KO-z_pQMO3JtZ=w1920-h937', 'https://lh6.googleusercontent.com/XhazQLKIlPnc03L_2jV9GvbJTr6yJ3SY_JU8Ox8Zui6O2-W0sqwlyNkV6Cg6kb1PCbF9LZNXpip7GZxKF4OD=w1920-h937', 'https://lh4.googleusercontent.com/C1ASM3ejOiquCyQ0gjRvynUHgrdtQgvHEJHfD_2AaxpI_kwqsRp8vJ1Grck1kfV7KVKkZLZ2L3QDn04cn_dM=w1920-h937', 'https://lh3.googleusercontent.com/vddBtqS5ChOxKuBIphWCBNsOVSb80T5yw8XYIw4nasJEebDVl3-wVMl0ghlGb0jMEBRm4BMZRuDWfk2wgwc1=w1920-h937', 'https://lh6.googleusercontent.com/qlevwBA9BF_jcX_DVtU0H8IcG9logcMzSNyon8uIgzQyzs5v1QeigjVjAhabUJak06TFHNYf0nwyGC-5X-u-=w1920-h937', 'https://lh4.googleusercontent.com/o5UYfO64jqx3HzAobvio0kl1mqTQGdaLk-D8bS-siw-Tyh5aJbf0VP_aZZ8E8WSbWR2ONZmBNB5t3PunlM7S=w1920-h937'];
+
+  document.getElementById('profile-image').src;
 
     </script>
 
@@ -477,8 +481,8 @@
 
           axios.post('https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/search', {
             params: {
-              'location': body,
-              'select': 'lon lat'
+              location: body,
+              select: 'lon lat'
             }
           }).then(function(res) {
 
@@ -530,7 +534,7 @@
       axios.post('https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/notif', {
 
         params: {
-          'id': vm.username
+          id: vm.username
         }
 
         }).then(function(res) {
@@ -546,11 +550,11 @@
         function newReport(description, anonymous) {
           axios.post('https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/post', {
             params: {
-              'reportingUser': vm.username,
-              'lat': vm.location.lat,
-              'lon': vm.location.lon,
-              'anonymous': anonymous,
-              'message': description
+              reportingUser: vm.username,
+              lat: vm.location.lat,
+              lon: vm.location.lon,
+              anonymous: anonymous,
+              message: description
             }
           });
         }
@@ -559,9 +563,9 @@
 
           axios.post('https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/interact', {
             params: {
-              'userId': vm.username,
-              'reportID': reportId,
-              'action': 'upvote'
+              userId: vm.username,
+              reportID: reportId,
+              action: 'upvote'
             }
           });
 
@@ -571,9 +575,9 @@
 
           axios.post('https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/interact', {
             params: {
-              'userId': vm.username,
-              'reportID': reportId,
-              'action': 'downvote'
+              userId: vm.username,
+              eportID: reportId,
+              action: 'downvote'
             }
           });
 
@@ -600,7 +604,7 @@
           lon: 0
         },
 
-        username: 'TheLegend27',
+        username: 0,
         tokens: 0,
 
         reports: [
@@ -631,15 +635,6 @@
         }
       }
     });
-
-  </script>
-
-  <script>
-
-
-  function viewCases(cases) {
-
-  }
 
   </script>
 
