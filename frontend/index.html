@@ -6,6 +6,7 @@
      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
      <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
      <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.min.js"></script>
      <link href="https://fonts.googleapis.com/css?family=Josefin+Slab|VT323|Lalezar" rel="stylesheet">
@@ -136,7 +137,6 @@
         #search-page {
           height: 85%;
           width: 100%;
-          background: white;
           z-index:40000;
           position: absolute;
           top:0px;
@@ -177,7 +177,7 @@
 
     <div id="map" onclick="clickMap()"></div>
 
-    <div data-section="report" onclick="select(this)" class="col s3 grey lighten-4"> <img style="position:absolute; top:87%; left:41.5%; z-index:60000; zoom: 130%;" src="report-final.png" alt=""></div>
+    <div data-section="report" onclick="openModal(this)" class="col s3 grey lighten-4"> <img style="position:absolute; top:87%; left:41.5%; z-index:60000; zoom: 130%;" src="report-final.png" alt=""></div>
 
   <div id="bottom-bar" class="row">
 
@@ -280,12 +280,41 @@
 
       </transition>
 
+
+      <transition style="z-index:4000" name="fade">
+
+      <div v-if="vm.viewing==='notif'" id="notifs" class="light-green lighten-5" style="z-index:5000">
+
+
+
+        <div v-for="notif in notifs">
+          <div>{{notif}}</div>
+        </div>
+
+        </div>
+      </transition>
+
+        <div id="new-report-modal" class="modal modal-fixed-footer">
+            <div class="modal-content" style="background: linear-gradient(#C0E8C3 1%, #FFFFFF 99%);">
+                <div>
+                    <h4>Report an Incident</h4>
+                    <p>Thank you for making our community safer! </p>
+                    <p><strong>If this is an emergency, please call 911 first!</strong></p>
+                </div>
+                <div style="background: linear-gradient(90deg, #C0E8C3 50%, #FFFFFF 50%);">
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class="modal-close waves-effect waves-green btn-flat">Send</a>
+                <a href="#" class="modal-close waves-effect waves-green btn-flat">Cancel</a>
+            </div>
+        </div>
+
       </div>
 
 
   </body>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
     <script>
 
@@ -314,6 +343,19 @@
       }
 
       vm.viewing = element.getAttribute('data-section');
+
+    }
+
+    var instance;
+
+    $(document).ready(function() {
+        $('.modal').modal();
+        instance = M.Modal.getInstance(document.getElementById('new-report-modal'));
+    });
+
+    function openModal(element) {
+        select(element)
+        instance.open();
     }
 
     function clickMap() {
@@ -484,11 +526,11 @@
 
     <script>
 
-    function getNotifs() {}
+    function getNotifs() {
       axios.post('https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/notif', {
 
         params: {
-          'id': vm.username;
+          'id': vm.username
         }
 
         }).then(function(res) {
