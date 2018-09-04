@@ -130,7 +130,7 @@ def search(event,context):
     elif key=='select' and 'severity' not in event:
       query_body['_source'] = event['select']
   query_body['query']['bool']['filter'] = and_array
-  limit = 10000 if 'limit' not in event else min(10000,event['limit'])
+  limit = 10000 if 'limit' not in event or 'severity' in event else min(10000,event['limit'])
   data = es.search(index='data',doc_type='crime',size=limit,from_=0,body=query_body)
   if ('select' in event and 'distance' in event['select']):
     for item in data['hits']['hits']:
@@ -149,6 +149,8 @@ def search(event,context):
       event['select'].extend(['_id','severity','distance'])
       for i,item in enumerate(output):
         output[i] = {key:item[key] for key in item if key in event['select']}
+    if 'limit' in event:
+      output = output[:event['limit']]
   return { 
     'isBase64Encoded': True,
     'statusCode': 200,
