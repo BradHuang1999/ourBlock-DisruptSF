@@ -11,12 +11,12 @@ import pandas as pd
 def dictcompile():
     
     startlist = ["He ", "She ", "They ", "Us ", "A guy ", "A girl ", "A man ", "A woman ", "That guy ",
-                 "My neighbour ", "My friend ", "a person ", "My ", "I ", "We ", "men", "women", "a guy",
-                 "that person", "them", "I see", "There is", "Another"]
+                 "My neighbour ", "My friend ", "a person ", "My ", "I ", "We ", "men ", "women ", "a guy ",
+                 "that person ", "them ", "I see ", "There is ", "Another "]
     #newlist = []
     
-    kidnap = ["missing", "can't find", "Don't see", "gone", "disappeared", "haven't seen", "kidnapped", 
-             "took from park", "took from school", "forced into car", "pushed into van", "found person", 
+    kidnap = ["missing", "can't find", "Don't see", "gone", "disappeared", "haven't seen", "kidnapped her", "kidnapped him",
+              "kidnapped", "took from park", "took from school", "forced into car", "pushed into van", "found person", 
              "found", "child taking", "child stealing", "kidnapping adult", "kidnapping kid", "tried to kidnap", "has hostages", 
              "hostage", "taken", "abducted", "my child", "my daughter", "my son", "human trafficking"]
     
@@ -37,7 +37,7 @@ def dictcompile():
     theft = ["stole my bike", "stole a bike", "bike is gone", "took bike", "bike", "bike lock", "stealing", "stole",
              "broke", "theft", "thief", "steal", "took it", "car stolen", "car was hijacked", "alarm in a car is going off", 
              "car is gone", "stole car", "took car", "car", "van", "suv", "tesla", "toyota", "honda", "bmw", "mercedes",
-             "truck", "lock", "broke lock", "opened door", "Somebody broke into my house", 
+             "truck", "lock", "broke lock", "opened door", "Somebody broke into my house", "break into"
              "stole something in my apartment", "stole something", "stole something in my condo", "broke into my apartment", 
              "broke into my condo", "breaking into that house", "breaking into that condo", "breaking into that apartment", 
              "house", "apartment", "condo", "stole purse", "stole money", "took phone", "ran off after taking something", 
@@ -48,7 +48,7 @@ def dictcompile():
     mental = ["isn't ok", "shouting", "yelling at no one", "has mental health issues", 
               "hurting himself", "hurting herself", "self harm", "cutting", "kill myself", 
               "kill themselves", "going to kill himself", "going to kill herself", "hanging",
-              "slit wrists", "jumped", "phone calls", "prank", "pranked", "pranking", "calling", "prank calls", 
+              "slit wrists", "jumped", "jump off", "phone calls", "prank", "pranked", "pranking", "calling", "prank calls", 
               "attempted suicide", "loitering", "standing around", "sleeping", "suicide", "needs help", "issues",
               "paranoid", "weird", "something wrong", "ghosts", "demons", "death"] 
     

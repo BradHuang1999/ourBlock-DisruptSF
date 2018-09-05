@@ -14,8 +14,8 @@ import os
 
 # Read in file
 module_dir = os.path.abspath(os.path.dirname(__file__))
-data = pd.read_csv(os.path.join(module_dir,'shortPoliceReports.csv'))
-#data = pd.read_csv('PoliceReports.csv')
+#data = pd.read_csv(os.path.join(module_dir,'shortPoliceReports.csv'))
+data = pd.read_csv(os.path.join(module_dir,'PoliceReports.csv'))
 
 
 
@@ -142,33 +142,35 @@ from sklearn.pipeline import Pipeline
 from sklearn.model_selection import train_test_split
 from sklearn.feature_selection import SelectKBest, chi2
 
-removal = SnowballStemmer('english')
+#removal = SnowballStemmer('english')
 stoppingwords = stopwords.words("english")
 
 
-#stoppingwords = ['i', 'me', 'my', 'myself', 'we', 'our', 'ours', 'ourselves', 'you', "you're", "you've", "you'll", "you'd", 'your',
-#                 'yours', 'yourself', 'yourselves', 'he', 'him', 'his', 'himself', 'she', "she's", 'her', 'hers', 'herself', 'it',
-#                 "it's", 'its', 'itself', 'they', 'them', 'their', 'theirs', 'themselves', 'what', 'which', 'who', 'whom', 'this',
-#                 'that', "that'll", 'these', 'those', 'am', 'is', 'are', 'was', 'were', 'be', 'been', 'being', 'have', 'has',
-#                 'had', 'having', 'do', 'does', 'did', 'doing', 'a', 'an', 'the', 'and', 'but', 'if', 'or', 'because', 'as', 'until',
-#                 'while', 'of', 'at', 'by', 'for', 'with', 'about', 'against', 'between', 'into', 'through', 'during', 'before', 'after',
-#                 'above', 'below', 'to', 'from', 'up', 'down', 'in', 'out', 'on', 'off', 'over', 'under', 'again', 'further', 'then', 'once',
-#                 'here', 'there', 'when', 'where', 'why', 'how', 'all', 'any', 'both', 'each', 'few', 'more', 'most', 'other', 'some',
-#                 'such', 'no', 'nor', 'not', 'only', 'own', 'same', 'so', 'than', 'too', 'very', 's', 't', 'can', 'will', 'just', 'don',
-#                 "don't", 'should', "should've", 'now', "aren't", 'couldn', "couldn't",
-#                 'didn', "didn't", 'doesn', "doesn't", 'hadn', "hadn't", 'hasn', "hasn't", 'haven', "haven't", 'isn', "isn't", 'ma', 'mightn',
-#                 "mightn't", 'mustn', "mustn't", 'needn', "needn't", 'shan', "shan't", 'shouldn', "shouldn't", 'wasn', "wasn't", 'weren', "weren't",
-#                 'won', "won't", 'wouldn', "wouldn't", 'someone', 'guy', 'girl', 'man', 'women', 'group', 'kept', ]
+stoppingwords = ['i', 'me', 'my', 'myself', 'we', 'our', 'ours', 'ourselves', 'you', "you're", "you've", "you'll", "you'd", 'your',
+                 'yours', 'yourself', 'yourselves', 'he', 'him', 'his', 'himself', 'she', "she's", 'her', 'hers', 'herself', 'it',
+                 "it's", 'its', 'itself', 'they', 'them', 'their', 'theirs', 'themselves', 'what', 'which', 'who', 'whom', 'this',
+                 'that', "that'll", 'these', 'those', 'am', 'is', 'are', 'was', 'were', 'be', 'been', 'being', 'have', 'has',
+                 'had', 'having', 'do', 'does', 'did', 'doing', 'a', 'an', 'the', 'and', 'but', 'if', 'or', 'because', 'as', 'until',
+                 'while', 'of', 'at', 'by', 'for', 'with', 'about', 'against', 'between', 'into', 'through', 'during', 'before', 'after',
+                 'above', 'below', 'to', 'from', 'up', 'down', 'in', 'out', 'on', 'off', 'over', 'under', 'again', 'further', 'then', 'once',
+                 'here', 'there', 'when', 'where', 'why', 'how', 'all', 'any', 'both', 'each', 'few', 'more', 'most', 'other', 'some',
+                 'such', 'no', 'nor', 'not', 'only', 'own', 'same', 'so', 'than', 'too', 'very', 's', 't', 'can', 'will', 'just', 'don',
+                 "don't", 'should', "should've", 'now', "aren't", 'couldn', "couldn't",
+                 'didn', "didn't", 'doesn', "doesn't", 'hadn', "hadn't", 'hasn', "hasn't", 'haven', "haven't", 'isn', "isn't", 'ma', 'mightn',
+                 "mightn't", 'mustn', "mustn't", 'needn', "needn't", 'shan', "shan't", 'shouldn', "shouldn't", 'wasn', "wasn't", 'weren', "weren't",
+                 'won', "won't", 'wouldn', "wouldn't", 'someone', 'guy', 'girl', 'man', 'women', 'group', 'kept', 'hoodie', 'shorts', 'pants',
+                 'dude', 'maybe', 'park', 'wearing', 'a mask']
 
-data['cleaned'] = data['message'].apply(lambda x: " ".join([removal.stem(i) for i in re.sub("[^a-zA-Z]", " ", x).split() if i not in stoppingwords]).lower())
+#data['cleaned'] = data['message'].apply(lambda x: " ".join([removal.stem(i) for i in re.sub("[^a-zA-Z]", " ", x).split() if i not in stoppingwords]).lower())
+data['cleaned'] = data['message']
 
 #X_train, X_test, y_train, y_test = train_test_split(data['message'], data.category, test_size=0.3)
 
-X_train, X_test, y_train, y_test = train_test_split(data['cleaned'], data.category, test_size=0.3)
+X_train, X_test, y_train, y_test = train_test_split(data['cleaned'], data.category, test_size=0.2)
 
 pipeline = Pipeline([('vect', TfidfVectorizer(ngram_range=(1, 2), stop_words="english", sublinear_tf=True)),
-                     ('chi',  SelectKBest(chi2, k=500)),
-                     ('clf', LinearSVC(C=1.0, penalty='l1', max_iter=30000, dual=False))])
+                     ('chi',  SelectKBest(chi2, k=485)),
+                     ('clf', LinearSVC(C=1.0, penalty='l1', max_iter=50, dual=False))])
 
 
 model = pipeline.fit(X_train, y_train)
@@ -187,20 +189,34 @@ for i, label in enumerate(target_names):
     top10 = np.argsort(clf.coef_[i])[-10:]
     print("%s: %s" % (label, " ".join(feature_names[top10])))
 
-print("accuracy score: " + str(model.score(X_test, y_test)))
+print("Train accuracy score: " + str(model.score(X_train, y_train)))
+print("Test accuracy score: " + str(model.score(X_test, y_test)))
+
 
 def predict(stringin):
     predictstring = stringin
     predictstring = predictstring.lower()
-    predictstring = predictstring.join([removal.stem(i) for i in re.sub("[^a-zA-Z]", " ", predictstring).split() if i not in stoppingwords]).lower()
+#    predictstring = predictstring.join([removal.stem(i) for i in re.sub("[^a-zA-Z]", " ", predictstring).split() if i not in stoppingwords]).lower()
     print(model.predict([predictstring]))
     return model.predict([predictstring])
 
 # Tests
-predict('He was doing meth in the park')
-predict('I just saw someone get killed at 65th and Ingleside')
-predict('Some guy just tried to steal a car')
-predict('He kidnap her in a white van')
+    
+predict("I saw a guy in a blue hoodie and jeans doing meth in Earlmere Park, near the fountain earlier today. He was using a pipe.")
+
+predict("Some guy shot another guy at the corner of 65th and Ingleside. He was wearing red shoes, a black shirt and a True Religion jeans in the park, he was 6' 2''. He got away in a White van with numner plate X2H7ZB")
+
+predict("This girl in yoga pants and a blue tanktop broke a bike lock and stole a bike in Easting Park at 3PM.")
+
+predict("Some dude in a muscle tee and joggers just tried to rob a house at 13 Elm St. He was there for 10 minutes.")
+
+predict("A person wearing all black and Yeezys just pulled up to the park and kidnapped this little girl and threw her in a van.")
+
+predict("Someone is about to jump off the Dunderson Bridge.")
+predict("This guy is making weird noises and running around on Eastern Ave. I don't think he's OK.")
+
+predict("A green Honda Civiv is driving erratically and ran past a red light. The license plate was 3D5 M4J")
+
 
 # Export to CSV
 #data.to_csv('output_data.csv')
