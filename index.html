@@ -2,11 +2,11 @@
 <html lang="en" dir="ltr">
 
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui" />
+  <meta name="viewport" content="width=device-width, initial-scale=0.4, maximum-scale=0.4, user-scalable=no, minimal-ui" />
 
     <meta name="apple-touch-fullscreen" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="white" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   <title>Ourblock</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -220,6 +220,12 @@
       </div>
     </nav>
 
+    <transition name="fade">
+      <div v-if="viewing==='login'" style="z-index: 999999999999999999999999">
+        <img src="login.png" style="width: 100%;">
+      </div>
+    </transition>
+
     <transition name="slide-fade">
       <div style="z-index:4000" id="reports-bar" class="light-green" v-if="viewing==='reports'">
         <div v-for="report in reports">
@@ -293,11 +299,11 @@
     </transition>
 
     <transition style="z-index:4000;" name="fade">
-      <div v-if="viewing==='notif'" id="notifs" class="light-green lighten-4" style="z-index:5000; position: absolute; width: 100%; height:100%; top: 0px; margin: 0px; left: 0px;">
+      <div v-if="viewing==='notif'" id="notifs" class="light-green lighten-4" style="z-index:5000; position: absolute; width: 100%; height:100%; top: 0px; margin: 0px; left: 0px; padding: 30px">
         <div v-for="notif in notifs">
           <div class="card-panel teal">
             <div class="white-text">
-              <div height="100px" style="font-family: 'Josenfin Slab'; font-size: 60px; z-index: 1000000; text-align: center;">{{notif}}</div>
+              <div height="100px" style="font-family: 'Josefin Slab'; font-size: 60px; z-index: 1000000; text-align: center;">{{notif}}</div>
             </div>
           </div>
         </div>
