@@ -1,5 +1,7 @@
-{'message': 'somebody stole my bike'}
-{'message': 'somebody stole my bike'}
-{'message': 'somebody stole my bike'}
-{'message': 'somebody stole my bike', 'category': array(['Larceny/Theft'], dtype=object)}
-{'message': 'somebody stole my bike', 'category': 'Larceny/Theft'}
+b'{"lat":37.7840337612,"lon":-122.4023641802,"time":1536106450989,"reportingUser":"postingUser12","anonymous":false,"message":"Man in green hoodie is trying to stab a girl in red dress"}'
+ImmutableMultiDict([])
+ImmutableMultiDict([])
+b'{"lat":37.7840337612,"lon":-122.4023641802,"time":1536106450989,"reportingUser":"postingUser12","anonymous":false,"message":"Man in green hoodie is trying to stab a girl in red dress"}'
+{'lat': 37.7840337612, 'lon': -122.4023641802, 'time': 1536106450989, 'reportingUser': 'postingUser12', 'anonymous': False, 'message': 'Man in green hoodie is trying to stab a girl in red dress', 'category': 'Violence/Homicide'}
+{'lat': 37.7840337612, 'lon': -122.4023641802, 'time': 1536106450989, 'reportingUser': 'postingUser13', 'anonymous': False, 'message': 'Man in green hoodie is trying to stab a girl in red dress', 'category': 'Violence/Homicide'}
+{'lat': 37.7840337612, 'lon': -122.4023641802, 'time': 1536106450989, 'reportingUser': 'postingUser14', 'anonymous': False, 'message': 'Man in green hoodie is trying to stab a girl in red dress', 'category': 'Violence/Homicide'}
