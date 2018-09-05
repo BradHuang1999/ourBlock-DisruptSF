@@ -10,17 +10,20 @@ log_path = os.path.join(module_dir,'log.txt')
 
 @app.route('/post',methods=['POST','OPTIONS'])
 def post():
+  blockchain_output = ''
+  post_output = ''
   if request.method=='POST':
     form = request.form.to_dict()
     if len(form.keys())==0:
       form = json.loads(request.data)
     classified = predict(form['message'])
     form['category'] = classified[0]
-    #requests.post('https://wx44n042ha.execute-api.us-east-1.amazonaws.com/alpha/ourblockreportloglambda',json=data)
-    requests.post('https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/post',json=form)
+    blockchain_output = requests.post('https://wx44n042ha.execute-api.us-east-1.amazonaws.com/alpha/ourblockreportloglambda',json=form).text
+    post_output = requests.post('https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/post',json=form).text
     with open(log_path,'a') as file:
       file.write(str(form)+'\n')
-  resp = Response('')
+  body_dict = {'blockchain_output':blockchain_output,'post_output':post_output}
+  resp = Response(json.dumps(body_dict))
   resp.headers['Access-Control-Allow-Origin'] = '*'
   resp.headers["Access-Control-Allow-Headers"] = 'Origin, X-Requested-With, Content-Type, Accept'
   return resp
