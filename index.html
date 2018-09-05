@@ -181,7 +181,6 @@
     .modal.open{
     width: 100%;
     max-height: 80%;
-    height: 80;
     }
 
     #status-button {}
@@ -284,10 +283,22 @@
   -->
 
     <div id="modal1" class="modal bottom-sheet" style="max-height: 70% !important;">
-        <div class="modal-content" style="font-size: 100px;">
-          <p>Modal Header</p>
+        <div class="modal-content">
+          <p style="font-size: 70px;">Search results</p>
+          <div v-for="report in reports">
           <ul class="collection">
+            <li class="collection-item" style="line-height: 3.5em;">
+              <p style="font-size: 60px; font-weight:bold">Case # {{report._id}}</p>
+              <p style="font-size: 40px;">
+                Latitude: {{report.lat}} <br> Longitude: {{report.lon}} <br>
+                Time: {{report.time}} <br>
+                Category: {{report.category}} <br>
+                Status: {{report.status}} <br>
+                Upovtes: {{report}}
+              </p>
+            </li>
           </ul>
+          </div>
         </div>
         <div class="modal-footer">
           <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
