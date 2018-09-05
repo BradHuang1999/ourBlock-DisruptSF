@@ -178,6 +178,12 @@
       text-align: center;
     }
 
+    .modal.open{
+    width: 100%;
+    max-height: 80%;
+    height: 80;
+    }
+
     #status-button {}
 
     #category-button {}
@@ -192,11 +198,11 @@
 
     <div v-if="viewing!=='login'">
 
-    <div data-section="report" onclick="select(this)" class="col s3 grey lighten-4" style="z-index:6000000000;">
-      <img style="position:absolute; top:87%; left:41.5%; z-index:6000000000; zoom: 130%;" src="report-final.png" alt="">
+    <div id="add-report-button" data-section="report" onclick="select(this)" class="col s3 grey lighten-4" style="z-index:1001;">
+      <img style="position:absolute; top:87%; left:41.5%; z-index:1001; zoom: 130%;" src="report.png" alt="">
     </div>
 
-    <div id="bottom-bar" class="row" style="z-index:50000">
+    <div id="bottom-bar" class="row" style="z-index:1000">
       <div id="map-icon" data-section="map" onclick="select(this)" class="col s3 grey lighten-4">
         <img style="margin-top: 44px; zoom: 110%;" src="map-black.png" alt="">
       </div>
@@ -227,18 +233,19 @@
       <div v-if="viewing==='login'" style="z-index: 999999999999999999999999">
         <img src="login.png" style=" position: absolute; width: 100%; height: 91%; top: 0px;">
 
-        <div onclick="selectUser(this)" id="0" style="position: absolute; min-width: 60%; min-height:6%; top:12%; left: 29%; background: blue;">&nbsp;</div>
-        <div onclick="selectUser(this)" id="1" style="position: absolute; min-width: 60%; min-height:6%; top:23.7%; left: 29%; background: blue;">&nbsp;</div>
-        <div onclick="selectUser(this)" id="2" style="position: absolute; min-width: 60%; min-height:6%; top:35.4%; left: 29%; background: blue;">&nbsp;</div>
-        <div onclick="selectUser(this)" id="3" style="position: absolute; min-width: 60%; min-height:6%; top:47.1%; left: 29%; background: blue;">&nbsp;</div>
-        <div onclick="selectUser(this)" id="4" style="position: absolute; min-width: 60%; min-height:6%; top:58.8%; left: 29%; background: blue;">&nbsp;</div>
-        <div onclick="selectUser(this)" id="5" style="position: absolute; min-width: 60%; min-height:6%; top:70.5%; left: 29%; background: blue;">&nbsp;</div>
-        <div onclick="selectUser(this)" id="6" style="position: absolute; min-width: 60%; min-height:6%; top:82.2%; left: 29%; background: blue;">&nbsp;</div>
+        <div onclick="selectUser(this)" id="0" style="position: absolute; min-width: 60%; min-height:6%; top:12%; left: 29%;">&nbsp;</div>
+        <div onclick="selectUser(this)" id="1" style="position: absolute; min-width: 60%; min-height:6%; top:23.7%; left: 29%;">&nbsp;</div>
+        <div onclick="selectUser(this)" id="2" style="position: absolute; min-width: 60%; min-height:6%; top:35.4%; left: 29%;">&nbsp;</div>
+        <div onclick="selectUser(this)" id="3" style="position: absolute; min-width: 60%; min-height:6%; top:47.1%; left: 29%;">&nbsp;</div>
+        <div onclick="selectUser(this)" id="4" style="position: absolute; min-width: 60%; min-height:6%; top:58.8%; left: 29%;">&nbsp;</div>
+        <div onclick="selectUser(this)" id="5" style="position: absolute; min-width: 60%; min-height:6%; top:70.5%; left: 29%;">&nbsp;</div>
+        <div onclick="selectUser(this)" id="6" style="position: absolute; min-width: 60%; min-height:6%; top:82.2%; left: 29%;">&nbsp;</div>
 
 
       </div>
     </transition>
 
+<!--
     <transition name="slide-fade">
       <div style="z-index:4000" id="reports-bar" class="light-green" v-if="viewing==='reports'">
         <div v-for="report in reports">
@@ -274,6 +281,18 @@
         </div>
       </div>
     </transition>
+  -->
+
+    <div id="modal1" class="modal bottom-sheet" style="max-height: 70% !important;">
+        <div class="modal-content" style="font-size: 100px;">
+          <p>Modal Header</p>
+          <ul class="collection">
+          </ul>
+        </div>
+        <div class="modal-footer">
+          <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+        </div>
+      </div>
 
     <transition name="fade">
       <div style="z-index:4000" id="search-page" v-if="viewing==='search'">
@@ -311,12 +330,12 @@
       </div>
     </transition>
 
-    <transition style="z-index:4000;" name="fade">
-      <div v-if="viewing==='notif'" id="notifs" class="light-green lighten-4" style="z-index:5000; position: absolute; width: 100%; height:100%; top: 0px; margin: 0px; left: 0px; padding: 30px">
+    <transition style="z-index:600;" name="fade">
+      <div v-if="viewing==='notif'" id="notifs" class="light-green lighten-4" style="z-index:600; position: absolute; width: 100%; height:100%; top: 0px; margin: 0px; left: 0px; padding: 30px">
         <div v-for="notif in notifs">
           <div class="card-panel teal">
             <div class="white-text">
-              <div height="100px" style="font-family: 'Josefin Slab'; font-size: 60px; z-index: 1000000; text-align: center;">{{notif}}</div>
+              <div height="100px" style="font-family: 'Josefin Slab'; font-size: 60px; z-index: 600; text-align: center;">{{notif}}</div>
             </div>
           </div>
         </div>
@@ -324,15 +343,16 @@
     </transition>
 
     <transition name="fade">
-      <div v-if="viewing==='profile'">
-        <img id="profile-image" src="" onload="displayProfilePic(thiis)" style="top:0; width: 100%; position:absolute; top:0px; z-index:40000">
-        <div id="my-tokens" style="font-weight:bold; font-size: 80px; position: absolute; min-width:30px; min-height: 110px; left:78.5%; top: 41%; z-index: 100000000000;">{{vm.tokens}}</div>
+      <div v-show="viewing==='profile'">
+        <div style="background: white; position:absolute; top:0px; width: 100%; height: 100%; z-index:600;">&nbsp;</div>
+        <img id="profile-image" src="" style="top:0; width: 100%; position:absolute; top:0px; z-index:600;">
+        <div id="my-tokens" style="font-weight:bold; font-size: 80px; position: absolute; min-width:30px; min-height: 110px; left:78.5%; top: 41%; z-index: 100000000000;"></div>
       </div>
     </transition>
 
     <transition name="fade">
       <div v-if="viewing==='report'">
-        <img src="addreport.png" style="top:0; width: 100%; position:absolute; top:0px; z-index:40000">
+        <img src="addreport.png" style="top:0; width: 100%; position:absolute; top:0px; z-index:600">
         <textarea id="report-description" style="font-size: 70px; font-family: 'Josefin Slab'; position: absolute; max-width: 90%; min-height: 31.5%; left:5%; top: 42.5%; z-index: 100000000000;"></textarea>
         <div onclick="togglePrivacy()" id="keep-report-private" style="position: absolute; min-width: 44%; min-height: 5.4%; left:3.5%; top: 77%; z-index: 100000000000;">&nbsp</div>
         <div onclick="submitReport()" id="submit-report" style="position: absolute; min-width: 44%; min-height: 5.4%; left:52.6%; top: 77%; z-index: 100000000000;">&nbsp</div>
@@ -345,6 +365,20 @@
   </div>
 
   <script>
+
+  var instance;
+  $(document).ready(function() {
+    $('.modal').modal();
+    instance = M.Modal.init($('#modal1')[0]);
+
+    displayProfilePic(document.getElementById('profile-image'));
+  });
+
+  $("search-example").on('keyup', function (e) {
+    if (e.keyCode == 13) {
+      search();
+    }
+  });
 
   function selectUser(element) {
     vm.username = element.id;
@@ -375,14 +409,14 @@
     }
 
     var light = [
-      '<img style="position:absolute; top:87%; left:41.5%; z-index:1; zoom: 130%;" src="report.png" alt="">',
+      '<img style="position:absolute; top:87%; left:41.5%; z-index: 1001; zoom: 130%;" src="report.png" alt="">',
       '<img style="margin-top: 44px; zoom: 110%;" src="map.png" alt="">',
       '<img style="margin-top: 44px; margin-right: 100px; zoom: 110%;" src="search.png" alt="">',
       '<img style="margin-top: 44px; margin-left: 100px; zoom: 110%;" src="notif.png" alt="">',
       '<img style="margin-top: 44px; zoom: 110%;" src="profile.png" alt="">'
     ];
     var dark = [
-      '<img style="position:absolute; top:87%; left:41.5%; z-index:1; zoom: 130%;" src="report-black.png" alt="">',
+      '<img style="position:absolute; top:87%; left:41.5%; z-index: 1001; zoom: 130%;" src="report-black.png" alt="">',
       '<img style="margin-top: 44px; zoom: 110%;" src="map-black.png" alt="">',
       '<img style="margin-top: 44px; margin-right: 100px; zoom: 110%;" src="search-black.png" alt="">',
       '<img style="margin-top: 44px; margin-left: 100px; zoom: 110%;" src="notif-black.png" alt="">',
@@ -405,7 +439,7 @@
 
     function displayProfilePic(element) {
         element.src = profileImages[parseInt(vm.username)];
-        console.log(element.src);
+        document.getElementById('my-tokens').innerHTML  = vm.tokens;
     }
 
     function clickMap() {
@@ -426,15 +460,10 @@
       }).then(function (res) {
         console.log(res.data);
         vm.reports = res.data;
-        vm.viewing = 'reports'
+        vm.viewing = 'map';
+        instance.open();
       });
     }
-
-    $("search-example").on('keyup', function (e) {
-      if (e.keyCode == 13) {
-        search();
-      }
-    });
 
     var profileImages = [
       'profile-1.png',
