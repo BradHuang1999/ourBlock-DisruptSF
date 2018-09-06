@@ -250,10 +250,9 @@
           <div v-for="report in reports">
             <div class="my-container">
               <div class="card sticky-action">
-
                 <div class="card-content"  style="font-size: 40px;">
-                  <br><div class="card-title green-text" style="font-size: 55px">Report #{{report._id}}</div><br>
-                  <p style="font-weight: bold"><span style="color: red;">{{report.category}}</span><br><i class="material-icons medium">location_on</i><span style="color: blue;">{{report.distance + 'm'}}</span><br><i class="material-icons medium">warning</i><span style="color: yellow;">{{report.severity}}</span></p>
+                  <div class="card-title green-text" style="font-size: 55px; margin-top: 4%; text-decoration: underline">Report #{{report._id}}</div><br>
+                  <p style="font-weight: bold"><span style="color: red;">{{report.category}}</span><br><i class="material-icons medium">location_on</i> <span style="color: blue;">{{report.distance + 'm'}}</span><br><i class="material-icons medium">warning</i> <span style="color: yellow;">{{report.severity}}</span></p>
                   <p><span style="color: green">Description: </span>{{report.message}}<br>
                     <span style="color: green">Latitude: </span>{{report.lat}}<br>Longitude: {{report.lon}}<br>
                     <span style="color: green">Time: </span>{{ (new Date(report.time)).toLocaleString("en-US", { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric' }) }}<br>
@@ -265,7 +264,7 @@
                     <p v-else>
                       Submitted by an anonymous user
                     </p>
-                  <span class="card-title activator blue-text" style="font-size: 30px;">View comments<i class="material-icons right">expand_less</i></span>
+                  <span class="card-title activator blue-text" style="font-size: 40px; margin-top: 40px;">View comments<i class="material-icons right" style="font-size: 80px;">expand_less</i></span>
                 </div>
 
                 <div class="card-action">
@@ -274,10 +273,10 @@
                 </div>
 
                 <div class="card-reveal">
-                  <span class="card-title blue-text" style="font-size: 30px;">Comments<i class="material-icons right" style="font-size: 60px;">expand_more</i></span>
-                  <div style="white-space: pre-line;" style="font-size: 40px;">{{vm.formatComments(report.comments)}}</div>
+                  <span class="card-title blue-text" style="font-size: 40px;">Comments<i class="material-icons right" style="font-size: 80px;">expand_more</i></span>
+                  <div style="white-space: pre-line; margin-top: 2%; font-size: 40px;" style="font-size: 40px;">{{vm.formatComments(report.comments)}}</div>
 
-                  <input id="comment-input" onkeyup="commentKeyUp(event)" type="text" placeholder="Add a comment" style="font-size: 40px;"></input>
+                  <input id="comment-input" onkeyup="commentKeyUp(event)" type="text" placeholder="Add a comment" style="font-size: 40px; margin-top: 2%;;"></input>
                 </div>
               </div>
             </div>
@@ -302,9 +301,9 @@
     </transition>
 
     <transition style="z-index:600;" name="fade">
-      <div v-if="viewing==='notif'" id="notifs" class="light-green lighten-4" style="z-index:600; position: absolute; width: 100%; height:100%; top: 0px; margin: 0px; left: 0px; padding: 30px">
+      <div v-if="viewing==='notif'" id="notifs" class="blue lighten-4" style="z-index:600; position: absolute; width: 100%; height:100%; top: 0px; margin: 0px; left: 0px; padding: 40px">
         <div v-for="notif in notifs">
-          <div class="card-panel blue">
+          <div class="card-panel blue" style="margin-bottom: 20px;">
             <div class="white-text">
               <div height="100px" style="font-family: 'Roboto'; font-size: 40px; z-index: 600; text-align: center;"><i class="material-icons medium left">warning</i> {{notif}}</div>
             </div>
