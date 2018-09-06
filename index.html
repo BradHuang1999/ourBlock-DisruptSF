@@ -4,9 +4,9 @@
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=0.4, maximum-scale=0.4, user-scalable=no, minimal-ui" />
 
-    <meta name="apple-touch-fullscreen" content="yes" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <meta name="apple-touch-fullscreen" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   <title>Ourblock</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -179,8 +179,9 @@
     }
 
     .modal.open{
-    width: 100%;
-    max-height: 80%;
+      width: 100%;
+      max-height: 80%;
+      height: 80%;
     }
 
     #status-button {}
@@ -197,26 +198,26 @@
 
     <div v-if="viewing!=='login'">
 
-    <div id="add-report-button" data-section="report" onclick="select(this)" class="col s3 grey lighten-4" style="z-index:1001;">
-      <img style="position:absolute; top:87%; left:41.5%; z-index:1001; zoom: 130%;" src="report.png" alt="">
-    </div>
+      <div id="add-report-button" data-section="report" onclick="select(this)" class="col s3 grey lighten-4" style="z-index:1001;">
+        <img style="position:absolute; top:87%; left:41.5%; z-index:1001; zoom: 130%;" src="report.png" alt="">
+      </div>
 
-    <div id="bottom-bar" class="row" style="z-index:1000">
-      <div id="map-icon" data-section="map" onclick="select(this)" class="col s3 grey lighten-4">
-        <img style="margin-top: 44px; zoom: 110%;" src="map-black.png" alt="">
+      <div id="bottom-bar" class="row" style="z-index:1000">
+        <div id="map-icon" data-section="map" onclick="select(this)" class="col s3 grey lighten-4">
+          <img style="margin-top: 44px; zoom: 110%;" src="map-black.png" alt="">
+        </div>
+        <div data-section="search" onclick="select(this)" class="col s3 grey lighten-4">
+          <img style="margin-top: 44px; margin-right: 100px; zoom: 110%;" src="search.png" alt="">
+        </div>
+        <div data-section="notif" onclick="select(this)" class="col s3 grey lighten-4">
+          <img style="margin-top: 44px; margin-left: 100px; zoom: 110%;" src="notif.png" alt="">
+        </div>
+        <div data-section="profile" onclick="select(this)" class="col s3 grey lighten-4">
+          <img style="margin-top: 44px; zoom: 110%;" src="profile.png" alt="">
+        </div>
       </div>
-      <div data-section="search" onclick="select(this)" class="col s3 grey lighten-4">
-        <img style="margin-top: 44px; margin-right: 100px; zoom: 110%;" src="search.png" alt="">
-      </div>
-      <div data-section="notif" onclick="select(this)" class="col s3 grey lighten-4">
-        <img style="margin-top: 44px; margin-left: 100px; zoom: 110%;" src="notif.png" alt="">
-      </div>
-      <div data-section="profile" onclick="select(this)" class="col s3 grey lighten-4">
-        <img style="margin-top: 44px; zoom: 110%;" src="profile.png" alt="">
-      </div>
-    </div>
 
-  </div>
+    </div>
 
     <nav id="header" style="background-color:white;" v-if="viewing==='map' || viewing ==='reports'">
       <div class="nav-wrapper">
@@ -239,7 +240,6 @@
         <div onclick="selectUser(this)" id="4" style="position: absolute; min-width: 60%; min-height:6%; top:58.8%; left: 29%;">&nbsp;</div>
         <div onclick="selectUser(this)" id="5" style="position: absolute; min-width: 60%; min-height:6%; top:70.5%; left: 29%;">&nbsp;</div>
         <div onclick="selectUser(this)" id="6" style="position: absolute; min-width: 60%; min-height:6%; top:82.2%; left: 29%;">&nbsp;</div>
-
 
       </div>
     </transition>
@@ -328,7 +328,7 @@
     <transition name="fade">
       <div v-show="viewing==='profile'">
         <div style="background: white; position:absolute; top:0px; width: 100%; height: 100%; z-index:600;">&nbsp;</div>
-        <img id="profile-image" src="" style="top:0; width: 100%; position:absolute; top:0px; z-index:600;">
+        <img id="profile-image" src="./profile-0.png" style="top:0; width: 100%; position:absolute; top:0px; z-index:600;">
         <div id="my-tokens" style="font-weight:bold; font-size: 80px; position: absolute; min-width:30px; min-height: 110px; left:78.5%; top: 41%; z-index: 100000000000;"></div>
       </div>
     </transition>
@@ -341,21 +341,26 @@
         <div onclick="submitReport()" id="submit-report" style="position: absolute; min-width: 44%; min-height: 5.4%; left:52.6%; top: 77%; z-index: 100000000000;">&nbsp</div>
 
         <div v-if="vm.reportPrivacy">
-          <img src="checkmark.png" style="position: absolute; top: 77.5%; left:7%; width: 5%; height:3%; z-index: 100000000000;">
-      </div>
+          <img src="./checkmark.png" style="position: absolute; top: 77.5%; left:7%; width: 5%; height:3%; z-index: 100000000000;">
+        </div>
     </transition>
 
   </div>
 
   <script>
+    var instance;
+    $(document).ready(function () {
+      $('.modal').modal();
+      instance = M.Modal.init($('#modal1')[0]);
 
-  var instance;
-  $(document).ready(function() {
-    $('.modal').modal();
-    instance = M.Modal.init($('#modal1')[0]);
+      displayProfilePic(document.getElementById('profile-image'));
+    });
 
-    displayProfilePic(document.getElementById('profile-image'));
-  });
+    $("search-example").on('keyup', function (e) {
+      if (e.keyCode == 13) {
+        search();
+      }
+    });
 
   function searchKeyUp(event) {
     if (event.keyCode === 13) {
@@ -380,7 +385,7 @@
     function submitReport() {
       var description = document.getElementById('report-description').innerText;
 
-        newReport(description, vm.reportPrivacy);
+      newReport(description, vm.reportPrivacy);
     }
 
     function comment(element) {
@@ -421,8 +426,7 @@
     }
 
     function displayProfilePic(element) {
-        element.src = profileImages[parseInt(vm.username)];
-        document.getElementById('my-tokens').innerHTML  = vm.tokens;
+      document.getElementById('my-tokens').innerHTML = vm.tokens;
     }
 
     function clickMap() {
@@ -447,17 +451,6 @@
         instance.open();
       });
     }
-
-    var profileImages = [
-      'profile-1.png',
-      'profile-2.png',
-      'profile-3.png',
-      'profile-4.png',
-      'profile-5.png',
-      'profile-6.png',
-      'profile-7.png'
-    ];
-
   </script>
 
   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD4RlYes-LFZXhM7OJMryGDnVUf3MbrXUM&libraries=visualization&callback=initMap">
@@ -507,12 +500,6 @@
       function getMapBounds() {
         var sw = map.getBounds().getSouthWest();
         var ne = map.getBounds().getNorthEast();
-        // console.log({
-        //   lonMin: sw.lng(),
-        //   lonMax: ne.lng(),
-        //   latMin: sw.lat(),
-        //   latMax: ne.lat()
-        // });
         return {
           lonMin: sw.lng(),
           lonMax: ne.lng(),
@@ -554,7 +541,7 @@
       infoWindow = new google.maps.InfoWindow;
       markers = [];
 
-      var initListener = map.addListener('tilesloaded', function() {
+      var initListener = map.addListener('tilesloaded', function () {
         var boundsBody = getMapBounds();
         axios.post('https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/search', {
           location: boundsBody,
@@ -591,16 +578,15 @@
       axios.post('https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/notif', {
         'id': vm.username
       }).then(function (res) {
-        if (res.data[0]){
+        if (res.data[0]) {
           vm.notifs.unshift(res.data[0]);
           getNotifs();
         }
       });
     }
-    setInterval(getNotifs, 10 * 100);
+    setInterval(getNotifs, 10 * 1000);
 
     function newReport(description, anonymous) {
-
       console.log({
         'reportingUser': vm.username,
         'lat': vm.location.lat,
@@ -615,14 +601,13 @@
         'lon': vm.location.lon,
         'anonymous': anonymous,
         'message': description
-      }).then(function(res) {
+      }).then(function (res) {
         console.log(res);
         clickMap();
       });
     }
 
     function upvote(element) {
-
       var reportId = element.parentNode.parentNode.firstElementChild.firstElementChild;
       reportID = reportID.substring(reportID.lastIndexOf('#') + 1);
 
@@ -634,7 +619,6 @@
     }
 
     function downvote(element) {
-
       var reportId = element.parentNode.parentNode.firstElementChild.firstElementChild;
       reportID = reportID.substring(reportID.lastIndexOf('#') + 1);
 
@@ -674,7 +658,7 @@
         username: '0',
         tokens: 0,
         reports: [],
-        notifs: ['asdf']
+        notifs: ['test1', 'test2', 'test3']
       },
       methods: {
         formatComments: function (comments) {
