@@ -248,7 +248,7 @@
         <div onclick="selectUser(this)" id="bradneedsalife" style="position: absolute; min-width: 79%; min-height:6%; top:23.7%; left: 12%;">&nbsp;</div>
         <div onclick="selectUser(this)" id="randomdonnie" style="position: absolute; min-width: 79%; min-height:6%; top:35.4%; left: 12%;">&nbsp;</div>
         <div onclick="selectUser(this)" id="randomannie" style="position: absolute; min-width: 79%; min-height:6%; top:47.1%; left: 12%;">&nbsp;</div>
-        <div onclick="selectUser(this)" id="randomsue" style="position: absolute; min-width: 79; min-height:6%; top:58.8%; left: 12%;">&nbsp;</div>
+        <div onclick="selectUser(this)" id="randomsue" style="position: absolute; min-width: 79%; min-height:6%; top:58.8%; left: 12%;">&nbsp;</div>
         <div onclick="selectUser(this)" id="randomemily" style="position: absolute; min-width: 79%; min-height:6%; top:70.5%; left: 12%;">&nbsp;</div>
         <div onclick="selectUser(this)" id="randombrian" style="position: absolute; min-width: 79%; min-height:6%; top:82.2%; left: 12%;">&nbsp;</div>
       </div>
@@ -325,12 +325,12 @@
 
     <transition name="fade">
       <div style="z-index:4000" id="search-page" v-if="viewing==='search'">
-        <nav id="search-bar">
-          <div class="nav-wrapper">
-            <div class="input-field">
+        <nav id="search-bar" style="background-color: #457245;" >
+          <div class="nav-wrapper" style="background-color: #457245;">
+            <div class="input-field" style="background-color: #457245;">
               <label class="label-icon" for="search-example">
               </label>
-              <input style="font-size:40px;" id="search-input" type="search" required="" placeholder="ENTER A FEW KEYWORDS..."
+              <input style="font-size:40px;" id="search-input" type="search" required="" placeholder="Search for a crime report"
                 onkeyup="searchKeyUp(event)" autocomplete="off">
               <i onclick="search()" class="material-icons left large" style="font-size: 80px; margin-top: 6.5%; position:absolute;">search</i>
             </div>
@@ -340,7 +340,7 @@
     </transition>
 
     <transition style="z-index:600;" name="fade">
-      <div v-if="viewing==='notif'" id="notifs" class="light-green lighten-3" style="z-index:600; position: absolute; width: 100%; height:100%; top: 0px; margin: 0px; left: 0px; padding: 40px; overflow: scroll;">
+      <div v-if="viewing==='notif'" id="notifs"style="background-color: #bee6c1; z-index:600; position: absolute; width: 100%; height:100%; top: 0px; margin: 0px; left: 0px; padding: 40px; overflow: scroll;">
         <div v-for="notif in notifs">
           <div class="card-panel" style="margin-bottom: 30px; border: 5px solid green; border-radius: 25px; background: white;">
             <div class="black-text">
@@ -447,10 +447,11 @@
         console.log(res);
         clickMap();
 
-        var newReportId = res.data.newReportId;
+        var newReportId = res.data.post_output.substring(9, 29);
+        console.log(newReportId);
         follow(newReportId);
 
-        sendNotif(vm.username, "You have successfully submitted report#" + newReportId)
+        sendNotif(vm.username, "You have successfully submitted report #" + newReportId)
       });
     }
 
