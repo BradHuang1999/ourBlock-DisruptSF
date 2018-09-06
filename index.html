@@ -35,7 +35,7 @@
       margin: 0;
       padding: 0;
       overflow: hidden;
-      font-family: "Josefin Slab"
+      font-family: "Roboto"
     }
 
     .my-container {
@@ -114,7 +114,7 @@
     }
 
     #tokens {
-      font-family: 'Josefin Slab';
+      font-family: 'Roboto';
       text-align: center;
       width: 100%;
       position: absolute;
@@ -244,100 +244,72 @@
       </div>
     </transition>
 
+
 <!--
-    <transition name="slide-fade">
-      <div style="z-index:4000" id="reports-bar" class="light-green" v-if="viewing==='reports'">
-        <div v-for="report in reports">
-          <div class="my-container">
-            <div class="card sticky-action">
-
-              <div class="card-content">
-                <div class="card-title green-text">Report #{{report._id}}</div>
-                <p>Location: {{vm.formatLocation(report)}}<br>
-                  Date: {{report.date}}<br>
-                  Description: {{report.description}}<br>
-                  Category: {{report.category}}<br>
-                  Status: {{report.status}}<br>
-                  Likes: {{report.upvoterCount}} | Dislikes: {{report.downvoterCount}}</p>
-                <span class="card-title activator blue-text">View comments<i class="material-icons right" style="font-size: 60px;">expand_less</i></span>
-              </div>
-
-              <div class="card-action">
-                <a onclick="upvote(this)"><i class="material-icons small">thumb_up</i> Like</a>
-                <a onclick="downvote(this)"><i class="material-icons small">thumb_down</i> Dislike</a>
-              </div>
-
-              <div class="card-reveal">
-                <span class="card-title blue-text">Comments<i class="material-icons right" style="font-size: 60px;">expand_more</i></span>
-                <p style="white-space: pre-line;">{{vm.formatComments(report.comments)}}</p>
-
-                <form onsubmit="comment(this)">
-                  <input type="text"></input>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </transition>
-  -->
+  <p v-if="!report.anonymous" style="font-size: 40px;">
+    Submitted by {{report.reportingUser}}
+  </p>
+  <p v-else style="font-size: 40px;">
+    Submitted by an anonymous user
+  </p>
+-->
 
     <div id="modal1" class="modal bottom-sheet" style="max-height: 70% !important;">
         <div class="modal-content">
-          <p style="font-size: 70px;">Search results</p>
+          <p style="font-size: 70px;">Search results:</p>
           <div v-for="report in reports">
-          <ul class="collection">
-            <li class="collection-item" style="line-height: 3.5em;">
-              <p style="font-size: 60px; font-weight:bold">Case # {{report._id}}</p>
-              <p style="font-size: 40px;">
-                Latitude: {{report.lat}} <br> Longitude: {{report.lon}} <br>
-                Time: {{report.time}} <br>
-                Category: {{report.category}} <br>
-                Status: {{report.status}} <br>
-                Upovtes: {{report}}
-              </p>
-            </li>
-          </ul>
+            <div class="my-container">
+              <div class="card sticky-action">
+
+                <div class="card-content"  style="font-size: 40px;">
+                  <div class="card-title green-text" style="font-size: 55px">Report #{{report._id}}</div>
+                  <p>Description: {{report.message}}<br>
+                    Latitude: {{report.lat}} | Longitude: {{report.lon}}<br>
+                    Time: {{report.time}}<br>
+                    Category: {{report.category}}<br>
+                    Status: {{report.status}}<br>
+                    Likes: {{report.upvoterCount}} | Dislikes: {{report.downvoterCount}}</p>
+                    <p v-if="!report.anonymous">
+                      Submitted by {{report.reportingUser}}
+                    </p>
+                    <p v-else>
+                      Submitted by an anonymous user
+                    </p>
+                  <span class="card-title activator blue-text" style="font-size: 30px;">View comments<i class="material-icons right">expand_less</i></span>
+                </div>
+
+                <div class="card-action">
+                  <a onclick="upvote(this)" style="font-size: 40px;"><i class="material-icons small">thumb_up</i> Like</a>
+                  <a onclick="downvote(this)" style="font-size: 40px;"><i class="material-icons small">thumb_down</i> Dislike</a>
+                </div>
+
+                <div class="card-reveal">
+                  <span class="card-title blue-text" style="font-size: 30px;">Comments<i class="material-icons right" style="font-size: 60px;">expand_more</i></span>
+                  <p style="white-space: pre-line;" style="font-size: 40px;">{{vm.formatComments(report.comments)}}</p>
+
+                  <form onsubmit="comment(this)">
+                    <input type="text" default="Add a comment" style="font-size: 40px;"></input>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
           </div>
         </div>
-        <div class="modal-footer">
-          <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
-        </div>
-      </div>
 
     <transition name="fade">
       <div style="z-index:4000" id="search-page" v-if="viewing==='search'">
         <nav id="search-bar">
           <div class="nav-wrapper">
-            <form onsubmit="search()">
               <div class="input-field">
                 <label class="label-icon" for="search-example">
                 </label>
-                <input style="font-size:40px;" id="search-example" type="search" required="" placeholder="Enter a few keywords...">
+                <input style="font-size:40px;" id="search-input" type="search" required="" placeholder="Enter a few keywords..." onkeyup="searchKeyUp(event)">
                 <i onclick="search()" class="material-icons" style="font-size: 80px;">search</i>
               </div>
-            </form>
           </div>
         </nav>
 
-        <a id="category-button" class='dropdown-trigger btn large' href='#' data-target='dropdown1'>Category</a>
-
-        <!-- Dropdown Structure -->
-        <ul id='dropdown1' class='dropdown-content'>
-          <li><a href="#!">Homicide</a></li>
-          <li><a href="#!">Theft</a></li>
-          <li><a href="#!">Assault</a></li>
-          <li><a href="#!">Drugs</a></li>
-        </ul>
-
-        <a id="status-button" class='dropdown-trigger btn large' href='#' data-target='dropdown2'>Status</a>
-
-        <!-- Dropdown Structure -->
-        <ul id='dropdown2' class='dropdown-content'>
-          <li><a href="#!">Any</a></li>
-          <li><a href="#!">Pending</a></li>
-          <li><a href="#!">Solved</a></li>
-        </ul>
       </div>
     </transition>
 
@@ -346,7 +318,7 @@
         <div v-for="notif in notifs">
           <div class="card-panel teal">
             <div class="white-text">
-              <div height="100px" style="font-family: 'Josefin Slab'; font-size: 60px; z-index: 600; text-align: center;">{{notif}}</div>
+              <div height="100px" style="font-family: 'Roboto'; font-size: 60px; z-index: 600; text-align: center;">{{notif}}</div>
             </div>
           </div>
         </div>
@@ -364,7 +336,7 @@
     <transition name="fade">
       <div v-if="viewing==='report'">
         <img src="addreport.png" style="top:0; width: 100%; position:absolute; top:0px; z-index:600">
-        <textarea id="report-description" style="font-size: 70px; font-family: 'Josefin Slab'; position: absolute; max-width: 90%; min-height: 31.5%; left:5%; top: 42.5%; z-index: 100000000000;"></textarea>
+        <textarea id="report-description" style="font-size: 70px; font-family: 'Roboto'; position: absolute; max-width: 90%; min-height: 31.5%; left:5%; top: 42.5%; z-index: 100000000000;"></textarea>
         <div onclick="togglePrivacy()" id="keep-report-private" style="position: absolute; min-width: 44%; min-height: 5.4%; left:3.5%; top: 77%; z-index: 100000000000;">&nbsp</div>
         <div onclick="submitReport()" id="submit-report" style="position: absolute; min-width: 44%; min-height: 5.4%; left:52.6%; top: 77%; z-index: 100000000000;">&nbsp</div>
 
@@ -385,11 +357,11 @@
     displayProfilePic(document.getElementById('profile-image'));
   });
 
-  $("search-example").on('keyup', function (e) {
-    if (e.keyCode == 13) {
+  function searchKeyUp(event) {
+    if (event.keyCode === 13) {
       search();
     }
-  });
+  }
 
   function selectUser(element) {
     vm.username = element.id;
@@ -458,7 +430,7 @@
     }
 
     function search() {
-      var term = document.getElementById('search-example').value;
+      var term = document.getElementById('search-input').value;
 
       axios.post('https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/search', {
         'messageQuery': term,
@@ -710,7 +682,10 @@
           for (var i = 0; i < comments.length - 1; i++) {
             output += comments[i] + '\n';
           }
-          output += comments[comments.length - 1];
+
+          if(comments.length !== 0) {
+            output += comments[comments.length - 1];
+          }
           return output;
         },
 
