@@ -309,7 +309,7 @@
               <div class="input-field">
                 <label class="label-icon" for="search-example">
                 </label>
-                <input style="font-size:40px;" id="search-input" type="search" required="" placeholder="Enter a few keywords..." onkeyup="searchKeyUp(event)">
+                <input style="font-size:40px;" id="search-input" type="search" required="" placeholder="Enter a few keywords..." onkeyup="searchKeyUp(event)" autocomplete="off">
                 <i onclick="search()" class="material-icons left large" style="font-size: 80px; margin-top: 6.5%; position:absolute;">search</i>
               </div>
           </div>
@@ -595,6 +595,8 @@
       var elems = document.querySelectorAll('.fixed-action-btn');
       var instances = M.FloatingActionButton.init(elems, {});
     });
+
+    var voted = false;
   </script>
 
   <script>
@@ -632,6 +634,8 @@
     }
 
     function upvote(element) {
+
+      if(!voted) {
       var reportId = element.parentNode.parentNode.firstElementChild.firstElementChild.innerHTML;
       reportId = reportId.substring(reportId.lastIndexOf('#') + 1);
 
@@ -647,9 +651,14 @@
         }
       }
 
+      }
+
+      voted = true;
     }
 
     function downvote(element) {
+
+      if(!voted) {
       var reportId = element.parentNode.parentNode.firstElementChild.firstElementChild.innerHTML;
       reportId = reportId.substring(reportId.lastIndexOf('#') + 1);
 
@@ -664,6 +673,9 @@
           vm.reports[i].downvoterCount ++;
         }
       }
+    }
+
+    voted = true;
     }
 
     function addComment(reportId, commentMessage) {
