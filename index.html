@@ -244,16 +244,6 @@
       </div>
     </transition>
 
-
-<!--
-  <p v-if="!report.anonymous" style="font-size: 40px;">
-    Submitted by {{report.reportingUser}}
-  </p>
-  <p v-else style="font-size: 40px;">
-    Submitted by an anonymous user
-  </p>
--->
-
     <div id="modal1" class="modal bottom-sheet" style="max-height: 70% !important;">
         <div class="modal-content">
           <p style="font-size: 70px;">Search results:</p>
@@ -262,13 +252,13 @@
               <div class="card sticky-action">
 
                 <div class="card-content"  style="font-size: 40px;">
-                  <div class="card-title green-text" style="font-size: 55px">Report #{{report._id}}</div>
-                  <p>Description: {{report.message}}<br>
-                    Latitude: {{report.lat}} | Longitude: {{report.lon}}<br>
-                    Time: {{report.time}}<br>
-                    Category: {{report.category}}<br>
-                    Status: {{report.status}}<br>
-                    Likes: {{report.upvoterCount}} | Dislikes: {{report.downvoterCount}}</p>
+                  <br><div class="card-title green-text" style="font-size: 55px">Report #{{report._id}}</div><br>
+                  <p style="font-weight: bold"><span style="color: red;">{{report.category}}</span><br><i class="material-icons medium">location_on</i><span style="color: blue;">{{report.distance + 'm'}}</span><br><i class="material-icons medium">warning</i><span style="color: yellow;">{{report.severity}}</span></p>
+                  <p><span style="color: green">Description: </span>{{report.message}}<br>
+                    <span style="color: green">Latitude: </span>{{report.lat}}<br>Longitude: {{report.lon}}<br>
+                    <span style="color: green">Time: </span>{{ (new Date(report.time)).toLocaleString("en-US", { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric' }) }}<br>
+                    <span style="color: green">Status: </span>{{report.status}}<br>
+                    <span style="color: green">Likes: </span>{{report.upvoterCount}} | Dislikes: {{report.downvoterCount}}</p>
                     <p v-if="!report.anonymous">
                       Submitted by {{report.reportingUser}}
                     </p>
@@ -285,11 +275,9 @@
 
                 <div class="card-reveal">
                   <span class="card-title blue-text" style="font-size: 30px;">Comments<i class="material-icons right" style="font-size: 60px;">expand_more</i></span>
-                  <p style="white-space: pre-line;" style="font-size: 40px;">{{vm.formatComments(report.comments)}}</p>
+                  <div style="white-space: pre-line;" style="font-size: 40px;">{{vm.formatComments(report.comments)}}</div>
 
-                  <form onsubmit="comment(this)">
-                    <input type="text" default="Add a comment" style="font-size: 40px;"></input>
-                  </form>
+                  <input id="comment-input" onkeyup="commentKeyUp(event)" type="text" placeholder="Add a comment" style="font-size: 40px;"></input>
                 </div>
               </div>
             </div>
@@ -305,7 +293,7 @@
                 <label class="label-icon" for="search-example">
                 </label>
                 <input style="font-size:40px;" id="search-input" type="search" required="" placeholder="Enter a few keywords..." onkeyup="searchKeyUp(event)">
-                <i onclick="search()" class="material-icons" style="font-size: 80px;">search</i>
+                <i onclick="search()" class="material-icons left large" style="font-size: 80px; margin-top: 6.5%; position:absolute;">search</i>
               </div>
           </div>
         </nav>
@@ -316,9 +304,9 @@
     <transition style="z-index:600;" name="fade">
       <div v-if="viewing==='notif'" id="notifs" class="light-green lighten-4" style="z-index:600; position: absolute; width: 100%; height:100%; top: 0px; margin: 0px; left: 0px; padding: 30px">
         <div v-for="notif in notifs">
-          <div class="card-panel teal">
+          <div class="card-panel blue">
             <div class="white-text">
-              <div height="100px" style="font-family: 'Roboto'; font-size: 60px; z-index: 600; text-align: center;">{{notif}}</div>
+              <div height="100px" style="font-family: 'Roboto'; font-size: 40px; z-index: 600; text-align: center;"><i class="material-icons medium left">warning</i> {{notif}}</div>
             </div>
           </div>
         </div>
@@ -348,23 +336,30 @@
   </div>
 
   <script>
+
+  var onModalHide = function() {
+    clickMap();
+  };
+
     var instance;
     $(document).ready(function () {
       $('.modal').modal();
-      instance = M.Modal.init($('#modal1')[0]);
+      instance = M.Modal.init($('#modal1')[0], {
+        onCloseStart: onModalHide
+      });
 
       displayProfilePic(document.getElementById('profile-image'));
-    });
-
-    $("search-example").on('keyup', function (e) {
-      if (e.keyCode == 13) {
-        search();
-      }
     });
 
   function searchKeyUp(event) {
     if (event.keyCode === 13) {
       search();
+    }
+  }
+
+  function commentKeyUp(event) {
+    if (event.keyCode === 13) {
+      comment(document.getElementById('comment-input'));
     }
   }
 
@@ -391,9 +386,17 @@
     function comment(element) {
       var reportID = element.parentNode.parentNode.firstElementChild.firstElementChild.innerHTML;
       reportID = reportID.substring(reportID.lastIndexOf('#') + 1);
-      var message = element.firstElementChild.value;
+      var message = element.value;
 
       addComment(reportID, message);
+
+      for (var i = 0; i < vm.reports.length; i++) {
+        if (vm.reports[i]._id === reportID) {
+          vm.reports[i].comments.push(message);
+        }
+      }
+
+      element.value = "";
     }
 
     var light = [
@@ -608,25 +611,38 @@
     }
 
     function upvote(element) {
-      var reportId = element.parentNode.parentNode.firstElementChild.firstElementChild;
-      reportID = reportID.substring(reportID.lastIndexOf('#') + 1);
+      var reportId = element.parentNode.parentNode.firstElementChild.firstElementChild.innerHTML;
+      reportId = reportId.substring(reportId.lastIndexOf('#') + 1);
 
       axios.post('https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/interact', {
         'userId': vm.username,
         'reportId': reportId,
         'action': 'upvote'
       });
+
+      for (var i = 0; i < vm.reports.length; i++) {
+        if (vm.reports[i]._id === reportId) {
+          vm.reports[i].upvoterCount ++;
+        }
+      }
+
     }
 
     function downvote(element) {
-      var reportId = element.parentNode.parentNode.firstElementChild.firstElementChild;
-      reportID = reportID.substring(reportID.lastIndexOf('#') + 1);
+      var reportId = element.parentNode.parentNode.firstElementChild.firstElementChild.innerHTML;
+      reportId = reportId.substring(reportId.lastIndexOf('#') + 1);
 
       axios.post('https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/interact', {
         'userId': vm.username,
         'reportId': reportId,
         'action': 'downvote'
       });
+
+      for (var i = 0; i < vm.reports.length; i++) {
+        if (vm.reports[i]._id === reportId) {
+          vm.reports[i].downvoterCount ++;
+        }
+      }
     }
 
     function addComment(reportId, commentMessage) {
@@ -664,11 +680,11 @@
         formatComments: function (comments) {
           var output = '';
           for (var i = 0; i < comments.length - 1; i++) {
-            output += comments[i] + '\n';
+            output += 'user' + comments[i].userId + ' : ' + comments[i].message + '\n';
           }
 
           if(comments.length !== 0) {
-            output += comments[comments.length - 1];
+            output += 'user' + comments[comments.length-1].userId + ' : ' + comments[comments.length-1].message + '\n';
           }
           return output;
         },
