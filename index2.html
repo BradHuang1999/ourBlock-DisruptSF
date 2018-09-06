@@ -91,7 +91,10 @@
     }
 
     .fade-enter,
-    .fade-leave-to {
+    .fade-leave-to
+
+    /* .fade-leave-active below version 2.1.8 */
+      {
       opacity: 0;
     }
 
@@ -170,34 +173,15 @@
       position: absolute;
     }
 
-    .row .col.s3{
-      width: 20%;
-    }
-
     #card-title {
       margin: auto;
       text-align: center;
     }
 
-    .modal.open {
+    .modal.open{
       width: 100%;
       max-height: 80%;
       height: 80%;
-    }
-
-    .bottom-icon {
-      height: 100%;
-      max-width: 100%;
-      padding: 25px;
-      vertical-align: middle;
-    }
-
-    .report-add-icon {
-      height: 115%;
-      max-width: 110%;
-      top: -50%;
-      z-index: 1001;
-      position: relative;
     }
 
     #status-button {}
@@ -214,33 +198,32 @@
 
     <div v-if="viewing!=='login'">
 
-      <!-- <div id="add-report-button" data-section="report" onclick="select(this)" class="col s3 grey lighten-4" style="z-index:1001;">
+      <div id="add-report-button" data-section="report" onclick="select(this)" class="col s3 grey lighten-4" style="z-index:1001;">
         <img style="position:absolute; top:87%; left:41.5%; z-index:1001; zoom: 130%;" src="report.png" alt="">
-      </div> -->
+      </div>
 
       <div id="bottom-bar" class="row" style="z-index:1000">
         <div id="map-icon" data-section="map" onclick="select(this)" class="col s3 grey lighten-4">
-          <img class="bottom-icon" src="map-black.png" alt="">
+          <img style="margin-top: 44px; zoom: 110%;" src="map-black.png" alt="">
         </div>
         <div data-section="search" onclick="select(this)" class="col s3 grey lighten-4">
-          <img class="bottom-icon" src="search.png" alt="">
-        </div>
-        <div id="add-report-button" data-section="report" onclick="select(this)" class="col s3 grey lighten-4">
-          <img class="report-add-icon" src="report.png" style="margin-bottom: 100px" alt="">
+          <img style="margin-top: 44px; margin-right: 100px; zoom: 110%;" src="search.png" alt="">
         </div>
         <div data-section="notif" onclick="select(this)" class="col s3 grey lighten-4">
-          <img class="bottom-icon" src="notif.png" alt="">
+          <img style="margin-top: 44px; margin-left: 100px; zoom: 110%;" src="notif.png" alt="">
         </div>
         <div data-section="profile" onclick="select(this)" class="col s3 grey lighten-4">
-          <img class="bottom-icon" src="profile.png" alt="">
+          <img style="margin-top: 44px; zoom: 110%;" src="profile.png" alt="">
         </div>
       </div>
 
     </div>
 
     <nav id="header" style="background-color:white;" v-if="viewing==='map' || viewing ==='reports'">
-      <div class="nav-wrapper" style="text-align: center;">
-        <img style="height: 100%; vertical-align: center; padding: 15px" src="logo.png" alt="">
+      <div class="nav-wrapper">
+        <img style="zoom:25%; display: block; margin-left: auto;
+            margin-right: auto; width: 50%; margin-top: 3%"
+          src="logo.png" alt="">
         <ul id="nav-mobile" class="right hide-on-med-and-down">
         </ul>
       </div>
@@ -248,7 +231,7 @@
 
     <transition name="fade">
       <div v-if="viewing==='login'" style="z-index: 999999999999999999999999">
-        <img src="login.png" style=" position: absolute; width: 100%; height: 91%; top: 0px;">
+        <img src="login.PNG" style=" position: absolute; width: 100%; height: 91%; top: 0px;">
 
         <div onclick="selectUser(this)" id="0" style="position: absolute; min-width: 60%; min-height:6%; top:12%; left: 29%;">&nbsp;</div>
         <div onclick="selectUser(this)" id="1" style="position: absolute; min-width: 60%; min-height:6%; top:23.7%; left: 29%;">&nbsp;</div>
@@ -257,75 +240,61 @@
         <div onclick="selectUser(this)" id="4" style="position: absolute; min-width: 60%; min-height:6%; top:58.8%; left: 29%;">&nbsp;</div>
         <div onclick="selectUser(this)" id="5" style="position: absolute; min-width: 60%; min-height:6%; top:70.5%; left: 29%;">&nbsp;</div>
         <div onclick="selectUser(this)" id="6" style="position: absolute; min-width: 60%; min-height:6%; top:82.2%; left: 29%;">&nbsp;</div>
+
       </div>
     </transition>
 
-
-    <!--
-  <p v-if="!report.anonymous" style="font-size: 40px;">
-    Submitted by {{report.reportingUser}}
-  </p>
-  <p v-else style="font-size: 40px;">
-    Submitted by an anonymous user
-  </p>
--->
-
     <div id="modal1" class="modal bottom-sheet" style="max-height: 70% !important;">
-      <div class="modal-content">
-        <p style="font-size: 70px;">Search results:</p>
-        <div v-for="report in reports">
-          <div class="my-container">
-            <div class="card sticky-action">
+        <div class="modal-content">
+          <p style="font-size: 70px;">Search results:</p>
+          <div v-for="report in reports">
+            <div class="my-container">
+              <div class="card sticky-action">
 
-              <div class="card-content" style="font-size: 40px;">
-                <div class="card-title green-text" style="font-size: 55px">Report #{{report._id}}</div>
-                <p>Description: {{report.message}}<br>
-                  Latitude: {{report.lat}} | Longitude: {{report.lon}}<br>
-                  Time: {{report.time}}<br>
-                  Category: {{report.category}}<br>
-                  Status: {{report.status}}<br>
-                  Likes: {{report.upvoterCount}} | Dislikes: {{report.downvoterCount}}</p>
-                <p v-if="!report.anonymous">
-                  Submitted by {{report.reportingUser}}
-                </p>
-                <p v-else>
-                  Submitted by an anonymous user
-                </p>
-                <span class="card-title activator blue-text" style="font-size: 30px;">View comments<i class="material-icons right">expand_less</i></span>
-              </div>
+                <div class="card-content"  style="font-size: 40px;">
+                  <br><div class="card-title green-text" style="font-size: 55px">Report #{{report._id}}</div><br>
+                  <p style="font-weight: bold"><span style="color: red;">{{report.category}}</span><br><i class="material-icons medium">location_on</i><span style="color: blue;">{{report.distance + 'm'}}</span><br><i class="material-icons medium">warning</i><span style="color: yellow;">{{report.severity}}</span></p>
+                  <p><span style="color: green">Description: </span>{{report.message}}<br>
+                    <span style="color: green">Latitude: </span>{{report.lat}}<br>Longitude: {{report.lon}}<br>
+                    <span style="color: green">Time: </span>{{ (new Date(report.time)).toLocaleString("en-US", { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric' }) }}<br>
+                    <span style="color: green">Status: </span>{{report.status}}<br>
+                    <span style="color: green">Likes: </span>{{report.upvoterCount}} | Dislikes: {{report.downvoterCount}}</p>
+                    <p v-if="!report.anonymous">
+                      Submitted by {{report.reportingUser}}
+                    </p>
+                    <p v-else>
+                      Submitted by an anonymous user
+                    </p>
+                  <span class="card-title activator blue-text" style="font-size: 30px;">View comments<i class="material-icons right">expand_less</i></span>
+                </div>
 
-              <div class="card-action">
-                <a onclick="upvote(this)" style="font-size: 40px;"><i class="material-icons small">thumb_up</i> Like</a>
-                <a onclick="downvote(this)" style="font-size: 40px;"><i class="material-icons small">thumb_down</i>
-                  Dislike</a>
-              </div>
+                <div class="card-action">
+                  <a onclick="upvote(this)" style="font-size: 40px;"><i class="material-icons small">thumb_up</i> Like</a>
+                  <a onclick="downvote(this)" style="font-size: 40px;"><i class="material-icons small">thumb_down</i> Dislike</a>
+                </div>
 
-              <div class="card-reveal">
-                <span class="card-title blue-text" style="font-size: 30px;">Comments<i class="material-icons right"
-                    style="font-size: 60px;">expand_more</i></span>
-                <p style="white-space: pre-line;" style="font-size: 40px;">{{vm.formatComments(report.comments)}}</p>
+                <div class="card-reveal">
+                  <span class="card-title blue-text" style="font-size: 30px;">Comments<i class="material-icons right" style="font-size: 60px;">expand_more</i></span>
+                  <div style="white-space: pre-line;" style="font-size: 40px;">{{vm.formatComments(report.comments)}}</div>
 
-                <form onsubmit="comment(this)">
-                  <input type="text" default="Add a comment" style="font-size: 40px;"></input>
-                </form>
+                  <input id="comment-input" onkeyup="commentKeyUp(event)" type="text" placeholder="Add a comment" style="font-size: 40px;"></input>
+                </div>
               </div>
             </div>
           </div>
+          </div>
         </div>
-      </div>
-    </div>
 
     <transition name="fade">
       <div style="z-index:4000" id="search-page" v-if="viewing==='search'">
         <nav id="search-bar">
           <div class="nav-wrapper">
-            <div class="input-field">
-              <label class="label-icon" for="search-example">
-              </label>
-              <input style="font-size:40px;" id="search-input" type="search" required="" placeholder="Enter a few keywords..."
-                onkeyup="searchKeyUp(event)">
-              <i onclick="search()" class="material-icons" style="font-size: 80px;">search</i>
-            </div>
+              <div class="input-field">
+                <label class="label-icon" for="search-example">
+                </label>
+                <input style="font-size:40px;" id="search-input" type="search" required="" placeholder="Enter a few keywords..." onkeyup="searchKeyUp(event)">
+                <i onclick="search()" class="material-icons left large" style="font-size: 80px; margin-top: 6.5%; position:absolute;">search</i>
+              </div>
           </div>
         </nav>
 
@@ -335,9 +304,9 @@
     <transition style="z-index:600;" name="fade">
       <div v-if="viewing==='notif'" id="notifs" class="light-green lighten-4" style="z-index:600; position: absolute; width: 100%; height:100%; top: 0px; margin: 0px; left: 0px; padding: 30px">
         <div v-for="notif in notifs">
-          <div class="card-panel teal">
+          <div class="card-panel blue">
             <div class="white-text">
-              <div height="100px" style="font-family: 'Roboto'; font-size: 60px; z-index: 600; text-align: center;">{{notif}}</div>
+              <div height="100px" style="font-family: 'Roboto'; font-size: 40px; z-index: 600; text-align: center;"><i class="material-icons medium left">warning</i> {{notif}}</div>
             </div>
           </div>
         </div>
@@ -367,30 +336,37 @@
   </div>
 
   <script>
+
+  var onModalHide = function() {
+    clickMap();
+  };
+
     var instance;
     $(document).ready(function () {
       $('.modal').modal();
-      instance = M.Modal.init($('#modal1')[0]);
+      instance = M.Modal.init($('#modal1')[0], {
+        onCloseStart: onModalHide
+      });
 
       displayProfilePic(document.getElementById('profile-image'));
     });
 
-    $("search-example").on('keyup', function (e) {
-      if (e.keyCode == 13) {
-        search();
-      }
-    });
-
-    function searchKeyUp(event) {
-      if (event.keyCode === 13) {
-        search();
-      }
+  function searchKeyUp(event) {
+    if (event.keyCode === 13) {
+      search();
     }
+  }
 
-    function selectUser(element) {
-      vm.username = element.id;
-      vm.viewing = 'map';
+  function commentKeyUp(event) {
+    if (event.keyCode === 13) {
+      comment(document.getElementById('comment-input'));
     }
+  }
+
+  function selectUser(element) {
+    vm.username = element.id;
+    vm.viewing = 'map';
+  }
 
     var cards = document.getElementsByClassName('card');
 
@@ -410,24 +386,32 @@
     function comment(element) {
       var reportID = element.parentNode.parentNode.firstElementChild.firstElementChild.innerHTML;
       reportID = reportID.substring(reportID.lastIndexOf('#') + 1);
-      var message = element.firstElementChild.value;
+      var message = element.value;
 
       addComment(reportID, message);
+
+      for (var i = 0; i < vm.reports.length; i++) {
+        if (vm.reports[i]._id === reportID) {
+          vm.reports[i].comments.push(message);
+        }
+      }
+
+      element.value = "";
     }
 
     var light = [
-      '<img class="bottom-icon" src="map.png" alt="">',
-      '<img class="bottom-icon" src="search.png" alt="">',
-      '<img class="report-add-icon" src="report.png" alt="">',
-      '<img class="bottom-icon" src="notif.png" alt="">',
-      '<img class="bottom-icon" src="profile.png" alt="">'
+      '<img style="position:absolute; top:87%; left:41.5%; z-index: 1001; zoom: 130%;" src="report.png" alt="">',
+      '<img style="margin-top: 44px; zoom: 110%;" src="map.png" alt="">',
+      '<img style="margin-top: 44px; margin-right: 100px; zoom: 110%;" src="search.png" alt="">',
+      '<img style="margin-top: 44px; margin-left: 100px; zoom: 110%;" src="notif.png" alt="">',
+      '<img style="margin-top: 44px; zoom: 110%;" src="profile.png" alt="">'
     ];
     var dark = [
-      '<img class="bottom-icon" src="map-black.png" alt="">',
-      '<img class="bottom-icon" src="search-black.png" alt="">',
-      '<img class="report-add-icon" src="report-black.png" alt="">',
-      '<img class="bottom-icon" src="notif-black.png" alt="">',
-      '<img class="bottom-icon" src="profile-black.png" alt="">'
+      '<img style="position:absolute; top:87%; left:41.5%; z-index: 1001; zoom: 130%;" src="report-black.png" alt="">',
+      '<img style="margin-top: 44px; zoom: 110%;" src="map-black.png" alt="">',
+      '<img style="margin-top: 44px; margin-right: 100px; zoom: 110%;" src="search-black.png" alt="">',
+      '<img style="margin-top: 44px; margin-left: 100px; zoom: 110%;" src="notif-black.png" alt="">',
+      '<img style="margin-top: 44px; zoom: 110%;" src="profile-black.png" alt="">'
     ];
 
     var sections = document.getElementsByClassName('col');
@@ -627,25 +611,38 @@
     }
 
     function upvote(element) {
-      var reportId = element.parentNode.parentNode.firstElementChild.firstElementChild;
-      reportID = reportID.substring(reportID.lastIndexOf('#') + 1);
+      var reportId = element.parentNode.parentNode.firstElementChild.firstElementChild.innerHTML;
+      reportId = reportId.substring(reportId.lastIndexOf('#') + 1);
 
       axios.post('https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/interact', {
         'userId': vm.username,
         'reportId': reportId,
         'action': 'upvote'
       });
+
+      for (var i = 0; i < vm.reports.length; i++) {
+        if (vm.reports[i]._id === reportId) {
+          vm.reports[i].upvoterCount ++;
+        }
+      }
+
     }
 
     function downvote(element) {
-      var reportId = element.parentNode.parentNode.firstElementChild.firstElementChild;
-      reportID = reportID.substring(reportID.lastIndexOf('#') + 1);
+      var reportId = element.parentNode.parentNode.firstElementChild.firstElementChild.innerHTML;
+      reportId = reportId.substring(reportId.lastIndexOf('#') + 1);
 
       axios.post('https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/interact', {
         'userId': vm.username,
         'reportId': reportId,
         'action': 'downvote'
       });
+
+      for (var i = 0; i < vm.reports.length; i++) {
+        if (vm.reports[i]._id === reportId) {
+          vm.reports[i].downvoterCount ++;
+        }
+      }
     }
 
     function addComment(reportId, commentMessage) {
@@ -683,11 +680,11 @@
         formatComments: function (comments) {
           var output = '';
           for (var i = 0; i < comments.length - 1; i++) {
-            output += comments[i] + '\n';
+            output += 'user' + comments[i].userId + ' : ' + comments[i].message + '\n';
           }
 
-          if (comments.length !== 0) {
-            output += comments[comments.length - 1];
+          if(comments.length !== 0) {
+            output += 'user' + comments[comments.length-1].userId + ' : ' + comments[comments.length-1].message + '\n';
           }
           return output;
         },
