@@ -206,7 +206,7 @@
 
     <div id="map" onclick="clickMap()"></div>
 
-    <div v-if="viewing!=='login'">
+    <div v-show="viewing!=='login'">
       <div id="bottom-bar" class="row" style="z-index:1000">
         <div id="map-icon" data-section="map" onclick="select(this)" class="col s3 grey lighten-4 valign-wrapper">
           <img class="bottom-icon" src="map-black.png" alt="">
