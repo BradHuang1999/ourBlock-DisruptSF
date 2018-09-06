@@ -206,7 +206,7 @@
 
     <div id="map" onclick="clickMap()"></div>
 
-    <div v-show="viewing!=='login'">
+    <div v-if="viewing!=='login'">
       <div id="bottom-bar" class="row" style="z-index:1000">
         <div id="map-icon" data-section="map" onclick="select(this)" class="col s3 grey lighten-4 valign-wrapper">
           <img class="bottom-icon" src="map-black.png" alt="">
@@ -371,7 +371,7 @@
         <div onclick="submitReport()" id="submit-report" style="position: absolute; min-width: 44%; min-height: 5.4%; left:52.6%; top: 77.8%; z-index: 100000000000;">&nbsp</div>
 
         <div v-if="vm.reportPrivacy">
-          <img src="./checkmark.png" style="position: absolute; top: 77.7%; left:7%; width: 5%; height:3%; z-index: 100000000000;">
+          <img src="./checkmark.png" style="position: absolute; top: 78.1%; left:7%; width: 5%; height:3%; z-index: 100000000000;">
         </div>
     </transition>
   </div>
