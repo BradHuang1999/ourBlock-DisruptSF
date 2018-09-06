@@ -294,6 +294,7 @@
                 <a onclick="upvote(this)" style="font-size: 40px;"><i class="material-icons small">thumb_up</i> Like</a>
                 <a onclick="downvote(this)" style="font-size: 40px;"><i class="material-icons small">thumb_down</i>
                   Dislike</a>
+                <a onclick="follow(this.parentNode.parentNode.firstElementChild.firstElementChild.innerHTML.substring(this.parentNode.parentNode.firstElementChild.firstElementChild.innerHTML.indexOf('#')+1))" style="font-size: 40px;"><i class="material-icons small">rss_feed</i> Follow</a>
               </div>
 
               <div class="card-reveal">
@@ -329,7 +330,7 @@
     </transition>
 
     <transition style="z-index:600;" name="fade">
-      <div v-if="viewing==='notif'" id="notifs" class="light-green lighten-3" style="z-index:600; position: absolute; width: 100%; height:100%; top: 0px; margin: 0px; left: 0px; padding: 40px">
+      <div v-if="viewing==='notif'" id="notifs" class="light-green lighten-3" style="z-index:600; position: absolute; width: 100%; height:100%; top: 0px; margin: 0px; left: 0px; padding: 40px; overflow: scroll;">
         <div v-for="notif in notifs">
           <div class="card-panel light-green lighten-1" style="margin-bottom: 30px; border: 5px solid green; border-radius: 25px;">
             <div class="white-text">
@@ -424,7 +425,20 @@
         'anonymous': vm.reportPrivacy,
         'message': description
       }).then(function (res) {
+        console.log(res);
         clickMap();
+
+        var newReportId = res.data.newReportId;
+        follow (newReportId);
+
+        sendNotif(vm.username, "You have submitted a new report.")
+      });
+    }
+
+    function sendNotif(recipient, message) {
+      axios.post('https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/send', {
+        'id' : recipient,
+        'body' : message
       });
     }
 
@@ -494,6 +508,7 @@
         'currLon': vm.location.lon,
         'role': 'police'
       }).then(function (res) {
+        console.log(res.data);
         vm.reports = res.data;
         vm.viewing = 'map';
         instance.open();
@@ -609,60 +624,66 @@
 
       follow(reportId);
 
-      axios.post('https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/interact', {
-        'userId': vm.username,
-        'reportId': reportId,
-        'action': 'upvote'
-      });
+        for (var i = 0; i < vm.reports.length; i++) {
+          if (vm.reports[i]._id === reportId) {
 
-      for (var i = 0; i < vm.reports.length; i++) {
-        if (vm.reports[i]._id === reportId) {
-          vm.reports[i].upvoterCount++;
+            if (!vm.reports[i].upvoters.includes(vm.username)) {
+              vm.reports[i].upvoterCount++;
+              vm.reports[i].upvoters.push(vm.username);
+
+              axios.post('https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/interact', {
+                'userId': vm.username,
+                'reportId': reportId,
+                'action': 'upvote'
+              });
+            }
+          }
         }
-      }
-
-      voted = true;
     }
 
-    var followed = false;
-
     function follow(reportId) {
-      if (!followed) {
-        axios.post('https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/interact', {
-          'userId': vm.username,
-          'reportId': reportId,
-          'action': 'follow'
-        });
+
+      reportId = reportId.substring(0, 20);
 
         for (var i = 0; i < vm.reports.length; i++) {
           if (vm.reports[i]._id === reportId) {
-            vm.reports[i].followerCount++;
-            followed = true;
+
+            if (!vm.reports[i].followers.includes(vm.username)) {
+              vm.reports[i].followerCount++;
+              vm.reports[i].followers.push(vm.username);
+
+              axios.post('https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/interact', {
+                'userId': vm.username,
+                'reportId': reportId,
+                'action': 'follow'
+              });
+            }
           }
         }
-      }
     }
 
     function downvote(element) {
-      if (!voted) {
         var reportId = element.parentNode.parentNode.firstElementChild.firstElementChild.innerHTML;
         reportId = reportId.substring(reportId.lastIndexOf('#') + 1);
         reportId = reportId.substring(0, 20);
 
-        axios.post('https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/interact', {
-          'userId': vm.username,
-          'reportId': reportId,
-          'action': 'downvote'
-        });
+        follow(reportId);
 
-        for (var i = 0; i < vm.reports.length; i++) {
-          if (vm.reports[i]._id === reportId) {
-            vm.reports[i].downvoterCount++;
+          for (var i = 0; i < vm.reports.length; i++) {
+            if (vm.reports[i]._id === reportId) {
+
+              if (!vm.reports[i].downvoters.includes(vm.username)) {
+                vm.reports[i].downvoterCount++;
+                vm.reports[i].downvoters.push(vm.username);
+
+                axios.post('https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/interact', {
+                  'userId': vm.username,
+                  'reportId': reportId,
+                  'action': 'downvote'
+                });
+              }
+            }
           }
-        }
-      }
-
-      voted = true;
     }
 
     function addComment(reportId, commentMessage) {
