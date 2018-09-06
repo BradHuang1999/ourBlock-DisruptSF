@@ -193,16 +193,12 @@
     }
 
     .report-add-icon {
-      width: 95%;
+      width: 100%;
       top: -50%;
       z-index: 1001;
       position: relative;
       margin: auto;
     }
-
-    #status-button {}
-
-    #category-button {}
   </style>
 </head>
 
@@ -213,11 +209,6 @@
     <div id="map" onclick="clickMap()"></div>
 
     <div v-if="viewing!=='login'">
-
-      <!-- <div id="add-report-button" data-section="report" onclick="select(this)" class="col s3 grey lighten-4" style="z-index:1001;">
-        <img style="position:absolute; top:87%; left:41.5%; z-index:1001; zoom: 130%;" src="report.png" alt="">
-      </div> -->
-
       <div id="bottom-bar" class="row" style="z-index:1000">
         <div id="map-icon" data-section="map" onclick="select(this)" class="col s3 grey lighten-4 valign-wrapper">
           <img class="bottom-icon" src="map-black.png" alt="">
@@ -226,7 +217,7 @@
           <img class="bottom-icon" src="search.png" alt="">
         </div>
         <div id="add-report-button" data-section="report" onclick="select(this)" class="col s3 grey lighten-4 valign-wrapper">
-          <img class="report-add-icon" src="report.png" style="margin-bottom: 100px" alt="">
+          <img class="report-add-icon" src="report.png" alt="">
         </div>
         <div data-section="notif" onclick="select(this)" class="col s3 grey lighten-4 valign-wrapper">
           <img class="bottom-icon" src="notif.png" alt="">
@@ -250,36 +241,53 @@
       <div v-if="viewing==='login'" style="z-index: 999999999999999999999999">
         <img src="login.png" style=" position: absolute; width: 100%; height: 91%; top: 0px;">
 
-        <div onclick="selectUser(this)" id="0" style="position: absolute; min-width: 60%; min-height:6%; top:12%; left: 29%;">&nbsp;</div>
-        <div onclick="selectUser(this)" id="1" style="position: absolute; min-width: 60%; min-height:6%; top:23.7%; left: 29%;">&nbsp;</div>
-        <div onclick="selectUser(this)" id="2" style="position: absolute; min-width: 60%; min-height:6%; top:35.4%; left: 29%;">&nbsp;</div>
-        <div onclick="selectUser(this)" id="3" style="position: absolute; min-width: 60%; min-height:6%; top:47.1%; left: 29%;">&nbsp;</div>
-        <div onclick="selectUser(this)" id="4" style="position: absolute; min-width: 60%; min-height:6%; top:58.8%; left: 29%;">&nbsp;</div>
-        <div onclick="selectUser(this)" id="5" style="position: absolute; min-width: 60%; min-height:6%; top:70.5%; left: 29%;">&nbsp;</div>
-        <div onclick="selectUser(this)" id="6" style="position: absolute; min-width: 60%; min-height:6%; top:82.2%; left: 29%;">&nbsp;</div>
+        <div onclick="selectUser(this)" id="johnsmith" style="position: absolute; min-width: 60%; min-height:6%; top:12%; left: 29%;">&nbsp;</div>
+        <div onclick="selectUser(this)" id="bradneedsalife" style="position: absolute; min-width: 60%; min-height:6%; top:23.7%; left: 29%;">&nbsp;</div>
+        <div onclick="selectUser(this)" id="randomdonnie" style="position: absolute; min-width: 60%; min-height:6%; top:35.4%; left: 29%;">&nbsp;</div>
+        <div onclick="selectUser(this)" id="randomannie" style="position: absolute; min-width: 60%; min-height:6%; top:47.1%; left: 29%;">&nbsp;</div>
+        <div onclick="selectUser(this)" id="randomsue" style="position: absolute; min-width: 60%; min-height:6%; top:58.8%; left: 29%;">&nbsp;</div>
+        <div onclick="selectUser(this)" id="randomemily" style="position: absolute; min-width: 60%; min-height:6%; top:70.5%; left: 29%;">&nbsp;</div>
+        <div onclick="selectUser(this)" id="randombrian" style="position: absolute; min-width: 60%; min-height:6%; top:82.2%; left: 29%;">&nbsp;</div>
       </div>
     </transition>
 
 
-    <div id="modal1" class="modal bottom-sheet" style="max-height: 70% !important;">
+    <div id="newReportModal" class="modal bottom-sheet" style="max-height: 70% !important;">
       <div class="modal-content">
         <p style="font-size: 70px;">Search results:</p>
         <div v-for="report in reports">
           <div class="my-container">
             <div class="card sticky-action">
               <div class="card-content" style="font-size: 40px;">
-                <div class="card-title green-text" style="font-size: 55px; margin-top: 4%; text-decoration: underline">Report
-                  #{{report._id}}</div><br>
-                <p style="font-weight: bold"><span style="color: red;">{{report.category}}</span><br><i class="material-icons medium">location_on</i>
-                  <span style="color: blue;">{{report.distance + 'm'}}</span><br><i class="material-icons medium">warning</i>
-                  <span style="color: yellow;">{{report.severity}}</span></p>
-                <p><span style="color: green">Description: </span>{{report.message}}<br>
-                  <span style="color: green">Latitude: </span>{{report.lat}}<br>Longitude: {{report.lon}}<br>
-                  <span style="color: green">Time: </span>{{ (new Date(report.time)).toLocaleString("en-US", { year:
-                  'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric' }) }}<br>
-                  <span style="color: green">Status: </span>{{report.status}}<br>
-                  <span style="color: green">Likes: </span>{{report.upvoterCount}} | Dislikes:
-                  {{report.downvoterCount}}</p>
+                <div class="card-title green-text" style="font-size: 55px; margin-top: 4%; text-decoration: underline">
+                  Report #{{report._id}}
+                </div>
+                <br>
+                <p style="font-weight: bold">
+                  <span style="color: red;">{{ report.category }}</span>
+                  <i class="material-icons medium">location_on</i>
+                  <span style="color: blue;">{{ report.distance.toFixed(0) }}m</span>
+                  <i class="material-icons medium">warning</i>
+                  <span style="color: yellow;">{{ report.severity.toFixed(2) }}</span>
+                </p>
+                <p>
+                  <span style="color: green">Description: </span>{{report.message}}
+                  <br>
+                  <span style="color: green">Latitude: </span>{{report.lat}}
+                  |
+                  <span style="color: green">Longitude: </span>{{report.lon}}
+                  <br>
+                  <span style="color: green">Time: </span>
+                  {{ (new Date(report.time)).toLocaleString("en-US", { year: 'numeric', month: 'short', day: 'numeric',
+                  hour: 'numeric', minute: 'numeric' }) }}
+                  <br>
+                  <span style="color: green">Status: </span>{{report.status}}
+                  <br>
+                  <i class="material-icons medium">thumb_up</i> {{ report.upvoterCount }}
+                  <i class="material-icons medium">thumb_down</i> {{ report.downvoterCount }}
+                  <i class="material-icons medium">chat_bubble</i> {{ report.commentCount }}
+                  <i class="material-icons medium">add_circle</i> {{ report.followerCount }}
+                </p>
                 <p v-if="!report.anonymous">
                   Submitted by {{report.reportingUser}}
                 </p>
@@ -342,7 +350,7 @@
     <transition name="fade">
       <div v-show="viewing==='profile'">
         <div style="background: white; position:absolute; top:0px; width: 100%; height: 100%; z-index:600;">&nbsp;</div>
-        <img id="profile-image" src="./profile-0.png" style="top:0; width: 100%; position:absolute; top:0px; z-index:600;">
+        <img id="profile-image" src="./profile-johnsmith.png" style="top:0; width: 100%; position:absolute; top:0px; z-index:600;">
         <div id="my-tokens" style="font-weight:bold; font-size: 80px; position: absolute; min-width:30px; min-height: 110px; left:78.5%; top: 41%; z-index: 100000000000;"></div>
       </div>
     </transition>
@@ -369,7 +377,7 @@
     var instance;
     $(document).ready(function () {
       $('.modal').modal();
-      instance = M.Modal.init($('#modal1')[0], {
+      instance = M.Modal.init($('#newReportModal')[0], {
         onCloseStart: onModalHide
       });
 
@@ -391,6 +399,7 @@
     function selectUser(element) {
       vm.username = element.id;
       vm.viewing = 'map';
+      $("#profile-image").attr('src', "./profile-" + element.id + ".png");
     }
 
     var cards = document.getElementsByClassName('card');
@@ -403,9 +412,27 @@
     }
 
     function submitReport() {
-      var description = document.getElementById('report-description').innerText;
+      var description = document.getElementById('report-description').value;
+      console.log({
+        'reportingUser': vm.username,
+        'lat': vm.location.lat,
+        'lon': vm.location.lon,
+        'time': Date.now(),
+        'anonymous': vm.reportPrivacy,
+        'message': description
+      });
 
-      newReport(description, vm.reportPrivacy);
+      axios.post('http://lypang.pythonanywhere.com/post', {
+        'reportingUser': vm.username,
+        'lat': vm.location.lat,
+        'lon': vm.location.lon,
+        'time': Date.now(),
+        'anonymous': vm.reportPrivacy,
+        'message': description
+      }).then(function (res) {
+        console.log(res);
+        clickMap();
+      });
     }
 
     function comment(element) {
@@ -512,18 +539,6 @@
     //   heatmap.set('gradient', heatmap.get('gradient') ? null : gradient);
     // }
 
-    function getLocation() {
-      navigator.geolocation.getCurrentPosition(function (position) {
-        var pos = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude
-        };
-        infoWindow.setPosition(pos);
-        vm.location.lat = pos.lat;
-        vm.location.lon = pos.lng;
-      });
-    }
-
     function initMap() {
       function getMapBounds() {
         var sw = map.getBounds().getSouthWest();
@@ -553,9 +568,6 @@
           console.log(e);
         });
       }
-
-      getLocation();
-      setInterval(getLocation, 500000);
 
       map = new google.maps.Map(document.getElementById('map'), {
         center: {
@@ -614,27 +626,6 @@
     }
     setInterval(getNotifs, 10 * 1000);
 
-    function newReport(description, anonymous) {
-      console.log({
-        'reportingUser': vm.username,
-        'lat': vm.location.lat,
-        'lon': vm.location.lon,
-        'anonymous': anonymous,
-        'message': description
-      });
-
-      axios.post('https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/post', {
-        'reportingUser': vm.username,
-        'lat': vm.location.lat,
-        'lon': vm.location.lon,
-        'anonymous': anonymous,
-        'message': description
-      }).then(function (res) {
-        console.log(res);
-        clickMap();
-      });
-    }
-
     function upvote(element) {
       var reportId = element.parentNode.parentNode.firstElementChild.firstElementChild.innerHTML;
       reportId = reportId.substring(reportId.lastIndexOf('#') + 1);
@@ -692,10 +683,10 @@
         reportPrivacy: false,
         viewing: 'login',
         location: {
-          lat: 0,
-          lon: 0
+          lat: 37.7835229,
+          lon: -122.4036683
         },
-        username: '0',
+        username: 'johnsmith',
         tokens: 0,
         reports: [],
         notifs: ['test1', 'test2', 'test3']
