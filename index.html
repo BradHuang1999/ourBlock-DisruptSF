@@ -186,18 +186,17 @@
     }
 
     .bottom-icon {
-      height: 100%;
       max-width: 100%;
       padding: 25px;
       vertical-align: middle;
     }
 
     .report-add-icon {
-      height: 115%;
+      height: 85%;
       max-width: 110%;
-      top: -50%;
+      top: -35%;
       z-index: 1001;
-      position: relative;
+      position: absolute;
     }
 
     #status-button {}
@@ -219,19 +218,19 @@
       </div> -->
 
       <div id="bottom-bar" class="row" style="z-index:1000">
-        <div id="map-icon" data-section="map" onclick="select(this)" class="col s3 grey lighten-4">
+        <div id="map-icon" data-section="map" onclick="select(this)" class="col s3 grey lighten-4 valign-wrapper">
           <img class="bottom-icon" src="map-black.png" alt="">
         </div>
-        <div data-section="search" onclick="select(this)" class="col s3 grey lighten-4">
+        <div data-section="search" onclick="select(this)" class="col s3 grey lighten-4 valign-wrapper">
           <img class="bottom-icon" src="search.png" alt="">
         </div>
-        <div id="add-report-button" data-section="report" onclick="select(this)" class="col s3 grey lighten-4">
+        <div id="add-report-button" data-section="report" onclick="select(this)" class="col s3 grey lighten-4 valign-wrapper">
           <img class="report-add-icon" src="report.png" style="margin-bottom: 100px" alt="">
         </div>
-        <div data-section="notif" onclick="select(this)" class="col s3 grey lighten-4">
+        <div data-section="notif" onclick="select(this)" class="col s3 grey lighten-4 valign-wrapper">
           <img class="bottom-icon" src="notif.png" alt="">
         </div>
-        <div data-section="profile" onclick="select(this)" class="col s3 grey lighten-4">
+        <div data-section="profile" onclick="select(this)" class="col s3 grey lighten-4 valign-wrapper">
           <img class="bottom-icon" src="profile.png" alt="">
         </div>
       </div>
