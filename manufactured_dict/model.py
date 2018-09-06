@@ -129,9 +129,11 @@ import wordreformat as wrf
 
 data = pd.concat([data, wrf.dictcompile()])
 
-"""
-ML
-"""
+data.to_csv('datashort.csv')
+
+#"""
+#ML
+#"""
 import re
 import numpy as np
 from nltk.corpus import stopwords
@@ -170,7 +172,7 @@ X_train, X_test, y_train, y_test = train_test_split(data['cleaned'], data.catego
 
 pipeline = Pipeline([('vect', TfidfVectorizer(ngram_range=(1, 2), stop_words="english", sublinear_tf=True)),
                      ('chi',  SelectKBest(chi2, k=485)),
-                     ('clf', LinearSVC(C=1.0, penalty='l1', max_iter=50, dual=False))])
+                     ('clf', LinearSVC(C=1.0, penalty='l1', max_iter=500, dual=False))])
 
 
 model = pipeline.fit(X_train, y_train)
@@ -217,6 +219,15 @@ predict("This guy is making weird noises and running around on Eastern Ave. I do
 
 predict("A green Honda Civiv is driving erratically and ran past a red light. The license plate was 3D5 M4J")
 
+
+predict("Some guy is freaking out on the train")
+
+predict("A dude in a black shirt is trying to kill a girl")
+
+
+predict("My friend Brad in a blue sweater just ran a red light and is driving weird. His number plate is N5J8LZ. He drives an Audi and was on 4th and Houston")
+
+predict("A white woman with brown hair was punching another girl at 19th and Lexington. She's wearing a blue blouse and a red skirt.")
 
 # Export to CSV
 #data.to_csv('output_data.csv')
