@@ -256,29 +256,28 @@
           <div class="my-container">
             <div class="card sticky-action">
               <div class="card-content" style="font-size: 40px;">
-                <div class="card-title green-text" style="font-size: 55px; margin-top: 4%; text-decoration: underline">
+                <div class="card-title green-text" style="font-size: 40px; margin-top: 4%;">
                   Report #{{report._id}}
                 </div>
-                <br>
-                <p style="font-weight: bold">
-                  <span style="color: red;">{{ report.category }}</span>
+                <p style="font-weight: bold; border-bottom: solid; border-color: green; margin-bottom: 30px;">
+                  <span style="color: red;">{{ report.category }} </span>
                   <i class="material-icons medium">location_on</i>
-                  <span style="color: blue;">{{ report.distance.toFixed(0) }}m</span>
+                  <span style="color: blue;">{{ report.distance.toFixed(0) }}m </span>
                   <i class="material-icons medium">warning</i>
                   <span style="color: yellow;">{{ report.severity.toFixed(2) }}</span>
                 </p>
                 <p>
-                  <span style="color: green">Description: </span>{{report.message}}
+                  <span style="color: green; font-weight: bold">Description: </span>{{report.message}}
                   <br>
-                  <span style="color: green">Latitude: </span>{{report.lat}}
+                  <span style="color: green; font-weight: bold">Latitude: </span>{{report.lat.toFixed(3)}}
                   |
-                  <span style="color: green">Longitude: </span>{{report.lon}}
+                  <span style="color: green; font-weight: bold">Longitude: </span>{{report.lon.toFixed(3)}}
                   <br>
-                  <span style="color: green">Time: </span>
+                  <span style="color: green; font-weight: bold">Time: </span>
                   {{ (new Date(report.time)).toLocaleString("en-US", { year: 'numeric', month: 'short', day: 'numeric',
                   hour: 'numeric', minute: 'numeric' }) }}
                   <br>
-                  <span style="color: green">Status: </span>{{report.status}}
+                  <span style="color: green font-weight: bold">Status: </span>{{report.status}}
                   <br>
                   <i class="material-icons medium">thumb_up</i> {{ report.upvoterCount }}
                   <i class="material-icons medium">thumb_down</i> {{ report.downvoterCount }}
