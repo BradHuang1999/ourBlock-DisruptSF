@@ -50,7 +50,7 @@ def dictcompile():
               "kill themselves", "going to kill himself", "going to kill herself", "hanging",
               "slit wrists", "jumped", "jump off", "phone calls", "prank", "pranked", "pranking", "calling", "prank calls", 
               "attempted suicide", "loitering", "standing around", "sleeping", "suicide", "needs help", "issues",
-              "paranoid", "weird", "something wrong", "ghosts", "demons", "death"] 
+              "paranoid", "weird", "something wrong", "ghosts", "demons", "death", "freaking out", "screaming"] 
     
     sex = ["raped", "rape", "sexual assault", "forced", "groped", " touching her inappropriately", "touching inappropriately",
            "sex", "fucked", "kissing", "made out", "harassed", "cat called", "spanked", "slapped", "butt", "boob", "breast",
@@ -71,8 +71,7 @@ def dictcompile():
                 "kicking", "kicked", "threatened to kill", "threatened to hit", "threatened", "abused", "abuse", "battery", 
                 "shot", "hid his gun", "bullets", "gun shots", "arson", "burning", "firing", "fired", "burned", "exploded",
                 "has explosives", "is resisting", "gang", "part of gang", "in a gang", "has gangs", "fighting", "fought", "is stalking",
-                "arsen", "fire"]
-    
+                "arsen", "fire", "trying to kill", "killing", "going to kill", ]
     
     def listmaker(alist):
         newlist = []
