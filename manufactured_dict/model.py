@@ -15,18 +15,18 @@ import os
 # Read in file
 module_dir = os.path.abspath(os.path.dirname(__file__))
 #data = pd.read_csv(os.path.join(module_dir,'shortPoliceReports.csv'))
-data = pd.read_csv(os.path.join(module_dir,'PoliceReports.csv'))
+data = pd.read_csv(os.path.join(module_dir,'PoliceReports.csv'),encoding='latin3')
 
 
 
 # Drop categories that won't be used - reduces memory use.
-data = data.drop(['DayOfWeek', 'Date', 'Time', 'PdDistrict', 'Address', 'Location', 'PdId', 'Resolution', 'Address', 'X', 'Y'], axis=1)
+#data = data.drop(['DayOfWeek', 'Date', 'Time', 'PdDistrict', 'Address', 'Location', 'PdId', 'Resolution', 'Address', 'X', 'Y'], axis=1)
 # The first column is finnicky
-data = data.drop(data.columns[0], axis=1)
+#data = data.drop(data.columns[0], axis=1)
 
 
 #Rename the columns
-data = data.rename(columns={'Category': 'category', 'Descript': 'message'})
+#data = data.rename(columns={'Category': 'category', 'Descript': 'message'})
 
 
 data = data.drop_duplicates('message')
@@ -201,7 +201,7 @@ def predict(stringin):
     return model.predict([predictstring])
 
 # Tests
-    
+
 predict("I saw a guy in a blue hoodie and jeans doing meth in Earlmere Park, near the fountain earlier today. He was using a pipe.")
 
 predict("Some guy shot another guy at the corner of 65th and Ingleside. He was wearing red shoes, a black shirt and a True Religion jeans in the park, he was 6' 2''. He got away in a White van with numner plate X2H7ZB")
