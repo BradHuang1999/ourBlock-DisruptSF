@@ -251,7 +251,7 @@
 
     <div id="newReportModal" class="modal bottom-sheet" style="max-height: 70% !important;">
       <div class="modal-content">
-        <p style="font-size: 70px;">Search results:</p>
+        <p style="font-size: 70px;">Search Results</p>
         <div v-for="report in reports">
           <div class="my-container">
             <div class="card sticky-action">
@@ -264,7 +264,7 @@
                   <i class="material-icons medium">location_on</i>
                   <span style="color: blue;">{{ report.distance.toFixed(0) }}m </span>
                   <i class="material-icons medium">warning</i>
-                  <span style="color: yellow;">{{ report.severity.toFixed(2) }}</span>
+                  <span style="color: orange;">{{ report.severity.toFixed(2) }}</span>
                 </p>
                 <p>
                   <span style="color: green; font-weight: bold">Description: </span>{{report.message}}
