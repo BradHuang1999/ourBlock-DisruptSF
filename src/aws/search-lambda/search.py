@@ -46,7 +46,8 @@ categoryWeights = {
     "Drug/Narcotics": 0.5,
     "Kidnapping": 0.9,
     "Traffic Violation": 0.4,
-    "Sex Offences": 0.6
+    "Sex Offences": 0.6,
+    "other": 0.5
 }
 
 statusWeights = {
@@ -142,6 +143,11 @@ def search(event,context):
   for item in data['hits']['hits']:
     row = item['_source']
     row['_id'] = item['_id']
+    for a,b in zip(['upvoters','downvoters','followers'],['upvoterCount','downvoterCount','followerCount']):
+      if a in row:
+        row[a] = list(set(row[a]))
+        if b in row:
+          row[b] = len(row[a])
     output.append(row)
   if all([x in event for x in ['severity','currentTime','currLat','currLon','role']]):
     output = sorted(output,key=lambda x: getSeverity(event['role'],event['currentTime'],event['currLat'],event['currLon'],x),reverse=True)
