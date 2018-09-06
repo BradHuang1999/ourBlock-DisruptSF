@@ -269,10 +269,10 @@
             <div class="my-container">
               <div class="card sticky-action">
                 <div class="card-content"  style="font-size: 40px;">
-                  <div class="card-title green-text" style="font-size: 55px; margin-top: 4%; text-decoration: underline">Report #{{report._id}}</div><br>
-                  <p style="font-weight: bold"><span style="color: red;">{{report.category}}</span><br><i class="material-icons medium">location_on</i> <span style="color: blue;">{{report.distance + 'm'}}</span><br><i class="material-icons medium">warning</i> <span style="color: yellow;">{{report.severity.toFixed(2)}}</span></p>
-                  <p><span style="color: green">Description: </span>{{report.message}}<br>
-                    <span style="color: green">Latitude: </span>{{report.lat.toFixed(2)}}<br>Longitude: {{report.lon.toFixed(2)}}<br>
+                  <div class="card-title green-text" style="font-size: 55px; margin-top: 4%;">Report #{{report._id}}</div>
+                  <p style="font-weight: bold;"><span style="">{{report.category}}</span><br><i class="material-icons medium">location_on</i> <span style="">{{report.distance.toFixed(2) + 'm'}}</span><br><i class="material-icons medium">warning</i> <span style="">{{report.severity.toFixed(3)}}</span></p>
+                  <br><p><span style="color: green">Description: </span>{{report.message}}<br>
+                    <span style="color: green">Latitude: </span>{{report.lat.toFixed(3)}}<br>Longitude: {{report.lon.toFixed(3)}}<br>
                     <span style="color: green">Time: </span>{{ (new Date(report.time)).toLocaleString("en-US", { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric' }) }}<br>
                     <span style="color: green">Status: </span>{{report.status}}<br>
                     <span style="color: green">Likes: </span>{{report.upvoterCount}} | Dislikes: {{report.downvoterCount}}</p>
@@ -409,7 +409,11 @@
 
       for (var i = 0; i < vm.reports.length; i++) {
         if (vm.reports[i]._id === reportID) {
-          vm.reports[i].comments.push(message);
+          vm.reports[i].comments.push({
+            message: message,
+            userId: vm.username,
+            timestamp: Date.now()
+            });
         }
       }
 
