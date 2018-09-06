@@ -199,6 +199,10 @@
       position: relative;
       margin: auto;
     }
+
+    input[type=search]:not(.browser-default) {
+      background-color: #457245;
+    }
   </style>
 </head>
 
@@ -326,7 +330,7 @@
             <div class="input-field">
               <label class="label-icon" for="search-example">
               </label>
-              <input style="font-size:40px;" id="search-input" type="search" required="" placeholder="Enter a few keywords..."
+              <input style="font-size:40px;" id="search-input" type="search" required="" placeholder="ENTER A FEW KEYWORDS..."
                 onkeyup="searchKeyUp(event)" autocomplete="off">
               <i onclick="search()" class="material-icons left large" style="font-size: 80px; margin-top: 6.5%; position:absolute;">search</i>
             </div>
