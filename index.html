@@ -333,11 +333,12 @@
     <transition style="z-index:600;" name="fade">
       <div v-if="viewing==='notif'" id="notifs" class="light-green lighten-3" style="z-index:600; position: absolute; width: 100%; height:100%; top: 0px; margin: 0px; left: 0px; padding: 40px; overflow: scroll;">
         <div v-for="notif in notifs">
-          <div class="card-panel light-green lighten-1" style="margin-bottom: 30px; border: 5px solid green; border-radius: 25px;">
-            <div class="white-text">
+          <div class="card-panel" style="margin-bottom: 30px; border: 5px solid green; border-radius: 25px; background: white;">
+            <div class="black-text">
               <div height="100px" style="font-family: 'Roboto'; font-size: 40px; z-index: 600;">
                 <i class="material-icons medium left">warning</i><span style="font-weight: bold">New update on a report you follow</span><br><br>
-                  <span style="font-weight: bold">SFPD: </span>{{notif}}
+                  <span style="font-weight: bold">SFPD: </span>{{notif}} <br><br>
+                  <div v-if="notif.substring(0, 40)==='You have successfully submitted report #'" onclick="solveCase(notif.substring(40))">Mark case as solved</div>
                 </div>
             </div>
           </div>
@@ -358,7 +359,7 @@
     <transition name="fade">
       <div v-if="viewing==='report'">
         <img src="addreport.png" style="top:0; width: 100%; position:absolute; top:0px; z-index:600">
-        <textarea id="report-description" style="font-size: 70px; font-family: 'Roboto'; position: absolute; max-width: 90%; min-height: 31.5%; left:5%; top: 42.5%; z-index: 100000000000;"></textarea>
+        <textarea id="report-description" style="font-size: 70px; font-family: 'Roboto'; position: absolute; max-width: 90%; min-height: 33%; left:5%; top: 41%; z-index: 100000000000;"></textarea>
         <div onclick="togglePrivacy()" id="keep-report-private" style="position: absolute; min-width: 44%; min-height: 5.4%; left:3.5%; top: 77%; z-index: 100000000000;">&nbsp</div>
         <div onclick="submitReport()" id="submit-report" style="position: absolute; min-width: 44%; min-height: 5.4%; left:52.6%; top: 77%; z-index: 100000000000;">&nbsp</div>
 
@@ -369,6 +370,11 @@
   </div>
 
   <script>
+
+  function solveCase(id) {
+
+  }
+
     var onModalHide = function () {
       clickMap();
     };
