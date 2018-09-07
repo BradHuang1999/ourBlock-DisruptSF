@@ -14,7 +14,7 @@ Adding a new record: https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta
 
 Sending a message: https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/send
 
-* Input arguments: {"id": user\_id, "body": message}
+* Input arguments: {"id": send\_to\_user\_id, "user": sent\_from\_user\_id, "type": one of \[New Comment, Status Update, New Report, My Report\], "report": message of the report which generated the message, "body": message}
 
 * Output results: none
 

@@ -45,6 +45,8 @@ def comment(event,context):
       lambda_client.invoke(FunctionName='send',Payload=json.dumps({'body':json.dumps({
         'id':follower,
         'body':'A new update to a report you follow: %s: %s' % (new_comment['userId'],new_comment['message'])
+        'message':source_doc['message'],
+        'user':new_comment['userId']
       })}))
   return { 
     'isBase64Encoded': True,

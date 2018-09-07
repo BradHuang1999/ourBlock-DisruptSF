@@ -9,14 +9,14 @@ def notif(event,context):
   try:
     queue = sqs.get_queue_by_name(QueueName=event['id'])
     for message in queue.receive_messages():
-      messages.append(message.body)
+      messages.append(json.loads(message.body))
       message.delete()
   except:
     print(event['id'])
   try:
     all_queue = sqs.get_queue_by_name(QueueName='_all')
     for message in all_queue.receive_messages():
-      messages.append(message.body)
+      messages.append(json.loads(message.body))
       message.delete()
   except:
     print('_all')
@@ -28,4 +28,4 @@ def notif(event,context):
            'Content-Type': 'application/json', 
            'Access-Control-Allow-Origin': '*' 
        }
-}
+  }
