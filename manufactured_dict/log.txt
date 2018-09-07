@@ -74,3 +74,5 @@ b'{"lat":37.7840337612,"lon":-122.4023641802,"time":1536106450989,"reportingUser
 {'reportingUser': 'randomsue', 'lat': 37.7835229, 'lon': -122.4036683, 'time': 1536283850181, 'anonymous': False, 'message': 'Qwerty ', 'category': 'Violence/Homicide'}
 {'reportingUser': 'randomannie', 'lat': 37.7835229, 'lon': -122.4036683, 'time': 1536284874908, 'anonymous': False, 'message': 'Lawrence is god', 'category': 'Violence/Homicide'}
 {'reportingUser': 'bradneedsalife', 'lat': 37.7835229, 'lon': -122.4036683, 'time': 1536284973855, 'anonymous': False, 'message': 'Hiy ', 'category': 'Violence/Homicide'}
+{'message': 'somebody stole my bike again', 'reportingUser': '_1', 'category': 'Larceny/Theft'}
+{'message': 'somebody stole my bike again', 'reportingUser': '_1', 'category': 'Larceny/Theft'}

@@ -136,6 +136,6 @@ print("Test accuracy score: " + str(model.score(X_test, y_test)))
 def predict(stringin):
     predictstring = stringin
     predictstring = predictstring.lower()
-    print(model.predict([predictstring]))
+    return model.predict([predictstring])
 # Export to CSV
 #data.to_csv('output_data.csv')
