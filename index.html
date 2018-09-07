@@ -232,7 +232,7 @@
       </div>
     </div>
 
-    <nav id="header" style="background-color:white;" v-if="viewing==='map' || viewing ==='reports'">
+    <nav id="header" style="background-color:white;" v-if="viewing==='map' || viewing ==='reports' || viewing==='notif'">
       <div class="nav-wrapper" style="text-align: center;">
         <img style="height: 100%; vertical-align: center; padding: 15px" src="logo.png" alt="">
         <ul id="nav-mobile" class="right hide-on-med-and-down">
@@ -271,12 +271,12 @@
                   <i class="material-icons medium">warning</i>
                   <span style="color: orange;">{{ report.severity.toFixed(2) }}</span>
                   <br>
+                  <span style="color: green; font-weight: bold">Description: </span>{{report.message}}
+                </p>
+                <p>
                   <span style="color: green; font-weight: bold">Latitude: </span>{{report.lat.toFixed(3)}}
                   |
                   <span style="color: green; font-weight: bold">Longitude: </span>{{report.lon.toFixed(3)}}
-                </p>
-                <p>
-                  <span style="color: green; font-weight: bold">Description: </span>{{report.message}}
                   <br>
 
                   <span style="color: green; font-weight: bold">Time: </span>
@@ -461,11 +461,28 @@
         var newReportId = res.data.post_output.substring(9, 29);
         follow(newReportId);
 
-        sendNotif(vm.username, "You have successfully submitted report #" + newReportId);
+        sendNotif('new-report', vm.username, vm.username, "You have successfully submitted report #" + newReportId);
+
+        for (var i = 0; i<usernames.length; i++) {
+          if (vm.username !== usernames[i]) {
+            sendNotif('new-report-near-you', vm.username, usernames[i], "A crime has been reported in your area.\nDescription: " + description);
+          }
+        }
+
       });
     }
 
-    function sendNotif(recipient, message) {
+    var usernames = [
+      'bradneedsalife',
+      'johnsmith',
+      'randomannie',
+      'randombrian',
+      'randomemily',
+      'randomdonnie',
+      'randomsue'
+    ]
+
+    function sendNotif(type, sender, recipient, message) {
       axios.post('https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/send', {
         'id': recipient,
         'body': message
