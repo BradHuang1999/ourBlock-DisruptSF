@@ -35,8 +35,8 @@ def status(event,context):
         'action':True
       })}))
     lambda_client.invoke(FunctionName='comment',Payload=json.dumps({'body':json.dumps({
-      'userId':'sfpd',
-      'message':'San Francisco Police: Thanks for all your collaboration! This report is now %s' % event['value'],
+      'userId':'San Francisco Police',
+      'message':'Thanks for all your collaboration! This report is now %s' % event['value'],
       'reportId':event['reportId'],
       'timestamp':time.time()*1000
     })}))
