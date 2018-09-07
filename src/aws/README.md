@@ -59,3 +59,9 @@ Token: https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/token
 * Input arguments: {"userId": user\_id, "action": optional argument, if included will increment token count by 1}
 
 * Output results: the number of tokens belonging to a user
+
+Clear token for all users: https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/clear-token
+
+* Input arguments: none
+
+* Output results: none
