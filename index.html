@@ -349,11 +349,38 @@
             <div class="black-text">
               <div height="100px" style="font-family: 'Roboto'; font-size: 40px; z-index: 600;">
                 <i class="material-icons medium left">warning</i>
-                <span style="font-weight: bold">Notification</span>
-                <br><br>
-                <span style="font-weight: bold">SFPD: </span><span>{{notif}}</span>
-                <div v-if="notif.substring(0, 40)==='You have successfully submitted report #'" onclick="solveCase(this.previousElementSibling.innerHTML.substring(40))" style="margin-top:30px; text-decoration: underline">
+                <div v-if="notif.type==='Status Update'" style="font-weight: bold">
+                  Notification: <span class="green-text">{{notif.type}}</span>
+                </div>
+                <div v-if="notif.type==='My Report'" style="font-weight: bold">
+                  Notification: <span>{{notif.type}}</span>
+                </div>
+                <div  v-if="notif.type==='New Comment'" style="font-weight: bold">
+                  Notification: <span class="blue-text">{{notif.type}}</span>
+                </div>
+                <div  v-if="notif.type==='New Report Near You'" style="font-weight: bold">
+                  Notification: <span class="red-text">{{notif.type}}</span>
+                </div>
+                <br>
+                <span style="font-weight: bold"><span v-if="notif.type!=='New Comment'">SFPD: </span><span v-if="notif.type==='New Comment'">{{notif.user}}: </span></span><span>{{notif.body}}</span>
+                <div v-if="notif.type==='My Report'" onclick="solveCase(this.previousElementSibling.innerHTML.substring(40,60))" style="margin-top:30px; text-decoration: underline">
                   Mark case as solved
+                </div>
+                <div v-if="notif.type==='Status Update'">
+                  <br>
+                  Report: {{notif.message}}
+                </div>
+                <div v-if="notif.type==='My Report'">
+                  <br>
+                  Your description: {{notif.report}}
+                </div>
+                <div v-if="notif.type==='New Comment'">
+                  <br>
+                  Report: {{notif.message}}
+                </div>
+                <div v-if="notif.type==='New Report Near You'">
+                  <br>
+                  Description: {{notif.report}}
                 </div>
               </div>
             </div>
@@ -431,9 +458,9 @@
       vm.viewing = 'map';
       $("#profile-image").attr('src', "./profile-" + element.id + ".png");
       getTokens();
-      setInterval(getTokens, 10 * 1000);
+      setInterval(getTokens, 5 * 1000);
       getNotifs();
-      setInterval(getNotifs, 10 * 1000);
+      setInterval(getNotifs, 5 * 1000);
     }
 
     var cards = document.getElementsByClassName('card');
@@ -461,11 +488,11 @@
         var newReportId = res.data.post_output.substring(9, 29);
         follow(newReportId);
 
-        sendNotif('new-report', vm.username, vm.username, "You have successfully submitted report #" + newReportId);
+        sendNotif('My Report', vm.username, vm.username, description, "You have successfully submitted report #" + newReportId);
 
         for (var i = 0; i<usernames.length; i++) {
           if (vm.username !== usernames[i]) {
-            sendNotif('new-report-near-you', vm.username, usernames[i], "A crime has been reported in your area.\nDescription: " + description);
+            sendNotif('New Report Near You', vm.username, usernames[i], description, "A crime has been reported in your area.");
           }
         }
 
@@ -482,10 +509,13 @@
       'randomsue'
     ]
 
-    function sendNotif(type, sender, recipient, message) {
+    function sendNotif(type, sender, recipient, reportDescription, body) {
       axios.post('https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/send', {
         'id': recipient,
-        'body': message
+        'type': type,
+        'report': reportDescription,
+        'user' : sender,
+        'body' : body
       });
     }
 
@@ -763,7 +793,7 @@
         username: 'johnsmith',
         tokens: 0,
         reports: [],
-        notifs: ['test1', 'test2', 'test3']
+        notifs: []
       },
       methods: {
         formatComments: function (comments) {
