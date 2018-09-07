@@ -483,9 +483,11 @@
       vm.viewing = 'map';
       $("#profile-image").attr('src', "./assets/profile-pictures/profile-" + element.id + ".png");
       getTokens();
-      setInterval(getTokens, 5 * 1000);
+      setInterval(getTokens, 3 * 1000);
       getNotifs();
-      setInterval(getNotifs, 5 * 1000);
+      setInterval(getNotifs, 3 * 1000);
+      getLocation();
+      setInterval(getLocation, 60 * 1000)
     }
 
     var cards = document.getElementsByClassName('card');
@@ -638,8 +640,8 @@
 
       map = new google.maps.Map(document.getElementById('map'), {
         center: {
-          lat: 37.786570,
-          lng: -122.402
+          lat: 37.7835229,
+          lng: -122.4036683
         },
         zoom: 15
       });
@@ -682,6 +684,15 @@
   </script>
 
   <script>
+    function getLocation() {
+      navigator.geolocation.getCurrentPosition(position => {
+        vm.location = {
+          lat: position.coords.latitude,
+          lon: position.coords.longitude
+        }
+      });
+    }
+
     function getNotifs() {
       axios.post('https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/notif', {
         'id': vm.username
