@@ -74,7 +74,7 @@ def dictcompile():
                 "kicking", "kicked", "threatened to kill", "threatened to hit", "threatened", "abused", "abuse", "battery", 
                 "shot", "hid his gun", "bullets", "gun shots", "arson", "burning", "firing", "fired", "burned", "exploded",
                 "has explosives", "is resisting", "gang", "part of gang", "in a gang", "has gangs", "fighting", "fought", "is stalking",
-                "arson", "fire", "trying to kill", "killing", "going to kill", "kill", "murder"]
+                "arson", "fire", "trying to kill", "killing", "going to kill", "kill", "murder", "going to kill me", "will kill me", "gonna kill me"]
     
     def listmaker(alist):
         newlist = []
