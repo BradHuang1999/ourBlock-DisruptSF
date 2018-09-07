@@ -15,7 +15,7 @@ import os
 # Read in file
 module_dir = os.path.abspath(os.path.dirname(__file__))
 #data = pd.read_csv(os.path.join(module_dir,'shortPoliceReports.csv'))
-data = pd.read_csv(os.path.join(module_dir,'PoliceReports.csv'))
+data = pd.read_csv(os.path.join(module_dir,'PoliceReports.csv'),encoding='latin3')
 
 # Drop categories that won't be used - reduces memory use.
 data = data.drop(['DayOfWeek', 'Date', 'Time', 'PdDistrict', 'Address', 'Location', 'PdId', 'Resolution', 'Address', 'X', 'Y'], axis=1)
