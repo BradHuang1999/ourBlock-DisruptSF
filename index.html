@@ -331,7 +331,7 @@
                 <span class="card-title blue-text" style="font-size: 40px;">Comments
                   <i class="material-icons right" style="font-size: 80px;">expand_more</i>
                 </span>
-                <div style="white-space: pre-line; margin-top: 2%; font-size: 40px;" style="font-size: 40px;">
+                <div v-if="report.privacy==='public'" style="white-space: pre-line; margin-top: 2%; font-size: 40px;" style="font-size: 40px;">
                   {{vm.formatComments(report.comments)}}
                 </div>
                 <input id="comment-input" onkeyup="commentKeyUp(event)" type="text" placeholder="Add a comment" style="font-size: 40px; margin-top: 2%; padding-bottom: 55px; width: 90%;"><i
