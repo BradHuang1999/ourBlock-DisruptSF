@@ -340,16 +340,16 @@
     </transition>
 
     <transition style="z-index:600;" name="fade">
-      <div v-if="viewing==='notif'" id="notifs"style="background-color: #bee6c1; z-index:600; position: absolute; width: 100%; height:100%; top: 0px; margin: 0px; left: 0px; padding: 40px; overflow: scroll;">
+      <div v-if="viewing==='notif'" id="notifs"style="background-color: #bee6c1; z-index:600; position: absolute; width: 100%; height:80%; top: 10%; margin: 0px; left: 0px; padding: 40px; overflow: scroll;">
         <div v-for="notif in notifs">
           <div class="card-panel" style="margin-bottom: 30px; border: 5px solid green; border-radius: 25px; background: white;">
             <div class="black-text">
               <div height="100px" style="font-family: 'Roboto'; font-size: 40px; z-index: 600;">
                 <i class="material-icons medium left">warning</i>
-                <span style="font-weight: bold">New update on a report you follow</span>
+                <span style="font-weight: bold">Notification</span>
                 <br><br>
-                <span style="font-weight: bold">SFPD: </span>{{notif}} <br><br>
-                <div v-if="notif.substring(0, 40)==='You have successfully submitted report #'" onclick="solveCase(notif.substring(40))">
+                <span style="font-weight: bold">SFPD: </span><span>{{notif}}</span>
+                <div v-if="notif.substring(0, 40)==='You have successfully submitted report #'" onclick="solveCase(this.previousElementSibling.innerHTML.substring(40))" style="margin-top:30px; text-decoration: underline">
                   Mark case as solved
                 </div>
               </div>
@@ -384,7 +384,15 @@
 
   <script>
     function solveCase(id) {
+      //console.log(id, id.length);
 
+      axios.post('https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/update', {
+        'reportId' : id,
+        'field' : 'status',
+        'value' : 'solved by public'
+      }).then (function(res) {
+        clickMap();
+      })
     }
 
     var onModalHide = function () {
@@ -448,10 +456,9 @@
         clickMap();
 
         var newReportId = res.data.post_output.substring(9, 29);
-        console.log(newReportId);
         follow(newReportId);
 
-        sendNotif(vm.username, "You have successfully submitted report #" + newReportId)
+        sendNotif(vm.username, "You have successfully submitted report #" + newReportId);
       });
     }
 
