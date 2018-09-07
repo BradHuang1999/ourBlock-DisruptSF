@@ -18,13 +18,13 @@ module_dir = os.path.abspath(os.path.dirname(__file__))
 data = pd.read_csv(os.path.join(module_dir,'PoliceReports.csv'),encoding='latin3')
 
 # Drop categories that won't be used - reduces memory use.
-data = data.drop(['DayOfWeek', 'Date', 'Time', 'PdDistrict', 'Address', 'Location', 'PdId', 'Resolution', 'Address', 'X', 'Y'], axis=1)
+#data = data.drop(['DayOfWeek', 'Date', 'Time', 'PdDistrict', 'Address', 'Location', 'PdId', 'Resolution', 'Address', 'X', 'Y'], axis=1)
 # The first column is finnicky
-data = data.drop(data.columns[0], axis=1)
+#data = data.drop(data.columns[0], axis=1)
 
 #Rename the columns
-data = data.rename(columns={'Category': 'category', 'Descript': 'message'})
-data = data.drop_duplicates('message')
+#data = data.rename(columns={'Category': 'category', 'Descript': 'message'})
+#data = data.drop_duplicates('message')
 
 # Remove the categories we don't want
 data = data[data.category != 'NON-CRIMINAL']
