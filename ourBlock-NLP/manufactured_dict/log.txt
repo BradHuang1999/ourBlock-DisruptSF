@@ -1,0 +1,78 @@
+b'{"lat":37.7840337612,"lon":-122.4023641802,"time":1536106450989,"reportingUser":"postingUser12","anonymous":false,"message":"Man in green hoodie is trying to stab a girl in red dress"}'
+ImmutableMultiDict([])
+ImmutableMultiDict([])
+b'{"lat":37.7840337612,"lon":-122.4023641802,"time":1536106450989,"reportingUser":"postingUser12","anonymous":false,"message":"Man in green hoodie is trying to stab a girl in red dress"}'
+{'lat': 37.7840337612, 'lon': -122.4023641802, 'time': 1536106450989, 'reportingUser': 'postingUser12', 'anonymous': False, 'message': 'Man in green hoodie is trying to stab a girl in red dress', 'category': 'Violence/Homicide'}
+{'lat': 37.7840337612, 'lon': -122.4023641802, 'time': 1536106450989, 'reportingUser': 'postingUser13', 'anonymous': False, 'message': 'Man in green hoodie is trying to stab a girl in red dress', 'category': 'Violence/Homicide'}
+{'lat': 37.7840337612, 'lon': -122.4023641802, 'time': 1536106450989, 'reportingUser': 'postingUser14', 'anonymous': False, 'message': 'Man in green hoodie is trying to stab a girl in red dress', 'category': 'Violence/Homicide'}
+{'lat': 37.7840337612, 'lon': -122.4023641802, 'time': 1536106450989, 'reportingUser': 'postingUser12', 'anonymous': False, 'message': 'Man in green hoodie is trying to stab a girl in red dress', 'category': 'Violence/Homicide'}
+{'lat': 37.7840337612, 'lon': -122.4023641802, 'time': 1536106450989, 'reportingUser': 'postingUser12', 'anonymous': False, 'message': 'Man in green hoodie is trying to stab a girl in red dress', 'category': 'Violence/Homicide'}
+{'lat': 37.7840337612, 'lon': -122.4023641802, 'time': 1536106450989, 'reportingUser': 'postingUser12', 'anonymous': False, 'message': 'Man in green hoodie is trying to stab a girl in red dress', 'category': 'Violence/Homicide'}
+{'lat': 37.7840337612, 'lon': -122.4023641802, 'time': 1536106450989, 'reportingUser': 'postingUser12', 'anonymous': False, 'message': 'Man in green hoodie is trying to stab a girl in red dress', 'category': 'Violence/Homicide'}
+{'lat': 37.7840337612, 'lon': -122.4023641802, 'time': 1536106450989, 'reportingUser': 'postingUser12', 'anonymous': False, 'message': 'Man in green hoodie is trying to stab a girl in red dress', 'category': 'Violence/Homicide'}
+{'lat': 37.7840337612, 'lon': -122.4023641802, 'time': 1536106450989, 'reportingUser': 'postingUser12', 'anonymous': False, 'message': 'Man in green hoodie is trying to stab a girl in red dress', 'category': 'Violence/Homicide'}
+{'lat': 37.7840337612, 'lon': -122.4023641802, 'time': 1536106450989, 'reportingUser': 'postingUser14', 'anonymous': False, 'message': 'Man in green hoodie is trying to stab a girl in red dress', 'category': 'Violence/Homicide'}
+{'lat': 37.7840337612, 'lon': -122.4023641802, 'time': 1536106450989, 'reportingUser': 'postingUser14', 'anonymous': False, 'message': 'Man in green hoodie is trying to stab a girl in red dress', 'category': 'Traffic Violation'}
+{'lat': 37.7840337612, 'lon': -122.4023641802, 'time': 1536106450989, 'reportingUser': 'postingUser14', 'anonymous': False, 'message': 'I see demons', 'category': 'Mental Health/Bullying'}
+{'lat': 37.7840337612, 'lon': -122.4023641802, 'time': 1536106450989, 'reportingUser': 'postingUser14', 'anonymous': False, 'message': 'I want to kill myself', 'category': 'Mental Health/Bullying'}
+{'lat': 37.7840337612, 'lon': -122.4023641802, 'time': 1536106450989, 'reportingUser': 'postingUser14', 'anonymous': False, 'message': "I'm gonna kill man in green hoodies", 'category': 'Mental Health/Bullying'}
+{'lat': 37.7840337612, 'lon': -122.4023641802, 'time': 1536106450989, 'reportingUser': 'postingUser14', 'anonymous': False, 'message': 'man in green hoodies is gonng kill girl in green dress', 'category': 'Mental Health/Bullying'}
+{'lat': 37.7840337612, 'lon': -122.4023641802, 'time': 1536106450990, 'reportingUser': 'postingUser15', 'anonymous': False, 'message': "charlie's gay", 'category': 'Violence/Homicide'}
+{'reportingUser': 'randombrian', 'lat': 37.7835229, 'lon': -122.4036683, 'anonymous': False, 'message': '', 'category': 'Violence/Homicide'}
+{'reportingUser': 'randomdonnie', 'lat': 37.7835229, 'lon': -122.4036683, 'anonymous': True, 'message': "charlie's gay", 'category': 'Violence/Homicide'}
+{'reportingUser': 'randomsue', 'lat': 37.7835229, 'lon': -122.4036683, 'timestamp': 1536212918152, 'anonymous': False, 'message': 'im sue', 'category': 'Violence/Homicide'}
+{'reportingUser': 'randomsue', 'lat': 37.7835229, 'lon': -122.4036683, 'time': 1536212970507, 'anonymous': True, 'message': "hey it's sue again", 'category': 'Violence/Homicide'}
+{'reportingUser': 'randomannie', 'lat': 37.7835229, 'lon': -122.4036683, 'time': 1536214673304, 'anonymous': False, 'message': 'hey im annie', 'category': 'Violence/Homicide'}
+{'reportingUser': 'randomannie', 'lat': 37.7835229, 'lon': -122.4036683, 'time': 1536214910618, 'anonymous': False, 'message': 'I’m gay', 'category': 'Violence/Homicide'}
+{'reportingUser': 'randomannie', 'lat': 37.7835229, 'lon': -122.4036683, 'time': 1536214986979, 'anonymous': False, 'message': 'Charlie wtf', 'category': 'Violence/Homicide'}
+{'reportingUser': 'randomannie', 'lat': 37.7835229, 'lon': -122.4036683, 'time': 1536220516442, 'anonymous': True, 'message': 'Example shit', 'category': 'Violence/Homicide'}
+{'reportingUser': 'johnsmith', 'lat': 37.7835229, 'lon': -122.4036683, 'time': 1536221754231, 'anonymous': False, 'message': "I'm gay", 'category': 'Violence/Homicide'}
+{'reportingUser': 'randomemily', 'lat': 37.7835229, 'lon': -122.4036683, 'time': 1536246557760, 'anonymous': True, 'message': 'new one', 'category': 'Violence/Homicide'}
+{'reportingUser': 'johnsmith', 'lat': 37.7835229, 'lon': -122.4036683, 'time': 1536253200920, 'anonymous': False, 'message': 'im gay', 'category': 'Violence/Homicide'}
+{'reportingUser': 'johnsmith', 'lat': 37.7835229, 'lon': -122.4036683, 'time': 1536253202821, 'anonymous': False, 'message': 'im gay', 'category': 'Violence/Homicide'}
+{'reportingUser': 'randomannie', 'lat': 37.7835229, 'lon': -122.4036683, 'time': 1536256798392, 'anonymous': True, 'message': 'dasdf', 'category': 'Violence/Homicide'}
+{'reportingUser': 'randomannie', 'lat': 37.7835229, 'lon': -122.4036683, 'time': 1536256799278, 'anonymous': True, 'message': 'dasdf', 'category': 'Violence/Homicide'}
+{'reportingUser': 'randomannie', 'lat': 37.7835229, 'lon': -122.4036683, 'time': 1536256799983, 'anonymous': True, 'message': 'dasdf', 'category': 'Violence/Homicide'}
+{'reportingUser': 'randomannie', 'lat': 37.7835229, 'lon': -122.4036683, 'time': 1536256818279, 'anonymous': False, 'message': 'lkj', 'category': 'Violence/Homicide'}
+{'reportingUser': 'johnsmith', 'lat': 37.7835229, 'lon': -122.4036683, 'time': 1536256841044, 'anonymous': False, 'message': 'lol', 'category': 'Violence/Homicide'}
+{'reportingUser': 'johnsmith', 'lat': 37.7835229, 'lon': -122.4036683, 'time': 1536257168527, 'anonymous': False, 'message': 'asdf', 'category': 'Violence/Homicide'}
+{'message': 'somebody stole my bike', 'category': 'Larceny/Theft'}
+{'message': 'somebody stole my bike again', 'category': 'Larceny/Theft'}
+{'message': 'somebody stole my bike again', 'category': 'Larceny/Theft'}
+{'message': 'somebody stole my bike again', 'reportingUser': '_1', 'category': 'Larceny/Theft'}
+{'reportingUser': 'johnsmith', 'lat': 37.7835229, 'lon': -122.4036683, 'time': 1536270618947, 'anonymous': False, 'message': 'hi im gay', 'category': 'Violence/Homicide'}
+{'reportingUser': 'johnsmith', 'lat': 37.7835229, 'lon': -122.4036683, 'time': 1536270622535, 'anonymous': False, 'message': 'hi im gay', 'category': 'Violence/Homicide'}
+{'reportingUser': 'johnsmith', 'lat': 37.7835229, 'lon': -122.4036683, 'time': 1536270700670, 'anonymous': False, 'message': 'lol', 'category': 'Violence/Homicide'}
+{'reportingUser': 'johnsmith', 'lat': 37.7835229, 'lon': -122.4036683, 'time': 1536270787497, 'anonymous': False, 'message': 'lol', 'category': 'Violence/Homicide'}
+{'reportingUser': 'johnsmith', 'lat': 37.7835229, 'lon': -122.4036683, 'time': 1536270833312, 'anonymous': False, 'message': 'lol', 'category': 'Violence/Homicide'}
+{'reportingUser': 'johnsmith', 'lat': 37.7835229, 'lon': -122.4036683, 'time': 1536270890573, 'anonymous': False, 'message': 'lol', 'category': 'Violence/Homicide'}
+{'reportingUser': 'johnsmith', 'lat': 37.7835229, 'lon': -122.4036683, 'time': 1536271029306, 'anonymous': False, 'message': 'kms', 'category': 'Violence/Homicide'}
+{'reportingUser': 'randomsue', 'lat': 37.7835229, 'lon': -122.4036683, 'time': 1536273042115, 'anonymous': False, 'message': 'kms', 'category': 'Violence/Homicide'}
+{'reportingUser': 'randomsue', 'lat': 37.7835229, 'lon': -122.4036683, 'time': 1536273054216, 'anonymous': False, 'message': 'wolo', 'category': 'Violence/Homicide'}
+{'reportingUser': 'johnsmith', 'lat': 37.7835229, 'lon': -122.4036683, 'time': 1536273150998, 'anonymous': False, 'message': 'lol', 'category': 'Violence/Homicide'}
+{'reportingUser': 'bradneedsalife', 'lat': 37.7835229, 'lon': -122.4036683, 'time': 1536273161146, 'anonymous': False, 'message': 'Charlie is dumber', 'category': 'Violence/Homicide'}
+{'reportingUser': 'bradneedsalife', 'lat': 37.7835229, 'lon': -122.4036683, 'time': 1536273161919, 'anonymous': False, 'message': 'Charlie is dumber', 'category': 'Violence/Homicide'}
+{'reportingUser': 'bradneedsalife', 'lat': 37.7835229, 'lon': -122.4036683, 'time': 1536273202976, 'anonymous': False, 'message': 'Wololo', 'category': 'Violence/Homicide'}
+{'reportingUser': 'bradneedsalife', 'lat': 37.7835229, 'lon': -122.4036683, 'time': 1536273232483, 'anonymous': True, 'message': 'Charlie is dumb', 'category': 'Violence/Homicide'}
+{'reportingUser': 'randomdonnie', 'lat': 37.7835229, 'lon': -122.4036683, 'time': 1536279036741, 'anonymous': False, 'message': 'thing', 'category': 'Violence/Homicide'}
+{'reportingUser': 'randomsue', 'lat': 37.7835229, 'lon': -122.4036683, 'time': 1536279299003, 'anonymous': False, 'message': 'Another thing', 'category': 'Violence/Homicide'}
+{'reportingUser': 'randomemily', 'lat': 37.7835229, 'lon': -122.4036683, 'time': 1536279479160, 'anonymous': False, 'message': 'lol', 'category': 'Violence/Homicide'}
+{'reportingUser': 'johnsmith', 'lat': 37.7835229, 'lon': -122.4036683, 'time': 1536279748908, 'anonymous': False, 'message': 'lol', 'category': 'Violence/Homicide'}
+{'reportingUser': 'johnsmith', 'lat': 37.7835229, 'lon': -122.4036683, 'time': 1536279770757, 'anonymous': False, 'message': 'lmao', 'category': 'Violence/Homicide'}
+{'reportingUser': 'randombrian', 'lat': 37.7835229, 'lon': -122.4036683, 'time': 1536279792559, 'anonymous': False, 'message': 'lmao', 'category': 'Violence/Homicide'}
+{'reportingUser': 'randomemily', 'lat': 37.7835229, 'lon': -122.4036683, 'time': 1536280061390, 'anonymous': False, 'message': 'lol', 'category': 'Violence/Homicide'}
+{'reportingUser': 'johnsmith', 'lat': 37.7835229, 'lon': -122.4036683, 'time': 1536280198153, 'anonymous': False, 'message': 'lol', 'category': 'Violence/Homicide'}
+{'reportingUser': 'randombrian', 'lat': 37.7835229, 'lon': -122.4036683, 'time': 1536280226529, 'anonymous': False, 'message': 'lol', 'category': 'Violence/Homicide'}
+{'reportingUser': 'randombrian', 'lat': 37.7835229, 'lon': -122.4036683, 'time': 1536280286753, 'anonymous': False, 'message': 'lol', 'category': 'Violence/Homicide'}
+{'reportingUser': 'bradneedsalife', 'lat': 37.7835229, 'lon': -122.4036683, 'time': 1536280403331, 'anonymous': False, 'message': 'lol', 'category': 'Violence/Homicide'}
+{'reportingUser': 'randombrian', 'lat': 37.7835229, 'lon': -122.4036683, 'time': 1536280576621, 'anonymous': False, 'message': 'lol', 'category': 'Violence/Homicide'}
+{'reportingUser': 'randomdonnie', 'lat': 37.7835229, 'lon': -122.4036683, 'time': 1536280744683, 'anonymous': True, 'message': 'kkkkk', 'category': 'Violence/Homicide'}
+{'reportingUser': 'randombrian', 'lat': 37.7835229, 'lon': -122.4036683, 'time': 1536280756147, 'anonymous': False, 'message': 'lol', 'category': 'Violence/Homicide'}
+{'reportingUser': 'randomannie', 'lat': 37.7835229, 'lon': -122.4036683, 'time': 1536283584410, 'anonymous': False, 'message': 'Helloooooo', 'category': 'Violence/Homicide'}
+{'reportingUser': 'randombrian', 'lat': 37.7835229, 'lon': -122.4036683, 'time': 1536283734607, 'anonymous': False, 'message': 'lmao', 'category': 'Violence/Homicide'}
+{'reportingUser': 'randomsue', 'lat': 37.7835229, 'lon': -122.4036683, 'time': 1536283794594, 'anonymous': False, 'message': 'Heloooo', 'category': 'Violence/Homicide'}
+{'reportingUser': 'randomsue', 'lat': 37.7835229, 'lon': -122.4036683, 'time': 1536283850181, 'anonymous': False, 'message': 'Qwerty ', 'category': 'Violence/Homicide'}
+{'reportingUser': 'randomannie', 'lat': 37.7835229, 'lon': -122.4036683, 'time': 1536284874908, 'anonymous': False, 'message': 'Lawrence is god', 'category': 'Violence/Homicide'}
+{'reportingUser': 'bradneedsalife', 'lat': 37.7835229, 'lon': -122.4036683, 'time': 1536284973855, 'anonymous': False, 'message': 'Hiy ', 'category': 'Violence/Homicide'}
+{'message': 'somebody stole my bike again', 'reportingUser': '_1', 'category': 'Larceny/Theft'}
+{'message': 'somebody stole my bike again', 'reportingUser': '_1', 'category': 'Larceny/Theft'}
