@@ -13,7 +13,7 @@
         <Linegraph />
       </md-content>
       <md-content class="md-elevation-2">
-        <h4> Blockchain Node Network Graph </h4>
+        <h4> Distributed Node Network Graph </h4>
         <Nodes style="zoom: 56%;"></Nodes>
       </md-content>
       <md-content class="md-elevation-2">
