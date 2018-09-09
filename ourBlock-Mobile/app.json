@@ -1,7 +1,0 @@
-{
-  "name": "OurBlock-mobile",
-  "description": "OurBlock-mobile",
-  "repository": "https://github.com/The-Real-Taylor-Swift/ourblock-mobile",
-  "keywords": ["node", "express", "heroku"],
-  "image": "heroku/nodejs"
-}

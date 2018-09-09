@@ -1,0 +1,20 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
+
+<script>
+    axios
+        .post("http://lypang.pythonanywhere.com/post", {
+            "lat": 37.7840337612,
+            "lon": -122.4023641802,
+            "time": 1536106450990,
+            "reportingUser": "postingUser15",
+            "anonymous": false,
+            "message": "charlie's gay"
+        })
+        .then(data => {
+            if (data) {
+                console.log("error:", data)
+            } else {
+                console.log(data);
+            }
+        })
+</script>

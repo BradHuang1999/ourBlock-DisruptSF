@@ -1,0 +1,253 @@
+{
+	"variables": [],
+	"info": {
+		"name": "OurBlock",
+		"_postman_id": "f133fff0-ca80-ccc3-2691-3770d4c87e6d",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Post - Full",
+			"request": {
+				"url": "https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/post",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"lat\": 37.79428282,\r\n    \"lon\": -122.4154048,\r\n    \"time\": 1535489619995,\r\n    \"status\": \"pending\",\r\n    \"privacy\": \"public\",\r\n    \"reportingUser\": \"bradneedsalife\",\r\n    \"anonymous\": false,\r\n    \"message\": \"Man in green hoodie is trying to stab a girl in red dress\",\r\n    \"category\": \"Violence/Homicide\",\r\n    \"upvoters\": [\"johnsmith\", \"randomdonnie\", \"randomannie\"],\r\n    \"downvoters\": [\"randomsue\"],\r\n    \"followers\": [\"johnsmith\", \"randomdonnie\", \"randomemily\", \"randombrian\"],\r\n    \"comments\": [{\r\n        \"user\": \"johnsmith\",\r\n        \"anonymous\": false,\r\n        \"message\": \"I saw that too! In front of starbucks.\"\r\n    }, {\r\n        \"user\": \"randomdonnie\",\r\n        \"anonymous\": false,\r\n        \"message\": \"Me too! Assailant looks 30-ish, white male, bald, with a tattoo on his face.\"\r\n    }]\r\n}"
+				},
+				"description": "/post route with full fields"
+			},
+			"response": []
+		},
+		{
+			"name": "Post - Init",
+			"request": {
+				"url": "https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/post",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"lat\": 37.7840337612,\r\n    \"lon\": -122.4023641802,\r\n    \"time\": 1536106450989,\r\n    \"reportingUser\": \"postingUser10\",\r\n    \"anonymous\": false,\r\n    \"message\": \"Man in green hoodie is trying to stab a girl in red dress\"\r\n}"
+				},
+				"description": "/post route with full fields"
+			},
+			"response": []
+		},
+		{
+			"name": "Search - Select",
+			"request": {
+				"url": "https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/search",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"location\": {\r\n\t\t\"lonMin\": -122.41645256988517,\r\n\t\t\"lonMax\": -122.39903466077334,\r\n\t\t\"latMin\": 37.77256312695993,\r\n\t\t\"latMax\": 37.79464639807946\r\n\t}\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Update",
+			"request": {
+				"url": "https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/update",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"reportId\": \"nAYEsWUB2pCjkzl1HWuN\",\n\t\"field\": \"status\",\n\t\"value\": \"solved by police\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Comment",
+			"request": {
+				"url": "https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/comment",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"userId\": \"commentingUser777\",\n\t\"reportId\": \"nAYEsWUB2pCjkzl1HWuN\",\n\t\"message\": \"aaauwkfjsfda asdfkajlsdfl Lasdforem ipsum dolor sit amet, consectetur adipisicing elit. Optio itaque ea, nostrum odio. Dolores, sed accusantium quasi non, voluptas eius illo quas, saepe voluptate pariatur in deleniti minus sint. Excepturi.\",\n\t\"timestamp\": 1536030960376\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Stats",
+			"request": {
+				"url": "https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/stats",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Interact",
+			"request": {
+				"url": "https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/interact",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"userId\": \"interactingUser4\",\n\t\"reportId\": \"2gXlhWUB2pCjkzl1qIC1\",\n\t\"message\": \"hello\",\n\t\"action\": \"upvote\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Token",
+			"request": {
+				"url": "https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/token",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"userId\": \"bradneedsalife\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Notif",
+			"request": {
+				"url": "https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/notif",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"id\": \"bradneedsalife\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Send",
+			"request": {
+				"url": "https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/send",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"id\": \"bradneedsalife\",\n\t\"type\": \"New Report Near You\",\n\t\"report\": \"this is a description of a report 3\",\n\t\"user\": \"user2\",\n\t\"body\": \"this is a body of a notif 2\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Bulk Upload",
+			"request": {
+				"url": "https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/bulk-upload",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Flask Post",
+			"request": {
+				"url": "lypang.pythonanywhere.com/post",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"lat\": 37.7840337612,\r\n    \"lon\": -122.4023641802,\r\n    \"time\": 1536106450989,\r\n    \"reportingUser\": \"postingUser11\",\r\n    \"anonymous\": false,\r\n    \"message\": \"Man in green hoodie is trying to stab girl in red dress\"\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Clear Token",
+			"request": {
+				"url": "https://gony0gqug0.execute-api.us-east-1.amazonaws.com/beta/clear-token",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}

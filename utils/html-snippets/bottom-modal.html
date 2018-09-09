@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>Ourblock</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.min.js"></script>
+  <!-- <link href="https://fonts.googleapis.com/css?family=Josefin+Slab|VT323|Lalezar" rel="stylesheet"> -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic|Material+Icons">
+  <link rel="stylesheet" href="https://unpkg.com/vue-material@beta/dist/vue-material.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/vue-material@beta/dist/theme/default.css">
+
+  <style>
+    /* Always set the map height explicitly to define the size of the div element that contains the map. */
+    #map {
+      zoom: 250%;
+      height: 80%;
+      position: absolute;
+      top: 10%;
+      bottom: 10%;
+      left: 0;
+      right: 0;
+    }
+
+    /* Optional: Makes the sample page fill the window. */
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      font-family: "Josefin Slab"
+    }
+
+    .my-container {
+      width: 100%;
+      margin: auto;
+      position: relative;
+      font-size: 30px;
+    }
+
+    #header {
+      z-index: 900;
+      top: 0px;
+      position: absolute;
+      height: 10%;
+      font-weight: bold;
+      line-height: 11em;
+    }
+
+    #bottom-bar {
+      position: absolute;
+      height: 10%;
+      width: 100%;
+      top: 90%;
+      font-size: 40px;
+      text-align: center;
+    }
+
+    .col {
+      height: 100%;
+      line-height: 2.5em;
+    }
+
+    .slide-fade-enter-active {
+      transition: all .4s ease;
+    }
+
+    .slide-fade-leave-active {
+      transition: all .3s ease;
+    }
+
+    .slide-fade-enter,
+    .slide-fade-leave-to
+
+    /* .slide-fade-leave-active below version 2.1.8 */
+      {
+      transform: translateY(100px);
+      opacity: 0;
+    }
+
+    .fade-enter-active,
+    .fade-leave-active {
+      transition: opacity .5s;
+    }
+
+    .fade-enter,
+    .fade-leave-to
+
+    /* .fade-leave-active below version 2.1.8 */
+      {
+      opacity: 0;
+    }
+
+    #profile-image {
+      position: absolute;
+      width: 100%;
+    }
+
+    #username {
+      text-align: center;
+      font-size: 72px;
+      top: 37%;
+      position: absolute;
+      text-align: center;
+      width: 100%;
+      font-family: 'Lalezar';
+    }
+
+    #tokens {
+      font-family: 'Josefin Slab';
+      text-align: center;
+      width: 100%;
+      position: absolute;
+      top: 49%;
+      text-align: center;
+      padding-top: 15px;
+      padding-bottom: 15px;
+      margin: 0px;
+      font-size: 48px;
+    }
+
+    #user-profile {
+      width: 100%;
+      height: 85%;
+      z-index: 400;
+      position: absolute;
+      top: 0px;
+    }
+
+    #popups {
+      z-index: 0;
+      height: 100%;
+      width: 100%;
+      position: absolute;
+      top: 0px;
+    }
+
+    #reports-bar {
+      width: 83%;
+      height: 80%;
+      top: 20%;
+      left: 8.5%;
+      position: absolute;
+      padding: 30px;
+      overflow-y: auto;
+    }
+
+    #search-page {
+      height: 10%;
+      width: 100%;
+      z-index: 40000;
+      position: absolute;
+      top: 0px;
+    }
+
+    #search-bar {
+      top: 0px;
+      height: 100%;
+      width: 100%;
+      font-size: 80px;
+      z-index: 4000;
+      position: absolute;
+    }
+
+    .dropdown-trigger {
+      position: absolute;
+    }
+
+    #card-title {
+      margin: auto;
+      text-align: center;
+    }
+
+    #status-button {}
+
+    #category-button {}
+  </style>
+</head>
+
+<body>
+  <!-- Modal Trigger -->
+  <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Modal</a>
+
+  <!-- Modal Structure -->
+  <div id="modal1" class="modal bottom-sheet">
+    <div class="modal-content">
+      <h4>Modal Header</h4>
+
+
+        <div class="my-container">
+            <div class="card sticky-action">
+
+              <div class="card-content">
+                <div class="card-title green-text">Report #{{report._id}}</div>
+                <p>
+                  Location: {{vm.formatLocation(report)}}<br>
+                  Date: {{report.date}}<br>
+                  Description: {{report.description}}<br>
+                  Category: {{report.category}}<br>
+                  Status: {{report.status}}<br>
+                  Likes: {{report.upvoterCount}} | Dislikes: {{report.downvoterCount}}
+                </p>
+                <span class="card-title activator blue-text">View comments<i class="material-icons right" style="font-size: 60px;">expand_less</i></span>
+              </div>
+
+              <div class="card-action">
+                <a href="#"><i class="material-icons small">thumb_up</i> Like</a>
+                <a href="#"><i class="material-icons small">thumb_down</i> Dislike</a>
+              </div>
+
+              <div class="card-reveal">
+                <span class="card-title blue-text">Comments<i class="material-icons right" style="font-size: 60px;">expand_more</i></span>
+                <p style="white-space: pre-line;">{{vm.formatComments(report.comments)}}</p>
+
+                <form onsubmit="comment(this)">
+                  <input type="text"></input>
+                </form>
+              </div>
+            </div>
+          </div>
+
+      <div class="modal-footer">
+        <a href="#!" class="modal-close waves-effect waves-green btn-flat">OK</a>
+      </div>
+    </div>
+
+    <script>
+      var instance;
+      $(document).ready(function () {
+        $('.modal').modal();
+        instance = M.Modal.init($('#modal1')[0]);
+      });
+
+
+    </script>
+</body>
+
+</html>

@@ -16,7 +16,7 @@
         "followers": "listof user",
         "followerCount": "int",
         "comments": "listof comment",
-        "commentCount": 0
+        "commentCount": "int"
     },
 
     "user (data will only be hardcoded)": {
