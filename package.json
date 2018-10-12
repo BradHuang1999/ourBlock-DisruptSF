@@ -1,0 +1,30 @@
+{
+  "name": "ourblock-DisruptSF",
+  "version": "1.0.0",
+  "description": "ourBlock is a holistic solution that empowers the community and leverages real time data sharing to revolutionize crime reporting between civilians and police.",
+  "engines": {
+    "node": "8.9.1"
+  },
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "node test.js"
+  },
+  "dependencies": {
+    "express": "^4.16.4"
+  },
+  "devDependencies": {
+    "request": "^2.81.0",
+    "tape": "^4.7.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/BradHuang1999/ourBlock-DisruptSF"
+  },
+  "keywords": [
+    "node",
+    "heroku",
+    "express"
+  ],
+  "license": "CC BY-NC 2.0"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "ourBlock-DisruptSF",
+  "description": "ourBlock is a holistic solution that empowers the community and leverages real time data sharing to revolutionize crime reporting between civilians and police.",
+  "repository": "https://github.com/BradHuang1999/ourBlock-DisruptSF",
+  "keywords": ["node", "express", "heroku"],
+  "image": "heroku/nodejs"
+}
