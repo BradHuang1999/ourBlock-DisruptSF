@@ -16,7 +16,7 @@ def connectES(esEndPoint):
     print("Unable to connect to {0}".format(esEndPoint))
     print(E)
     exit(3)
-es = connectES('search-hacktps-2xwfbumjkznhuydichzbdudpe4.us-east-2.es.amazonaws.com')
+es = connectES('search-hacktps2-xwj2g3yf6o4ybmz4nfj4kcibwu.us-east-2.es.amazonaws.com')
 
 def interact(event,context):
   event = json.loads(event['body'])

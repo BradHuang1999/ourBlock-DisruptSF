@@ -18,11 +18,14 @@ def connectES(esEndPoint):
     print("Unable to connect to {0}".format(esEndPoint))
     print(E)
     exit(3)
-es = connectES('search-hacktps-2xwfbumjkznhuydichzbdudpe4.us-east-2.es.amazonaws.com')
+es = connectES('search-hacktps2-xwj2g3yf6o4ybmz4nfj4kcibwu.us-east-2.es.amazonaws.com')
 ind = IndicesClient(es)
 
 def bulk_upload(event,context):
-  ind.delete('data')
+  try:
+    ind.delete('data')
+  except:
+    'Did not find index "data", creating new index.'
   ind.create('data',body={
     'mappings':{
       'crime':{

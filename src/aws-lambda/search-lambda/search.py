@@ -2,6 +2,7 @@ import boto3
 from elasticsearch import Elasticsearch,RequestsHttpConnection
 import json
 from math import cos,sqrt
+from collections import defaultdict
 
 def connectES(esEndPoint):
   print ('Connecting to the ES Endpoint {0}'.format(esEndPoint))
@@ -16,10 +17,10 @@ def connectES(esEndPoint):
     print("Unable to connect to {0}".format(esEndPoint))
     print(E)
     exit(3)
-es = connectES('search-hacktps-2xwfbumjkznhuydichzbdudpe4.us-east-2.es.amazonaws.com')
+es = connectES('search-hacktps2-xwj2g3yf6o4ybmz4nfj4kcibwu.us-east-2.es.amazonaws.com')
 
-weights = {
-    'police': {
+weights = defaultdict(dict, {
+    'police': defaultdict(float, {
         'distance': -0.1 / 1000,
         'category': 1,
         'time': -10 / (1000 * 1000 * 60 * 60 * 24),
@@ -27,8 +28,8 @@ weights = {
         'downvotes': -0.2,
         'followers': 0.2,
         'status': 1
-    },
-    'civilian': {
+    }),
+    'civilian': defaultdict(float, {
         'distance': -1,
         'category': 1,
         'time': 1,
@@ -36,10 +37,10 @@ weights = {
         'downvotes': -1,
         'followers': 1, 
         'status': 1  
-    }
-}
+    })
+})
 
-categoryWeights = {
+categoryWeights = defaultdict(float, {
     "Larceny/Theft": 0.3,
     "Violence/Homicide": 1,
     "Mental Health/Bullying": 0.6,
@@ -48,14 +49,14 @@ categoryWeights = {
     "Traffic Violation": 0.4,
     "Sex Offences": 0.6,
     "other": 0.5
-}
+})
 
-statusWeights = {
+statusWeights = defaultdict(float, {
     "solved by police": 0.001,
     "solved by public": 0.01,
     "in progress": 0.1,
     "pending": 1
-}
+})
 
 def convert_coord_to_miles(lat1,lon1,lat2,lon2):
   #assumes roughly same latitude
